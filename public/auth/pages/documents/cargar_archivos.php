@@ -1,12 +1,6 @@
 <div class="col-12">
 
-    <table class="table table-bordered table-condensed" onclick="cambiar_color()" style="color: black;
-
-font-size: 8px;
-border: #000 .4em solid;
-box-shadow: 7.5px 7.5px 7.5px #999;
-max-width: 1000px;
-;
+    <table class="table table-bordered table-condensed" onclick="cambiar_color()" style="color: black;font-size: 8px;border: #000 .4em solid;box-shadow: 7.5px 7.5px 7.5px #999;max-width: 1000px;;
 ">
         <tr>
             <td colspan="12" class="text-center">
@@ -32,22 +26,22 @@ max-width: 1000px;
         </tr>
 
 
-        <?php 
+        <?php
 
- 	include 'assets/conexion/conexion.php';
+        include 'assets/conexion/conexion.php';
 
- 	$criterio=$_POST["criterio"];
-$query="SELECT Id_Documento, area.Nombre_Area, proceso.Nombre_Proceso, procedimiento.Nombre_Procedimiento,`Nombre_Documento`, `Nombre_Documento_Magnetico`, `Tipo_Documento`, `Codigo`,`Version`,`Fecha_Elaboracion`,responsable.Nombre_Responsable FROM `documentos` 
+        $criterio = $_POST["criterio"];
+        $query = "SELECT Id_Documento, area.Nombre_Area, proceso.Nombre_Proceso, procedimiento.Nombre_Procedimiento,`Nombre_Documento`, `Nombre_Documento_Magnetico`, `Tipo_Documento`, `Codigo`,`Version`,`Fecha_Elaboracion`,responsable.Nombre_Responsable FROM `documentos` 
 INNER JOIN area ON documentos.Id_Area=area.Id_Area 
 INNER join proceso ON documentos.Id_Proceso=proceso.Id_Proceso
 INNER JOIN  procedimiento ON documentos.Id_Procedimiento=procedimiento.Id_Procedimiento 
 INNER JOIN responsable ON documentos.Id_Responsable=responsable.Id_Responsable 
 WHERE area.Nombre_Area LIKE '%$criterio%' OR proceso.Nombre_Proceso LIKE '%$criterio%' OR procedimiento.Nombre_Procedimiento LIKE'%$criterio%' OR documentos.Nombre_Documento_Magnetico LIKE '%$criterio%' or documentos.Tipo_Documento LIKE '%$criterio%' OR documentos.Codigo LIKE '%$criterio%' OR Nombre_Documento LIKE '%$criterio%' order by area.Nombre_Area , proceso.Nombre_Proceso , procedimiento.Nombre_Procedimiento, documentos.Nombre_Documento_Magnetico";
-$resource=mysqli_query($conexion,$query);
-$contador=0;
-while ($fila=mysqli_fetch_row($resource)) {
-	$contador++;
-  ?>
+        $resource = mysqli_query($conexion, $query);
+        $contador = 0;
+        while ($fila = mysqli_fetch_row($resource)) {
+            $contador++;
+        ?>
 
         <tr>
             <td><?php echo $contador ?></td>
@@ -68,12 +62,12 @@ while ($fila=mysqli_fetch_row($resource)) {
 
         </tr>
 
-        <?php 
+        <?php
 
-}
+        }
 
 
-  ?>
+        ?>
 
     </table>
 </div>

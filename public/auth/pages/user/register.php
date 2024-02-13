@@ -1,3 +1,34 @@
+<?php
+require_once('../../../../database/connection.php');
+
+$database = new Database();
+$connection = $database->conectar();
+
+if (isset($_POST["iniciarSesion"])) {
+
+    // DECLARACION DE LOS VALORES DE LAS VARIABLES DEPENDIENDO DEL TIPO DE CAMPO QUE TENGA EN EL FORMULARIO
+    $rol = $_POST['rol'];
+    $nombre_usuario = $_POST['nombre_usuario'];
+    $usuario = $_POST['usuario'];
+    $password = $_POST['password'];
+
+        // VARIABLES QUE CONTIENE EL NUMERO DE ENCRIPTACIONES DE LAS CONTRASEÑAS
+        $pass_encriptaciones = [
+            'cost' => 15
+        ];
+
+        $user_password = password_hash($password, PASSWORD_DEFAULT, $pass_encriptaciones);
+
+        $register_user = $connection->prepare("INSERT INTO usuarios(rol,nombre_Usuario,usuario,contrasena) VALUES('$rol','$nombre_usuario', '$usuario', '$user_password')");
+        $register_user->execute();
+        $register = $register_user->fetchAll(PDO::FETCH_ASSOC);
+        echo '<script>alert ("Registro Exitoso ¡Bienvenido/a!, Puede Iniciar Sesion.");</script>';
+        echo '<script>window.location="index.php"</script>';
+    }
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -78,19 +109,17 @@
                     <!-- Tabs -->
                     <ul class="tabs-links">
                     </ul>
-
                     <!--========================================
                         Formulario logue
                     ==========================================-->
-                    <form action="../../controller/AuthController.php" autocomplete="off" method="POST" id="formLogin"
-                        class="formulario active">
+                    <form action="" autocomplete="off" method="POST" id="formLogin" class="formulario active">
 
-                        <div class="error-text">
-                            <p>aqui los errores del formulario</p>
-                        </div>
-
-                        <input type="email" placeholder="Ingresa correo electronico" class="input-text" name="email"
+                        <input type="text" placeholder="Ingresa tu nombre completo" class="input-text"
+                            name="nombre_usuario" required autocomplete="off">
+                        <input type="text" placeholder="Ingresa tu nombre de usuario" class="input-text" name="usuario"
                             required autocomplete="off">
+                        <input type="text" placeholder="Ingresa tu nombre de usuario" value="administrador" hidden
+                            class="input-text" name="rol" required autocomplete="off">
 
                         <div class="grupo-input">
                             <input type="password" placeholder="Ingresa tu Contraseña" name="password"
@@ -100,7 +129,7 @@
                         </div>
 
                         <div class="redirecciones">
-                            <a href="passwords/changePassword.php" class="link">Descarga de formatos</a>
+                            <a href="../documents/listado_maestro.php" class="link">Descarga de formatos</a>
                         </div>
                         <input class="btn" type="submit" name="iniciarSesion" value="Iniciar Sesion">
                     </form>

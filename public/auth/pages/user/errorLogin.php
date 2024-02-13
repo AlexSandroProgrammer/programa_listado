@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Inicio de sesion || Listado Maestro Documentos</title>
+    <title>Error Inicio de sesion || Listado Maestro Documentos</title>
 
     <!--========================================
         Fuentes - Tipo de letra - Iconografia
@@ -72,8 +72,8 @@
 
                     <h1 class="titulo"><img src="../../../../assets/images/logoSenaEmpresa.png" alt="" class="log_free">
                     </h1>
-                    <h1 class="titulo_login">Iniciar sesion </h1>
-                    <p class="descripcion">Ingresa para crear nuevos formatos para los funcionarios de la entidad</p>
+                    <h1 class="titulo_login">Error Inicio de Sesion </h1>
+                    <p class="descripcion">El nombre de usuario o contraseña son incorrectos. Intentelo nuevamente.</p>
 
                     <!-- Tabs -->
                     <ul class="tabs-links">
@@ -85,7 +85,7 @@
                     <form action="../../controller/AuthController.php" autocomplete="off" method="POST" id="formLogin"
                         class="formulario active">
 
-                        <input type="text" placeholder="Ingresa tu nombre de usuario" class="input-text" name="username"
+                        <input type="text" placeholder="Ingresa correo electronico" class="input-text" name="username"
                             required autocomplete="off">
 
                         <div class="grupo-input">
