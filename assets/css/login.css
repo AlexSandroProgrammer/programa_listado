@@ -33,9 +33,6 @@ body {
   color: var(--color--blanco);
 }
 
-::selection {
-  color: #f2f2f2;
-}
 
 a {
   text-decoration: none;
@@ -343,7 +340,7 @@ Estilos Formularios
 }
 
 .formulario .grupo-input .icono.active {
-  color: var(--color-celeste);
+  color: #086619;
 }
 
 .formulario .input-text:focus {

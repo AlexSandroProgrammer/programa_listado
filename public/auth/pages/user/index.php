@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -46,8 +45,6 @@
                 <div class="slide fade">
                     <img src="../../../../assets/images/slide-img-3.jpg" alt="">
                 </div>
-
-
             </div>
 
             <!-- Botones next y prev -->
@@ -96,7 +93,7 @@
                         </div>
 
                         <div class="redirecciones">
-                            <a href="../documents/listado_maestro.php" class="link">Descarga de formatos</a>
+                            <a href="../documents/index.php" class="link">Descarga de formatos</a>
                         </div>
                         <input class="btn" type="submit" name="iniciarSesion" value="Iniciar Sesion">
                     </form>

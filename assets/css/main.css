@@ -1,0 +1,26 @@
+/*estilos para la tabla*/
+table th {
+  background-color: #086619 !important;
+  color: rgb(0, 0, 0);
+  border: 4px #000000;
+  font-size: bold;
+  box-shadow: 0 1px 10px 0 rgba(247, 232, 232, 0.35),
+    0 2px 30px 0 rgba(247, 232, 232, 0.35);
+}
+table th:hover {
+  background-color: rgba(0, 0, 0, 0.548);
+  cursor: pointer;
+}
+label {
+  cursor: pointer;
+}
+
+table > tbody > tr > td {
+  vertical-align: middle !important;
+}
+
+/*para alinear los botones y cuadro de busqueda*/
+.btn-group,
+.btn-group-vertical {
+  position: absolute !important;
+}

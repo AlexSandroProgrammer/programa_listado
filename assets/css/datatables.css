@@ -1,0 +1,27 @@
+table {
+  font-size: 14px;
+}
+
+header {
+  background: #086619;
+}
+
+/*estilos para la tabla*/
+table th {
+  background-color: #086619 !important;
+  color: white;
+}
+table > tbody > tr > td {
+  vertical-align: middle !important;
+}
+
+/*para alinear los botones y cuadro de busqueda*/
+.btn-group,
+.btn-group-vertical {
+  position: absolute !important;
+}
+
+.buttons-html5,
+.buttons-print {
+  display: none;
+}
