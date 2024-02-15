@@ -1,17 +1,13 @@
 <?php
-require_once "../../database/connection.php";
+require_once "../../../database/connection.php";
 $db = new Database();
 $connection = $db->conectar();
 
 // CONSULTA BASE DE DATOS PARA TRAER TODOS LOS DATOS RELACIONADOS CON LOS DOCUMENTOS 
 
-$listDocuments = $connection->prepare("SELECT * FROM documentos INNER JOIN area ON documentos.Id_Area=area.Id_Area 
-INNER join proceso ON documentos.Id_Proceso=proceso.Id_Proceso
-INNER JOIN  procedimiento ON documentos.Id_Procedimiento=procedimiento.Id_Procedimiento 
-INNER JOIN responsable ON documentos.Id_Responsable=responsable.Id_Responsable AND documentos.Id_Proceso=proceso.Id_Proceso AND documentos.Id_Procedimiento=procedimiento.Id_Procedimiento  AND documentos.Id_Procedimiento=procedimiento.Id_Procedimiento  AND   documentos.Id_Responsable=responsable.Id_Responsable
-");
-$listDocuments->execute();
-$documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
+$listUsers = $connection->prepare("SELECT * FROM usuarios");
+$listUsers->execute();
+$users = $listUsers->fetchAll(PDO::FETCH_ASSOC);
 
 
 ?>
@@ -26,19 +22,19 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
     <title>Listado Maestro Documentos</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../assets/css/bootstrap.min.css">
     <!----css3---->
-    <link rel="stylesheet" href="../../assets/css/custom.css">
+    <link rel="stylesheet" href="../../../assets/css/custom.css">
     <!-- datatables de bootstrap -->
 
     <!-- CSS personalizado -->
-    <link rel="stylesheet" href="../../assets/css/datatables.css" />
+    <link rel="stylesheet" href="../../../assets/css/datatables.css" />
 
     <!--datables CSS básico-->
-    <link rel="stylesheet" type="text/css" href="../auth/pages/documents/datatables/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../auth/pages/documents/datatables/datatables.min.css" />
     <!--datables estilo bootstrap 4 CSS-->
     <link rel="stylesheet" type="text/css"
-        href="../auth/pages/documents/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
+        href="../../auth/pages/documents/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
 
     <!--google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -54,7 +50,7 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="wrapper">
 
-        <?php require_once('layouts/menu.php') ?>
+        <?php require_once('../layouts/menu.php') ?>
         <!-------page-content start----------->
 
         <div id="content">
@@ -81,7 +77,7 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
 
                                         <li class="dropdown nav-item">
                                             <a class="nav-link" href="#" data-toggle="dropdown">
-                                                <img src="../../assets/images/logoSenaEmpresa.png"
+                                                <img src="../../../assets/images/logoSenaEmpresa.png"
                                                     style="width:40px; border-radius:50%;" />
                                                 <span class="xp-user-live"></span>
                                             </a>
@@ -128,47 +124,27 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                                 <thead>
                                     <tr>
                                         <th>#</th>
-
-                                        <th>Area</th>
-                                        <th>Proceso</th>
-                                        <th>Procedimiento</th>
-                                        <th>Documento</th>
-                                        <th>Archivo Medio Magnetico</th>
-                                        <th>Tipo de Documento</th>
-                                        <th>Codigo</th>
-                                        <th>Version</th>
-                                        <th>Fecha de elaboracion</th>
-                                        <th>Responsable de su Uso</th>
+                                        <th>Rol</th>
+                                        <th>Nombre de Usuario</th>
+                                        <th>Usuario</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-									foreach ($documents as $document) {
-									?>
+                                    foreach ($users as $user) {
+                                    ?>
                                     <tr>
-
-                                        <td><a href="documentos/documentos/<?php echo $document['Nombre_Documento_Magnetico'] ?>"
-                                                class="icon icon-download btn form-control">
-                                            </a></td>
-                                        <td><?php echo $document['Nombre_Area'] ?></td>
-                                        <td><?php echo $document['Nombre_Proceso'] ?></td>
-                                        <td><?php echo $document['Nombre_Procedimiento'] ?></td>
-                                        <td><?php echo $document['Nombre_Documento'] ?></td>
-                                        <td><?php echo $document['Nombre_Documento_Magnetico'] ?> <a
-                                                href="documentos/documentos/<?php echo $document['Nombre_Documento_Magnetico'] ?>"><?php echo $document['Nombre_Documento_Magnetico'] ?></a>
-                                        </td>
-                                        <td><?php echo $document['Tipo_Documento'] ?></td>
-                                        <td><?php echo $document['Codigo'] ?></td>
-                                        <td><?php echo $document['Version'] ?></td>
-                                        <td><?php echo $document['Fecha_Elaboracion'] ?></td>
-                                        <td class="texto_persona"><?php echo $document['Nombre_Responsable'] ?></td>
+                                        <td><?php echo $user['id_Usuario'] ?></td>
+                                        <td><?php echo $user['rol'] ?></td>
+                                        <td><?php echo $user['nombre_Usuario'] ?></td>
+                                        <td><?php echo $user['nombre_Usuario'] ?></td>
 
                                     </tr>
                                     <?php
 
-									}
+                                    }
 
-									?>
+                                    ?>
                                 </tbody>
 
                             </table>
@@ -177,20 +153,20 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
 
-            <script src="js/jquery-3.3.1.slim.min.js"></script>
-            <script src="js/bootstrap.min.js"></script>
+            <script src="../js/jquery-3.3.1.slim.min.js"></script>
+            <script src="../js/bootstrap.min.js"></script>
 
             <!-- jQuery, Popper.js, Bootstrap JS -->
-            <script src="../auth/pages/documents/popper/popper.min.js"></script>
-            <script src="../auth/pages/documents/bootstrap/js/bootstrap.min.js"></script>
+            <script src="../../auth/pages/documents/popper/popper.min.js"></script>
+            <script src="../../auth/pages/documents/bootstrap/js/bootstrap.min.js"></script>
 
             <!-- datatables JS -->
-            <script type="text/javascript" src="../auth/pages/documents/datatables/datatables.min.js"></script>
+            <script type="text/javascript" src="../../auth/pages/documents/datatables/datatables.min.js"></script>
 
 
 
             <!-- código JS propìo-->
-            <script type="text/javascript" src="../auth/pages/documents/main.js"></script>
+            <script type="text/javascript" src="../../auth/pages/documents/main.js"></script>
 
 
             <!------main-content-end----------->
@@ -198,9 +174,9 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
             <!----footer-design------------->
 
             <?php
-			require_once('layouts/footer.php');
+            require_once('../layouts/footer.php');
 
-			?>
+            ?>
 
 
 

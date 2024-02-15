@@ -3,12 +3,12 @@ table {
 }
 
 header {
-  background: #086619;
+  background: #28a745;
 }
 
 /*estilos para la tabla*/
 table th {
-  background-color: #086619 !important;
+  background-color: #28a745 !important;
   color: white;
 }
 table > tbody > tr > td {

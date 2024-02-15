@@ -1,5 +1,5 @@
 <?php
-require_once "../../../../database/connection.php";
+require_once "../../../database/connection.php";
 $db = new Database();
 $connection = $db->conectar();
 
@@ -12,51 +12,74 @@ INNER JOIN responsable ON documentos.Id_Responsable=responsable.Id_Responsable A
 ");
 $listDocuments->execute();
 $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
+
+
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
+<?php include('../menu.php') ?>
+<!-------page-content start----------->
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link rel="shortcut icon" href="#" />
-    <title>Listado Maestro Documentos</title>
+<div id="content">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
-    <!-- CSS personalizado -->
-    <link rel="stylesheet" href="./../../../../assets/css/datatables.css" />
+    <!------top-navbar-start----------->
 
-    <!--datables CSS básico-->
-    <link rel="stylesheet" type="text/css" href="datatables/datatables.min.css" />
-    <!--datables estilo bootstrap 4 CSS-->
-    <link rel="stylesheet" type="text/css" href="datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
+    <div class="top-navbar">
+        <div class="xd-topbar">
+            <div class="row">
+                <div class="col-2 col-md-1 col-lg-1 order-2 order-md-1 align-self-center">
+                    <div class="xp-menubar">
+                        <span class="material-icons text-white">signal_cellular_alt</span>
+                    </div>
+                </div>
 
-    <!--font awesome con CDN-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
-        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous" />
-    <link rel="shortcut icon" href="../../../../assets/images/logoSenaEmpresa.png" type="image/x-icon">
-</head>
+                <div class="col-md-5 col-lg-3 order-3 order-md-2">
+                </div>
 
-<body>
-    <header class="p-4">
 
-        <h2 class="text-center text-light">
-            Listado Maestro Documentos
-        </h2>
+                <div class="col-10 col-md-6 col-lg-8 order-1 order-md-3">
+                    <div class="xp-profilebar text-right">
+                        <nav class="navbar p-0">
+                            <ul class="nav navbar-nav flex-row ml-auto">
 
-        <div class="row justify-content-end px-3">
+                                <li class="dropdown nav-item">
+                                    <a class="nav-link" href="#" data-toggle="dropdown">
+                                        <img src="../../assets/images/logoSenaEmpresa.png"
+                                            style="width:40px; border-radius:50%;" />
+                                        <span class="xp-user-live"></span>
+                                    </a>
+                                    <ul class="dropdown-menu small-menu">
+                                        <li><a href="#">
+                                                <span class="material-icons">logout</span>
+                                                Cerrar Sesion
+                                            </a></li>
 
-            <a href="../user/index.php" class="text-center text-light  btn btn-danger">
-                Regresar
-            </a>
+                                    </ul>
+                                </li>
+
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="xp-breadcrumbbar text-center">
+                <h4 class="page-title">Panel de Administrador</h4>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">Bienvenido</li>
+                    <li class="breadcrumb-item active" aria-curent="page"><?php  ?></li>
+                </ol>
+            </div>
 
 
         </div>
+    </div>
+    <!------top-navbar-end----------->
 
-    </header>
+
+    <!------main-content-start----------->
+
 
     <!--Ejemplo tabla con DataTables-->
     <div class="container-fluid">
@@ -86,16 +109,15 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                             ?>
                             <tr>
 
-                                <td><a href="../../../admin/documentos/<?php echo $document['Nombre_Documento_Magnetico'] ?>"
-                                        class="fa-solid fa-download btn form-control">
+                                <td><a href="documentos/<?php echo $document['Nombre_Documento_Magnetico'] ?>"
+                                        class="icon icon-download btn form-control">
                                     </a></td>
-
                                 <td><?php echo $document['Nombre_Area'] ?></td>
                                 <td><?php echo $document['Nombre_Proceso'] ?></td>
                                 <td><?php echo $document['Nombre_Procedimiento'] ?></td>
                                 <td><?php echo $document['Nombre_Documento'] ?></td>
                                 <td><?php echo $document['Nombre_Documento_Magnetico'] ?> <a
-                                        href="../../../admin/documentos/<?php echo $document['Nombre_Documento_Magnetico'] ?>"><?php echo $document['Nombre_Documento_Magnetico'] ?></a>
+                                        href="documentos/<?php echo $document['Nombre_Documento_Magnetico'] ?>"><?php echo $document['Nombre_Documento_Magnetico'] ?></a>
                                 </td>
                                 <td><?php echo $document['Tipo_Documento'] ?></td>
                                 <td><?php echo $document['Codigo'] ?></td>
@@ -117,18 +139,18 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
-    <!-- jQuery, Popper.js, Bootstrap JS -->
-    <script src="jquery/jquery-3.3.1.min.js"></script>
-    <script src="popper/popper.min.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
 
-    <!-- datatables JS -->
-    <script type="text/javascript" src="datatables/datatables.min.js"></script>
+    <!------main-content-end----------->
+
+    <!----footer-design------------->
+
+    <?php
+    require_once('../footer.php');
+
+    ?>
 
 
 
-    <!-- código JS propìo-->
-    <script type="text/javascript" src="main.js"></script>
-</body>
+    </body>
 
-</html>
+    </html>

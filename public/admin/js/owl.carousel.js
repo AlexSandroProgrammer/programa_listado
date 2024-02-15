@@ -1,3 +1,16 @@
+/*
+ *  jQuery OwlCarousel v1.3.3
+ *
+ *  Copyright (c) 2013 Bartosz Wojciechowski
+ *  http://www.owlgraphic.com/owlcarousel/
+ *
+ *  Licensed under MIT
+ *
+ */
+
+/*JS Lint helpers: */
+/*global dragMove: false, dragEnd: false, $, jQuery, alert, window, document */
+/*jslint nomen: true, continue:true */
 
 if (typeof Object.create !== "function") {
     Object.create = function (obj) {
@@ -608,7 +621,7 @@ if (typeof Object.create !== "function") {
                 base.afterGo();
                 base.singleItemTransition();
                 return false;
-            }                   
+            }
             goToPixel = base.positionsInArray[position];
 
             if (base.browser.support3d === true) {
@@ -619,7 +632,7 @@ if (typeof Object.create !== "function") {
                     window.setTimeout(function () {
                         base.isCss3Finish = true;
                     }, base.options.paginationSpeed);
-                    
+
                 } else if (speed === "rewind") {
                     base.swapSpeed(base.options.rewindSpeed);
                     window.setTimeout(function () {
@@ -779,7 +792,7 @@ if (typeof Object.create !== "function") {
                 translate3D = "translate3d(0px, 0px, 0px)",
                 tempElem = document.createElement("div"),
                 regex,
-                asSupport, 
+                asSupport,
                 support3d,
                 isTouch;
 
