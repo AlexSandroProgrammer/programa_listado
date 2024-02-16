@@ -1,17 +1,17 @@
-<?php 
+<?php
 
 include '../conexion.php';
 
-$documento=$_POST["documento"];
+$documento = $_POST["documento"];
 
 
- $destination ='documentos/';
-      
-  if ( is_file($destination . $documento) ) {
+$destination = 'documentos/';
+
+if (is_file($destination . $documento)) {
    echo "<script type='text/javascript'>alert('Error: Ya existe almacenado un archivo con ese nombre');</script>";
 
    exit;
-  }else{
+} else {
 
 
 
@@ -22,7 +22,4 @@ var formulario=document.getElementById('formulario').action='enviar_documento.ph
 var formulario=document.getElementById('formulario').submit();
 
    </script>";
-
-
-  }
- ?>
+}

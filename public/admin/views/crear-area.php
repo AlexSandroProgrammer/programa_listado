@@ -2,14 +2,6 @@
 require_once "../../../database/connection.php";
 $db = new Database();
 $connection = $db->conectar();
-
-// CONSULTA BASE DE DATOS PARA TRAER TODOS LOS DATOS RELACIONADOS CON LOS DOCUMENTOS 
-
-$listUsers = $connection->prepare("SELECT * FROM usuarios");
-$listUsers->execute();
-$users = $listUsers->fetchAll(PDO::FETCH_ASSOC);
-
-
 ?>
 
 <!doctype html>
@@ -31,32 +23,32 @@ $users = $listUsers->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="../../../assets/css/datatables.css" />
 
     <!--datables CSS básico-->
-    <link rel="stylesheet" type="text/css" href="../../auth/pages/documents/datatables/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../libraries/datatables/datatables.min.css" />
+
     <!--datables estilo bootstrap 4 CSS-->
     <link rel="stylesheet" type="text/css"
-        href="../../auth/pages/documents/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
+        href="../../libraries/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
 
     <!--google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <!-- logo favicon de la empresa  -->
-    <link rel="shortcut icon" href="../../assets/images/logoSenaEmpresa.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../../../assets/images/logoSenaEmpresa.png" type="image/x-icon">
     <!--google material icon-->
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+
 </head>
 
 <body>
 
     <div class="wrapper">
 
-        <?php require_once('../layouts/menu.php') ?>
+        <?php require_once('menu.php') ?>
         <!-------page-content start----------->
-
         <div id="content">
-
             <!------top-navbar-start----------->
-
             <div class="top-navbar">
                 <div class="xd-topbar">
                     <div class="row">
@@ -65,11 +57,8 @@ $users = $listUsers->fetchAll(PDO::FETCH_ASSOC);
                                 <span class="material-icons text-white">signal_cellular_alt</span>
                             </div>
                         </div>
-
                         <div class="col-md-5 col-lg-3 order-3 order-md-2">
                         </div>
-
-
                         <div class="col-10 col-md-6 col-lg-8 order-1 order-md-3">
                             <div class="xp-profilebar text-right">
                                 <nav class="navbar p-0">
@@ -86,11 +75,8 @@ $users = $listUsers->fetchAll(PDO::FETCH_ASSOC);
                                                         <span class="material-icons">logout</span>
                                                         Cerrar Sesion
                                                     </a></li>
-
                                             </ul>
                                         </li>
-
-
                                     </ul>
                                 </nav>
                             </div>
@@ -115,58 +101,50 @@ $users = $listUsers->fetchAll(PDO::FETCH_ASSOC);
             <!------main-content-start----------->
 
 
-            <!--Ejemplo tabla con DataTables-->
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12 p-4">
-                        <div class="table-responsive py-4 px-1">
-                            <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Rol</th>
-                                        <th>Nombre de Usuario</th>
-                                        <th>Usuario</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    foreach ($users as $user) {
-                                    ?>
-                                    <tr>
-                                        <td><?php echo $user['id_Usuario'] ?></td>
-                                        <td><?php echo $user['rol'] ?></td>
-                                        <td><?php echo $user['nombre_Usuario'] ?></td>
-                                        <td><?php echo $user['nombre_Usuario'] ?></td>
+            <!--Formulario -->
 
-                                    </tr>
-                                    <?php
+            <div class="container-fluid p-3 bg-light-subtle">
+                <div class="col-xs-12 bg-light-subtle border p-4">
 
-                                    }
+                    <h3 class="text-center">Registro de Usuario</h3>
+                    <form action="../controllers/UserController.php" method="POST" name="formRegisterUser">
 
-                                    ?>
-                                </tbody>
 
-                            </table>
+                        <label>Nombre Completo:</label>
+                        <input type="text" name="names" class='form-control'>
+                        <label>Nombre de Usuario:</label>
+                        <input type="text" name="username" class='form-control'>
+                        <label>Rol:</label>
+                        <input type="text" name="rol" class='form-control'>
+                        <label>Contraseña:</label>
+                        <input type="password" name="password" class='form-control'>
+
+                        <div class=" mt-4">
+                            <input type="submit" class="btn btn-success" value="Registrar"></input>
+                            <input type="hidden" class="btn btn-info" value="formRegisterUser" name="MM_forms"></input>
+                            <a href="index.php" class="btn btn-danger">Cancelar Registro</a>
                         </div>
-                    </div>
+
+                    </form>
+
                 </div>
             </div>
 
-            <script src="../js/jquery-3.3.1.slim.min.js"></script>
-            <script src="../js/bootstrap.min.js"></script>
+
+            <script src="../../../assets/js/jquery-3.3.1.min.js"></script>
+            <script src="../../../assets/js/bootstrap.min.js"></script>
 
             <!-- jQuery, Popper.js, Bootstrap JS -->
-            <script src="../../auth/pages/documents/popper/popper.min.js"></script>
-            <script src="../../auth/pages/documents/bootstrap/js/bootstrap.min.js"></script>
+            <script src="../../libraries/bootstrap/popper/popper.min.js"></script>
+            <script src="../../libraries/bootstrap/js/bootstrap.min.js"></script>
 
             <!-- datatables JS -->
-            <script type="text/javascript" src="../../auth/pages/documents/datatables/datatables.min.js"></script>
+            <script type="text/javascript" src="../../libraries/datatables/datatables.min.js"></script>
 
 
 
             <!-- código JS propìo-->
-            <script type="text/javascript" src="../../auth/pages/documents/main.js"></script>
+            <script type="text/javascript" src="../../../assets/js/props-datatable.js"></script>
 
 
             <!------main-content-end----------->
@@ -174,9 +152,11 @@ $users = $listUsers->fetchAll(PDO::FETCH_ASSOC);
             <!----footer-design------------->
 
             <?php
-            require_once('../layouts/footer.php');
+            require_once('footer.php');
 
             ?>
+        </div>
+
 
 
 

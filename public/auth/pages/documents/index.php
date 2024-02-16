@@ -23,21 +23,20 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link rel="shortcut icon" href="#" />
     <title>Listado Maestro Documentos</title>
-
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../../../assets/css/bootstrap.min.css" />
+
+
     <!-- CSS personalizado -->
-    <link rel="stylesheet" href="./../../../../assets/css/datatables.css" />
-
+    <link rel="stylesheet" href="../../../../assets/css/datatables.css" />
     <!--datables CSS básico-->
-    <link rel="stylesheet" type="text/css" href="datatables/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../libraries/datatables/datatables.min.css" />
     <!--datables estilo bootstrap 4 CSS-->
-    <link rel="stylesheet" type="text/css" href="datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
-
+    <link rel="stylesheet" type="text/css"
+        href="../../../libraries/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
     <!--font awesome con CDN-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
-        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous" />
-    <link rel="shortcut icon" href="../../../../assets/images/logoSenaEmpresa.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+
 </head>
 
 <body>
@@ -67,7 +66,6 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                         <thead>
                             <tr>
                                 <th>#</th>
-
                                 <th>Area</th>
                                 <th>Proceso</th>
                                 <th>Procedimiento</th>
@@ -86,8 +84,9 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                             ?>
                             <tr>
 
-                                <td><a href="../../../admin/documentos/<?php echo $document['Nombre_Documento_Magnetico'] ?>"
-                                        class="fa-solid fa-download btn form-control">
+                                <td><a href="../documentos/<?php echo $document['Nombre_Documento_Magnetico'] ?>"
+                                        class=" btn btn-outline-success form-control"><i class="fa fa-download"
+                                            aria-hidden="true"></i>
                                     </a></td>
 
                                 <td><?php echo $document['Nombre_Area'] ?></td>
@@ -95,7 +94,7 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                                 <td><?php echo $document['Nombre_Procedimiento'] ?></td>
                                 <td><?php echo $document['Nombre_Documento'] ?></td>
                                 <td><?php echo $document['Nombre_Documento_Magnetico'] ?> <a
-                                        href="../../../admin/documentos/<?php echo $document['Nombre_Documento_Magnetico'] ?>"><?php echo $document['Nombre_Documento_Magnetico'] ?></a>
+                                        href="../documentos/<?php echo $document['Nombre_Documento_Magnetico'] ?>"><?php echo $document['Nombre_Documento_Magnetico'] ?></a>
                                 </td>
                                 <td><?php echo $document['Tipo_Documento'] ?></td>
                                 <td><?php echo $document['Codigo'] ?></td>
@@ -118,17 +117,17 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <!-- jQuery, Popper.js, Bootstrap JS -->
-    <script src="jquery/jquery-3.3.1.min.js"></script>
-    <script src="popper/popper.min.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../../libraries/jquery/jquery-3.3.1.min.js"></script>
+    <script src="../../../libraries/bootstrap/popper/popper.min.js"></script>
+    <script src="../../../libraries/bootstrap/js/bootstrap.min.js"></script>
 
     <!-- datatables JS -->
-    <script type="text/javascript" src="datatables/datatables.min.js"></script>
+    <script type="text/javascript" src="../../../libraries/datatables/datatables.min.js"></script>
 
 
 
     <!-- código JS propìo-->
-    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="../../../../assets/js/props-datatable.js"></script>
 </body>
 
 </html>
