@@ -84,7 +84,7 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                             ?>
                             <tr>
 
-                                <td><a href="../documentos/<?php echo $document['Nombre_Documento_Magnetico'] ?>"
+                                <td><a href="../../../admin/documentos/<?php echo $document['Nombre_Documento_Magnetico'] ?>"
                                         class=" btn btn-outline-success form-control"><i class="fa fa-download"
                                             aria-hidden="true"></i>
                                     </a></td>
@@ -94,7 +94,7 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                                 <td><?php echo $document['Nombre_Procedimiento'] ?></td>
                                 <td><?php echo $document['Nombre_Documento'] ?></td>
                                 <td><?php echo $document['Nombre_Documento_Magnetico'] ?> <a
-                                        href="../documentos/<?php echo $document['Nombre_Documento_Magnetico'] ?>"><?php echo $document['Nombre_Documento_Magnetico'] ?></a>
+                                        href="../../../admin/documentos/<?php echo $document['Nombre_Documento_Magnetico'] ?>"><?php echo $document['Nombre_Documento_Magnetico'] ?></a>
                                 </td>
                                 <td><?php echo $document['Tipo_Documento'] ?></td>
                                 <td><?php echo $document['Codigo'] ?></td>

@@ -1,4 +1,3 @@
 <?php
-    header("Location:auth/");
-    exit;
-?>
+header("Location:auth/");
+exit;

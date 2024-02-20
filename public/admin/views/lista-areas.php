@@ -129,29 +129,57 @@ $areas = $listAreas->fetchAll(PDO::FETCH_ASSOC);
                                     if ($_GET["status"] === "createArea") {
                                 ?>
                                 <h3 class="text-center">Registro de Area</h3>
-                                <form action="../controllers/UserController.php" method="POST" name="formRegisterArea">
+                                <form action="../controllers/AreaController.php" method="POST" autocomplete="off"
+                                    name="formRegisterArea">
                                     <label>Nombre del Area:</label>
                                     <input type="text" name="area" class='form-control'>
 
                                     <div class="my-3">
                                         <input type="submit" class="btn btn-success" value="Registrar"></input>
                                         <input type="hidden" class="btn btn-info" value="formRegisterArea"
-                                            name="MM_forms"></input>
-                                        <a href="lista-areas.php" class="btn btn-danger">Cancelar Registro</a>
+                                            name="MM_formArea"></input>
+                                        <a href="lista-areas.php" class="btn btn-danger">Cancelar</a>
                                     </div>
                                 </form>
                                 <?php
-                                    } else {
+                                    } else if ($_GET["status"] === null || $_GET["id_area-edit"] === null) {
+
                                     ?>
-                                <form class="mb-2" action="" method="GET">
-                                    <input type="hidden" name="status" value="createArea">
-                                    <input class="btn btn-success" type="submit" value="Registrar Area" />
+                                <script>
+                                alert("// No se cumplen los parametros requeridos //");
+                                window.location = "lista-areas.php";
+                                </script>
+
+                                <?php
+                                    } else if ($_GET["status"] === "updateArea" || $_GET["id_area-edit"] !== null) {
+
+                                        $id_area = $_GET["id_area-edit"];
+
+                                        $listArea = $connection->prepare("SELECT * FROM area WHERE Id_Area = ' " . $id_area . "'");
+                                        $listArea->execute();
+                                        $area = $listArea->fetch(PDO::FETCH_ASSOC);
+                                    ?>
+                                <form action="../controllers/AreaController.php" method="POST" name="formUpdateArea">
+                                    <label>Nombre del Area:</label>
+                                    <input type="hidden" name="id_area" value="<?php echo $area['Id_Area'] ?>"
+                                        class='form-control'>
+                                    <input type="text" name="area" value="<?php echo $area['Nombre_Area'] ?>"
+                                        class='form-control'>
+
+                                    <div class="my-3">
+                                        <input type="submit" class="btn btn-success" value="Actualizar"></input>
+                                        <input type="hidden" class="btn btn-info" value="formUpdateArea"
+                                            name="MM_formAreaUpdate"></input>
+                                        <a href="lista-areas.php" class="btn btn-danger">Cancelar</a>
+                                    </div>
                                 </form>
                                 <?php
-                                    }
+                                    } ?>
+                                <?php
+
                                 }
                                 if (!isset($_GET["status"])) {
-                                    ?>
+                                ?>
                                 <form class="mb-2" action="" method="GET">
                                     <input type="hidden" name="status" value="createArea">
                                     <input class="btn btn-success" type="submit" value="Registrar Area" />
@@ -171,7 +199,8 @@ $areas = $listAreas->fetchAll(PDO::FETCH_ASSOC);
                             <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
+                                        <th>Acciones</th>
+
                                         <th>Area</th>
 
 
@@ -182,10 +211,29 @@ $areas = $listAreas->fetchAll(PDO::FETCH_ASSOC);
                                     foreach ($areas as $area) {
                                     ?>
                                     <tr>
-                                        <td><?php echo $area['Id_Area'] ?></td>
+                                        <td>
+                                            <form method="GET" action="../controllers/AreaController.php">
+                                                <input type="hidden" name="id_area-delete"
+                                                    value="<?= $area['Id_Area'] ?>">
+                                                <button class="btn btn-danger"
+                                                    onclick="return confirm('¿Desea eliminar el registro de area seleccionado?');"
+                                                    type="submit"><i class="material-icons" data-toggle="tooltip"
+                                                        title="Delete">&#xE872;</i></button>
+                                            </form>
+                                            <form method="GET" action="">
+                                                <input type="hidden" name="status" value="updateArea">
+                                                <input type="hidden" name="id_area-edit"
+                                                    value="<?= $area['Id_Area'] ?>">
+                                                <button class="btn btn-success mt-2"
+                                                    onclick="return confirm('desea actualizar el registro seleccionado');"
+                                                    type="submit"><i class="material-icons" data-toggle="tooltip"
+                                                        title="Edit">&#xE254;</i></button>
+                                            </form>
+
+
+                                        </td>
+
                                         <td><?php echo $area['Nombre_Area'] ?></td>
-
-
                                     </tr>
                                     <?php
 
