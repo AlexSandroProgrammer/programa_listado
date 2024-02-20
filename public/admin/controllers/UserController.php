@@ -1,6 +1,7 @@
 <?php
-require_once '../../../database/connection.php';
 
+// CONEXION A BASE DE DATOS
+require_once '../../../database/connection.php';
 $database = new Database();
 $connection = $database->conectar();
 

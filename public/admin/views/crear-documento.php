@@ -31,7 +31,8 @@ if (!isset($_SESSION["carrito"])) $_SESSION["carrito"] = [];
     <link rel="stylesheet" type="text/css" href="../../libraries/datatables/datatables.min.css" />
 
     <!--datables estilo bootstrap 4 CSS-->
-    <link rel="stylesheet" type="text/css" href="../../libraries/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" type="text/css"
+        href="../../libraries/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
 
     <!--google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -70,7 +71,8 @@ if (!isset($_SESSION["carrito"])) $_SESSION["carrito"] = [];
 
                                         <li class="dropdown nav-item">
                                             <a class="nav-link" href="#" data-toggle="dropdown">
-                                                <img src="../../../assets/images/logoSenaEmpresa.png" style="width:40px; border-radius:50%;" />
+                                                <img src="../../../assets/images/logoSenaEmpresa.png"
+                                                    style="width:40px; border-radius:50%;" />
                                                 <span class="xp-user-live"></span>
                                             </a>
                                             <ul class="dropdown-menu small-menu">
@@ -84,9 +86,7 @@ if (!isset($_SESSION["carrito"])) $_SESSION["carrito"] = [];
                                 </nav>
                             </div>
                         </div>
-
                     </div>
-
                     <div class="xp-breadcrumbbar text-center">
                         <h4 class="page-title">Panel de Administrador</h4>
                         <ol class="breadcrumb">
@@ -94,44 +94,19 @@ if (!isset($_SESSION["carrito"])) $_SESSION["carrito"] = [];
                             <li class="breadcrumb-item active" aria-curent="page"><?= $_SESSION['names']  ?></li>
                         </ol>
                     </div>
-
-
                 </div>
             </div>
-            <!------top-navbar-end----------->
-
-
             <!------main-content-start----------->
 
 
             <!--Formulario -->
 
             <div class="container-fluid p-3 bg-light-subtle">
-                <div class="col-xs-15 mt-5">
-                    <?php
-                    if (isset($_GET["status"])) {
-                        if ($_GET["status"] === "1") {
-                    ?>
-                            <div class="alert alert-success">
-                                <strong>¡Perfecto!</strong> Se agrego el area al documento
-                            </div>
-                        <?php
-                        } else {
-                        ?>
-                            <div class="alert alert-danger">
-                                <strong>Error:</strong> No se agrego el area al documento
-                            </div>
-                    <?php
-                        }
-                    }
-                    ?>
-
-                    <!------top-navbar-end----------->
-                </div>
                 <div class="col-xs-12 bg-light-subtle border p-4">
 
                     <h3 class="text-center">Registro de Documento</h3>
-                    <form action="../controllers/DocumentoController.php" method="POST" enctype="multipart/form-data" autocomplete="off" name="formRegisterUser">
+                    <form action="../controllers/DocumentoController.php" method="POST" enctype="multipart/form-data"
+                        autocomplete="off" name="formRegisterUser">
 
 
                         <div class="row">
@@ -154,8 +129,8 @@ if (!isset($_SESSION["carrito"])) $_SESSION["carrito"] = [];
                                     if ($procedimientos) {
                                         do {
                                     ?>
-                                            <option value="<?php echo ($procedimientos['Id_Procedimiento']) ?>">
-                                                <?php echo ($procedimientos['Nombre_Procedimiento']) ?></option>
+                                    <option value="<?php echo ($procedimientos['Id_Procedimiento']) ?>">
+                                        <?php echo ($procedimientos['Nombre_Procedimiento']) ?></option>
                                     <?php
                                         } while ($procedimientos = $listProcedimientos->fetch(PDO::FETCH_ASSOC));
                                     } else {
@@ -167,12 +142,12 @@ if (!isset($_SESSION["carrito"])) $_SESSION["carrito"] = [];
                             </div>
                             <div class="col-md-6 p-2">
                                 <span class="help-block">Tipo de Documento</span>
-                                <select class="form-control" id="Id_tipo_doc" onchange="validar_Id_tipo_doc()" name="Id_tipo_doc">
+                                <select class="form-control" id="Id_tipo_doc" onchange="validar_Id_tipo_doc()"
+                                    name="Id_tipo_doc">
                                     <option value="Selecciona">Selecciona</option>
                                     <option value="Formato">Formato</option>
                                     <option value="Instructivo">Instructivo</option>
                                     <option value="Manual">Manual</option>
-
                                 </select>
                             </div>
                             <div class="col-md-6 p-2">
@@ -182,7 +157,8 @@ if (!isset($_SESSION["carrito"])) $_SESSION["carrito"] = [];
 
                             <div class="col-md-6 p-2">
                                 <span class="help-block">version</span>
-                                <input type="number" class="form-control" id="version" onchange="validar_version()" name="version">
+                                <input type="number" class="form-control" id="version" onchange="validar_version()"
+                                    name="version">
                             </div>
 
                             <div class="col-md-6 p-2">
@@ -209,10 +185,12 @@ if (!isset($_SESSION["carrito"])) $_SESSION["carrito"] = [];
                                     do {
                                 ?>
 
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="idAreas" value="<?php echo $areas['Id_Area'] ?>">
-                                            <label class="form-check-label" for="inlineCheckbox1"><?php echo $areas['Nombre_Area'] ?></label>
-                                        </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="idAreas"
+                                        value="<?php echo $areas['Id_Area'] ?>">
+                                    <label class="form-check-label"
+                                        for="inlineCheckbox1"><?php echo $areas['Nombre_Area'] ?></label>
+                                </div>
 
                                 <?php
                                     } while ($areas = $listAreas->fetch(PDO::FETCH_ASSOC));
@@ -229,7 +207,8 @@ if (!isset($_SESSION["carrito"])) $_SESSION["carrito"] = [];
 
                             <div class=" mt-4">
                                 <input type="submit" class="btn btn-success" value="Registrar"></input>
-                                <input type="hidden" class="btn btn-info" value="formRegisterUser" name="MM_forms"></input>
+                                <input type="hidden" class="btn btn-info" value="formRegisterUser"
+                                    name="MM_forms"></input>
                                 <a href="index.php" class="btn btn-danger">Cancelar Registro</a>
                             </div>
                         </div>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 // CONEXION A BASE DE DATOS
 require_once "../../../database/connection.php";
 $db = new Database();

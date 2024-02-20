@@ -32,8 +32,7 @@ $users = $listUsers->fetchAll(PDO::FETCH_ASSOC);
     <!--datables CSS básico-->
     <link rel="stylesheet" type="text/css" href="../../libraries/datatables/datatables.min.css" />
     <!--datables estilo bootstrap 4 CSS-->
-    <link rel="stylesheet" type="text/css"
-        href="../../libraries/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../libraries/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
 
     <!--google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -76,8 +75,7 @@ $users = $listUsers->fetchAll(PDO::FETCH_ASSOC);
 
                                         <li class="dropdown nav-item">
                                             <a class="nav-link" href="#" data-toggle="dropdown">
-                                                <img src="../../../assets/images/logoSenaEmpresa.png"
-                                                    style="width:40px; border-radius:50%;" />
+                                                <img src="../../../assets/images/logoSenaEmpresa.png" style="width:40px; border-radius:50%;" />
                                                 <span class="xp-user-live"></span>
                                             </a>
                                             <ul class="dropdown-menu small-menu">
@@ -101,7 +99,7 @@ $users = $listUsers->fetchAll(PDO::FETCH_ASSOC);
                         <h4 class="page-title">Panel de Administrador</h4>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">Bienvenido</li>
-                            <li class="breadcrumb-item active" aria-curent="page"><?php  ?></li>
+                            <li class="breadcrumb-item active" aria-curent="page"><?= $_SESSION['names'] ?></li>
                         </ol>
                     </div>
 
@@ -132,13 +130,13 @@ $users = $listUsers->fetchAll(PDO::FETCH_ASSOC);
                                     <?php
                                     foreach ($users as $user) {
                                     ?>
-                                    <tr>
-                                        <td><?php echo $user['id_Usuario'] ?></td>
-                                        <td><?php echo $user['rol'] ?></td>
-                                        <td><?php echo $user['nombre_Usuario'] ?></td>
-                                        <td><?php echo $user['usuario'] ?></td>
+                                        <tr>
+                                            <td><?php echo $user['id_Usuario'] ?></td>
+                                            <td><?php echo $user['rol'] ?></td>
+                                            <td><?php echo $user['nombre_Usuario'] ?></td>
+                                            <td><?php echo $user['usuario'] ?></td>
 
-                                    </tr>
+                                        </tr>
                                     <?php
 
                                     }

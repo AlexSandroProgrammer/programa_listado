@@ -1,3 +1,17 @@
+<?php
+session_start();
+
+require_once("../../validation/validarSesion.php");
+
+function logoutUser()
+{
+
+
+    session_destroy();
+    header("Location:../../pages/");
+}
+?>
+
 <div class="body-overlay"></div>
 
 <!-------sidebar--design------------>
@@ -37,7 +51,6 @@
             <ul class="collapse list-unstyled menu" id="homeSubmenu6">
                 <li><a href="lista-areas.php">Lista de Areas</a></li>
                 <li><a href="crear-area.php">Crear Area</a></li>
-
             </ul>
         </li>
 
@@ -76,7 +89,8 @@
             <a href="change-password.php" class=""><i class="material-icons">border_color</i>Cambiar Contraseña </a>
         </li>
         <li class="logout">
-            <a href="#" class=""><i class="material-icons">logout</i>Cerrar Sesion </a>
+
+            <a href="#" class="" onclick="<?php logoutUser() ?>"><i class="material-icons">logout</i>Cerrar Sesion </a>
         </li>
     </ul>
 </div>

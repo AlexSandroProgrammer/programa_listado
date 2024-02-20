@@ -34,8 +34,7 @@ $areas = $listAreas->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" type="text/css" href="../../libraries/datatables/datatables.min.css" />
 
     <!--datables estilo bootstrap 4 CSS-->
-    <link rel="stylesheet" type="text/css"
-        href="../../libraries/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../libraries/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
 
     <!--google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -80,8 +79,7 @@ $areas = $listAreas->fetchAll(PDO::FETCH_ASSOC);
 
                                         <li class="dropdown nav-item">
                                             <a class="nav-link" href="#" data-toggle="dropdown">
-                                                <img src="../../../assets/images/logoSenaEmpresa.png"
-                                                    style="width:40px; border-radius:50%;" />
+                                                <img src="../../../assets/images/logoSenaEmpresa.png" style="width:40px; border-radius:50%;" />
                                                 <span class="xp-user-live"></span>
                                             </a>
                                             <ul class="dropdown-menu small-menu">
@@ -105,7 +103,7 @@ $areas = $listAreas->fetchAll(PDO::FETCH_ASSOC);
                         <h4 class="page-title">Panel de Administrador</h4>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">Bienvenido</li>
-                            <li class="breadcrumb-item active" aria-curent="page"><?php  ?></li>
+                            <li class="breadcrumb-item active" aria-curent="page"><?= $_SESSION['names'] ?></li>
                         </ol>
                     </div>
 
@@ -128,29 +126,27 @@ $areas = $listAreas->fetchAll(PDO::FETCH_ASSOC);
                                 if (isset($_GET["status"])) {
                                     if ($_GET["status"] === "createArea") {
                                 ?>
-                                <h3 class="text-center">Registro de Area</h3>
-                                <form action="../controllers/AreaController.php" method="POST" autocomplete="off"
-                                    name="formRegisterArea">
-                                    <label>Nombre del Area:</label>
-                                    <input type="text" name="area" class='form-control'>
+                                        <h3 class="text-center">Registro de Area</h3>
+                                        <form action="../controllers/AreaController.php" method="POST" autocomplete="off" name="formRegisterArea">
+                                            <label>Nombre del Area:</label>
+                                            <input type="text" name="area" class='form-control'>
 
-                                    <div class="my-3">
-                                        <input type="submit" class="btn btn-success" value="Registrar"></input>
-                                        <input type="hidden" class="btn btn-info" value="formRegisterArea"
-                                            name="MM_formArea"></input>
-                                        <a href="lista-areas.php" class="btn btn-danger">Cancelar</a>
-                                    </div>
-                                </form>
-                                <?php
+                                            <div class="my-3">
+                                                <input type="submit" class="btn btn-success" value="Registrar"></input>
+                                                <input type="hidden" class="btn btn-info" value="formRegisterArea" name="MM_formArea"></input>
+                                                <a href="lista-areas.php" class="btn btn-danger">Cancelar</a>
+                                            </div>
+                                        </form>
+                                    <?php
                                     } else if ($_GET["status"] === null || $_GET["id_area-edit"] === null) {
 
                                     ?>
-                                <script>
-                                alert("// No se cumplen los parametros requeridos //");
-                                window.location = "lista-areas.php";
-                                </script>
+                                        <script>
+                                            alert("// No se cumplen los parametros requeridos //");
+                                            window.location = "lista-areas.php";
+                                        </script>
 
-                                <?php
+                                    <?php
                                     } else if ($_GET["status"] === "updateArea" || $_GET["id_area-edit"] !== null) {
 
                                         $id_area = $_GET["id_area-edit"];
@@ -159,31 +155,28 @@ $areas = $listAreas->fetchAll(PDO::FETCH_ASSOC);
                                         $listArea->execute();
                                         $area = $listArea->fetch(PDO::FETCH_ASSOC);
                                     ?>
-                                <form action="../controllers/AreaController.php" method="POST" name="formUpdateArea">
-                                    <label>Nombre del Area:</label>
-                                    <input type="hidden" name="id_area" value="<?php echo $area['Id_Area'] ?>"
-                                        class='form-control'>
-                                    <input type="text" name="area" value="<?php echo $area['Nombre_Area'] ?>"
-                                        class='form-control'>
+                                        <form action="../controllers/AreaController.php" method="POST" name="formUpdateArea">
+                                            <label>Nombre del Area:</label>
+                                            <input type="hidden" name="id_area" value="<?php echo $area['Id_Area'] ?>" class='form-control'>
+                                            <input type="text" name="area" value="<?php echo $area['Nombre_Area'] ?>" class='form-control'>
 
-                                    <div class="my-3">
-                                        <input type="submit" class="btn btn-success" value="Actualizar"></input>
-                                        <input type="hidden" class="btn btn-info" value="formUpdateArea"
-                                            name="MM_formAreaUpdate"></input>
-                                        <a href="lista-areas.php" class="btn btn-danger">Cancelar</a>
-                                    </div>
-                                </form>
-                                <?php
+                                            <div class="my-3">
+                                                <input type="submit" class="btn btn-success" value="Actualizar"></input>
+                                                <input type="hidden" class="btn btn-info" value="formUpdateArea" name="MM_formAreaUpdate"></input>
+                                                <a href="lista-areas.php" class="btn btn-danger">Cancelar</a>
+                                            </div>
+                                        </form>
+                                    <?php
                                     } ?>
                                 <?php
 
                                 }
                                 if (!isset($_GET["status"])) {
                                 ?>
-                                <form class="mb-2" action="" method="GET">
-                                    <input type="hidden" name="status" value="createArea">
-                                    <input class="btn btn-success" type="submit" value="Registrar Area" />
-                                </form>
+                                    <form class="mb-2" action="" method="GET">
+                                        <input type="hidden" name="status" value="createArea">
+                                        <input class="btn btn-success" type="submit" value="Registrar Area" />
+                                    </form>
                                 <?php
 
                                 }
@@ -210,31 +203,23 @@ $areas = $listAreas->fetchAll(PDO::FETCH_ASSOC);
                                     <?php
                                     foreach ($areas as $area) {
                                     ?>
-                                    <tr>
-                                        <td>
-                                            <form method="GET" action="../controllers/AreaController.php">
-                                                <input type="hidden" name="id_area-delete"
-                                                    value="<?= $area['Id_Area'] ?>">
-                                                <button class="btn btn-danger"
-                                                    onclick="return confirm('¿Desea eliminar el registro de area seleccionado?');"
-                                                    type="submit"><i class="material-icons" data-toggle="tooltip"
-                                                        title="Delete">&#xE872;</i></button>
-                                            </form>
-                                            <form method="GET" action="">
-                                                <input type="hidden" name="status" value="updateArea">
-                                                <input type="hidden" name="id_area-edit"
-                                                    value="<?= $area['Id_Area'] ?>">
-                                                <button class="btn btn-success mt-2"
-                                                    onclick="return confirm('desea actualizar el registro seleccionado');"
-                                                    type="submit"><i class="material-icons" data-toggle="tooltip"
-                                                        title="Edit">&#xE254;</i></button>
-                                            </form>
+                                        <tr>
+                                            <td>
+                                                <form method="GET" action="../controllers/AreaController.php">
+                                                    <input type="hidden" name="id_area-delete" value="<?= $area['Id_Area'] ?>">
+                                                    <button class="btn btn-danger" onclick="return confirm('¿Desea eliminar el registro de area seleccionado?');" type="submit"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></button>
+                                                </form>
+                                                <form method="GET" action="">
+                                                    <input type="hidden" name="status" value="updateArea">
+                                                    <input type="hidden" name="id_area-edit" value="<?= $area['Id_Area'] ?>">
+                                                    <button class="btn btn-success mt-2" onclick="return confirm('desea actualizar el registro seleccionado');" type="submit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></button>
+                                                </form>
 
 
-                                        </td>
+                                            </td>
 
-                                        <td><?php echo $area['Nombre_Area'] ?></td>
-                                    </tr>
+                                            <td><?php echo $area['Nombre_Area'] ?></td>
+                                        </tr>
                                     <?php
 
                                     }
