@@ -1,39 +1,16 @@
-<?php
-session_start();
-if (isset($_SESSION['ADMINISTRADOR']))
-{ 
-  include '../../../assets/conexion/conexion.php';
-  $usuario=($_SESSION['ADMINISTRADOR']);
-  $res=mysqli_query($conexion,"SELECT * FROM usuarios WHERE id_usuario=$usuario");
-        while ($reg=mysqli_fetch_array($res)) 
-        {
-           $nomusua_usua=utf8_encode($reg[2]);
-           $rolusua=utf8_encode($reg[1]);
-         }
-         $saludo="Bienvenido $nomusua_usua, a el Rol del $rolusua";
-         $usu="<p>$nomusua_usua</p> <p class='designation'>$rolusua</p>"; 
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <?php 
-	include '../conexion.php';
-	?>
+    <?php
+    include '../conexion.php';
+    ?>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>LISTADO MAESTRO AREAS</title>
 
-    <style rel="stylesheet" href="../../../assets/css/bootstrap.css"></style>
-    <style rel="stylesheet" href="../../../assets/css/style.css"></style>
-
-    <link rel="stylesheet" href="../../../assets/css/bootstrap.css">
-    <link rel="stylesheet" href="../../../assets/css/style.css">
-
     <script src="../../../assets/js/jquery-3.2.1.min.js"></script>
-    <script src="../../../assets/js/bootstrap.js"></script>
+    <style rel="stylesheet" href="../../../assets/css/bootstrap.min.css"></style>
 </head>
 
 <body>
@@ -58,21 +35,21 @@ if (isset($_SESSION['ADMINISTRADOR']))
                     <span class="help-block">Areas</span>
                     <select class="form-control" id="id_area" onchange="validar_id_area()" name="id_area">
                         <option value="Selecciona">Selecciona</option>
-                        <?php 
+                        <?php
 
-$consulta="SELECT * FROM `area` order by Nombre_Area";
-$resource=mysqli_query($conexion,$consulta);
-while ($fila=mysqli_fetch_row($resource)) {
-	?>
+                        $consulta = "SELECT * FROM `area` order by Nombre_Area";
+                        $resource = mysqli_query($conexion, $consulta);
+                        while ($fila = mysqli_fetch_row($resource)) {
+                        ?>
 
 
-                        <option value="<?php echo $fila[0] ?>"><?php echo "$fila[1]" ?></option>
+                            <option value="<?php echo $fila[0] ?>"><?php echo "$fila[1]" ?></option>
 
-                        <?php 
+                        <?php
 
-}
+                        }
 
-					 ?>
+                        ?>
                     </select>
                 </div>
 
@@ -84,44 +61,43 @@ while ($fila=mysqli_fetch_row($resource)) {
                     <span class="help-block">Procesos</span>
                     <select class="form-control" id="id_proceso" onchange="validar_id_proceso()" name="id_proceso">
                         <option value="Selecciona">Selecciona</option>
-                        <?php 
+                        <?php
 
-$consulta="SELECT * FROM `proceso` order by Nombre_Proceso ";
-$resource=mysqli_query($conexion,$consulta);
-while ($fila=mysqli_fetch_row($resource)) {
-	?>
+                        $consulta = "SELECT * FROM `proceso` order by Nombre_Proceso ";
+                        $resource = mysqli_query($conexion, $consulta);
+                        while ($fila = mysqli_fetch_row($resource)) {
+                        ?>
 
 
-                        <option value="<?php echo $fila[0] ?>"><?php echo "$fila[1]" ?></option>
+                            <option value="<?php echo $fila[0] ?>"><?php echo "$fila[1]" ?></option>
 
-                        <?php 
+                        <?php
 
-}
+                        }
 
-					 ?>
+                        ?>
                     </select>
                 </div>
 
                 <div class="col-md-3">
                     <span class="help-block">Procedimiento</span>
-                    <select class="form-control" id="id_procedimiento" onchange="validar_id_procedimiento()"
-                        name="id_procedimiento">
+                    <select class="form-control" id="id_procedimiento" onchange="validar_id_procedimiento()" name="id_procedimiento">
                         <option value="Selecciona">Selecciona</option>
-                        <?php 
+                        <?php
 
-$consulta="SELECT * FROM `procedimiento` order by Nombre_Procedimiento";
-$resource=mysqli_query($conexion,$consulta);
-while ($fila=mysqli_fetch_row($resource)) {
-	?>
+                        $consulta = "SELECT * FROM `procedimiento` order by Nombre_Procedimiento";
+                        $resource = mysqli_query($conexion, $consulta);
+                        while ($fila = mysqli_fetch_row($resource)) {
+                        ?>
 
 
-                        <option value="<?php echo $fila[0] ?>"><?php echo "$fila[1]" ?></option>
+                            <option value="<?php echo $fila[0] ?>"><?php echo "$fila[1]" ?></option>
 
-                        <?php 
+                        <?php
 
-}
+                        }
 
-					 ?>
+                        ?>
                     </select>
                 </div>
 
@@ -165,24 +141,23 @@ while ($fila=mysqli_fetch_row($resource)) {
 
                 <div class="col-md-3">
                     <span class="help-block">Responsable de Diligenciamiento</span>
-                    <select class="form-control" id="Id_Responsable" name="Id_Responsable"
-                        onchange="validar_Id_Responsable()">
+                    <select class="form-control" id="Id_Responsable" name="Id_Responsable" onchange="validar_Id_Responsable()">
                         <option value="Selecciona">Selecciona</option>
-                        <?php 
+                        <?php
 
-$consulta="SELECT * FROM `responsable` order by Nombre_Responsable";
-$resource=mysqli_query($conexion,$consulta);
-while ($fila=mysqli_fetch_row($resource)) {
-	?>
+                        $consulta = "SELECT * FROM `responsable` order by Nombre_Responsable";
+                        $resource = mysqli_query($conexion, $consulta);
+                        while ($fila = mysqli_fetch_row($resource)) {
+                        ?>
 
 
-                        <option value="<?php echo $fila[0] ?>"><?php echo "$fila[1]" ?></option>
+                            <option value="<?php echo $fila[0] ?>"><?php echo "$fila[1]" ?></option>
 
-                        <?php 
+                        <?php
 
-}
+                        }
 
-					 ?>
+                        ?>
                     </select>
                 </div>
 
@@ -223,315 +198,308 @@ while ($fila=mysqli_fetch_row($resource)) {
 </body>
 
 <script>
-function actualizar() {
+    function actualizar() {
 
-    if (validar_id_area() == true && validar_id_proceso() == true && validar_id_procedimiento() == true &&
-        validar_nombre_documento() == true && validar_Id_tipo_doc() == true && validar_Codigo_documento() == true &&
-        validar_version() == true && validar_Fecha_doc() == true && validar_Id_Responsable() == true) {
+        if (validar_id_area() == true && validar_id_proceso() == true && validar_id_procedimiento() == true &&
+            validar_nombre_documento() == true && validar_Id_tipo_doc() == true && validar_Codigo_documento() == true &&
+            validar_version() == true && validar_Fecha_doc() == true && validar_Id_Responsable() == true) {
 
 
 
-        var documento = document.getElementById('documento').value;
+            var documento = document.getElementById('documento').value;
 
-        if (documento == '') {
-            var formulario = document.getElementById('formulario').action = 'enviar_documento1.php';
-            var formulario = document.getElementById('formulario').submit();
+            if (documento == '') {
+                var formulario = document.getElementById('formulario').action = 'enviar_documento1.php';
+                var formulario = document.getElementById('formulario').submit();
+
+            } else {
+                var documento = document.getElementById('documento').files[0].name;
+
+                $("#contenedor").load("validar_documentos1.php", {
+                    documento: documento
+                })
+            }
+
+
+
 
         } else {
+
+
+
+            alert("LLene Todos los campos")
+        }
+
+
+    }
+
+    var btnre = document.getElementById("btnre").style.display = "block";
+    var btnac = document.getElementById("btnac").style.display = "none";
+
+    function actualizar_registro(id_registro) {
+        this.id_registro_actualizar = id_registro;
+        var btnre = document.getElementById("btnre").style.display = "none";
+        var btnac = document.getElementById("btnac").style.display = "block";
+        $("#contenedor").load("actualizar_registro.php", {
+            id_registro_actualizar: id_registro_actualizar
+        });
+
+    }
+
+    function Eliminar_registro(id_registro, nombre_mag) {
+        var id_registro = id_registro;
+        var nombre_mag = nombre_mag;
+
+
+        $("#contenedor").load("Eliminar_registro.php", {
+            id_registro: id_registro,
+            nombre_mag: nombre_mag
+        });
+
+
+    }
+
+    argumentos_registrados();
+
+    function argumentos_registrados() {
+        var criterio = document.getElementById("criterio").value;
+
+        $("#contenedor_argumentos_registrados").load("cargar_argumentos.php", {
+            criterio: criterio
+        });
+    }
+
+
+    $("#nombre_documento").keyup(validar_nombre_documento);
+    $("#Codigo_documento").keyup(validar_Codigo_documento);
+    $("#Fecha_doc").keyup(validar_Fecha_doc);
+    $("#documento").keyup(validar_documento);
+    $("#version").keyup(validar_version);
+
+    function enviar_documento() {
+
+        if (validar_id_area() == true && validar_id_proceso() == true && validar_id_procedimiento() == true &&
+            validar_nombre_documento() == true && validar_Id_tipo_doc() == true && validar_Codigo_documento() == true &&
+            validar_version() == true && validar_Fecha_doc() == true && validar_Id_Responsable() == true &&
+            validar_documento() == true) {
+
+
             var documento = document.getElementById('documento').files[0].name;
 
-            $("#contenedor").load("validar_documentos1.php", {
+            $("#contenedor").load("validar_documentos.php", {
                 documento: documento
             })
+
+
+
+        } else {
+
+
+
+            alert("LLene Todos los campos")
+        }
+
+    }
+
+
+    function validar_documento() {
+        var documento = document.getElementById('documento').value;
+        if (documento.length == 0) {
+            var documento = document.getElementById('documento').style.border = "1px solid red";
+            return false
+        } else {
+            var documento = document.getElementById('documento').style.border = "1px solid green";
+
+
+            return true
+        }
+
+    }
+
+
+    function validar_Fecha_doc() {
+        var Fecha_doc = document.getElementById('Fecha_doc').value;
+        Fecha_doc = new Date(Fecha_doc);
+        if (Fecha_doc == "Invalid Date") {
+
+            var Fecha_doc = document.getElementById('Fecha_doc').style.border = "1px solid red";
+            return false;
+        } else {
+            var Fecha_doc = document.getElementById('Fecha_doc').style.border = "1px solid green";
+            return true;
+
+
+        }
+
+    }
+
+
+
+
+    function validar_Id_Responsable() {
+
+        var Id_Responsable = document.getElementById('Id_Responsable').value;
+
+        if (Id_Responsable == "Selecciona") {
+            var Id_Responsable = document.getElementById('Id_Responsable').style.border = "1px solid red";
+
+            return false;
+
+
+
+        } else {
+
+
+            var Id_Responsable = document.getElementById('Id_Responsable').style.border = "1px solid green";
+            return true;
+
         }
 
 
 
-
-    } else {
-
-
-
-        alert("LLene Todos los campos")
     }
 
+    function validar_Id_tipo_doc() {
 
-}
+        var Id_tipo_doc = document.getElementById('Id_tipo_doc').value;
 
-var btnre = document.getElementById("btnre").style.display = "block";
-var btnac = document.getElementById("btnac").style.display = "none";
+        if (Id_tipo_doc == "Selecciona") {
+            var Id_tipo_doc = document.getElementById('Id_tipo_doc').style.border = "1px solid red";
 
-function actualizar_registro(id_registro) {
-    this.id_registro_actualizar = id_registro;
-    var btnre = document.getElementById("btnre").style.display = "none";
-    var btnac = document.getElementById("btnac").style.display = "block";
-    $("#contenedor").load("actualizar_registro.php", {
-        id_registro_actualizar: id_registro_actualizar
-    });
-
-}
-
-function Eliminar_registro(id_registro, nombre_mag) {
-    var id_registro = id_registro;
-    var nombre_mag = nombre_mag;
-
-
-    $("#contenedor").load("Eliminar_registro.php", {
-        id_registro: id_registro,
-        nombre_mag: nombre_mag
-    });
-
-
-}
-
-argumentos_registrados();
-
-function argumentos_registrados() {
-    var criterio = document.getElementById("criterio").value;
-
-    $("#contenedor_argumentos_registrados").load("cargar_argumentos.php", {
-        criterio: criterio
-    });
-}
-
-
-$("#nombre_documento").keyup(validar_nombre_documento);
-$("#Codigo_documento").keyup(validar_Codigo_documento);
-$("#Fecha_doc").keyup(validar_Fecha_doc);
-$("#documento").keyup(validar_documento);
-$("#version").keyup(validar_version);
-
-function enviar_documento() {
-
-    if (validar_id_area() == true && validar_id_proceso() == true && validar_id_procedimiento() == true &&
-        validar_nombre_documento() == true && validar_Id_tipo_doc() == true && validar_Codigo_documento() == true &&
-        validar_version() == true && validar_Fecha_doc() == true && validar_Id_Responsable() == true &&
-        validar_documento() == true) {
-
-
-        var documento = document.getElementById('documento').files[0].name;
-
-        $("#contenedor").load("validar_documentos.php", {
-            documento: documento
-        })
+            return false;
 
 
 
-    } else {
+        } else {
 
 
+            var Id_tipo_doc = document.getElementById('Id_tipo_doc').style.border = "1px solid green";
+            return true;
 
-        alert("LLene Todos los campos")
-    }
-
-}
-
-
-function validar_documento() {
-    var documento = document.getElementById('documento').value;
-    if (documento.length == 0) {
-        var documento = document.getElementById('documento').style.border = "1px solid red";
-        return false
-    } else {
-        var documento = document.getElementById('documento').style.border = "1px solid green";
-
-
-        return true
-    }
-
-}
-
-
-function validar_Fecha_doc() {
-    var Fecha_doc = document.getElementById('Fecha_doc').value;
-    Fecha_doc = new Date(Fecha_doc);
-    if (Fecha_doc == "Invalid Date") {
-
-        var Fecha_doc = document.getElementById('Fecha_doc').style.border = "1px solid red";
-        return false;
-    } else {
-        var Fecha_doc = document.getElementById('Fecha_doc').style.border = "1px solid green";
-        return true;
-
-
-    }
-
-}
-
-
-
-
-function validar_Id_Responsable() {
-
-    var Id_Responsable = document.getElementById('Id_Responsable').value;
-
-    if (Id_Responsable == "Selecciona") {
-        var Id_Responsable = document.getElementById('Id_Responsable').style.border = "1px solid red";
-
-        return false;
-
-
-
-    } else {
-
-
-        var Id_Responsable = document.getElementById('Id_Responsable').style.border = "1px solid green";
-        return true;
-
+        }
     }
 
 
 
-}
+    function validar_version() {
+        var version = document.getElementById('version').value;
 
-function validar_Id_tipo_doc() {
+        if (version == null || version.length == 0 || version.length >= 500 || /[¿!"#$%&/=?¡'{}_+´´*;:.,']/.test(version)) {
 
-    var Id_tipo_doc = document.getElementById('Id_tipo_doc').value;
+            var version = document.getElementById('version').style.border = "1px solid red";
 
-    if (Id_tipo_doc == "Selecciona") {
-        var Id_tipo_doc = document.getElementById('Id_tipo_doc').style.border = "1px solid red";
+            return false;
 
-        return false;
+        } else {
+            var version = document.getElementById('version').style.border = "1px solid green";
 
-
-
-    } else {
+            return true;
 
 
-        var Id_tipo_doc = document.getElementById('Id_tipo_doc').style.border = "1px solid green";
-        return true;
 
+        }
     }
-}
+
+    function validar_Codigo_documento() {
+        var Codigo_documento = document.getElementById('Codigo_documento').value;
+
+        if (Codigo_documento == null || Codigo_documento.length == 0 || Codigo_documento.length >= 500) {
+
+            var Codigo_documento = document.getElementById('Codigo_documento').style.border = "1px solid red";
+
+            return false;
+
+        } else {
+            var Codigo_documento = document.getElementById('Codigo_documento').style.border = "1px solid green";
+
+            return true;
 
 
 
-function validar_version() {
-    var version = document.getElementById('version').value;
-
-    if (version == null || version.length == 0 || version.length >= 500 || /[¿!"#$%&/=?¡'{}_+´´*;:.,']/.test(version)) {
-
-        var version = document.getElementById('version').style.border = "1px solid red";
-
-        return false;
-
-    } else {
-        var version = document.getElementById('version').style.border = "1px solid green";
-
-        return true;
-
-
-
+        }
     }
-}
-
-function validar_Codigo_documento() {
-    var Codigo_documento = document.getElementById('Codigo_documento').value;
-
-    if (Codigo_documento == null || Codigo_documento.length == 0 || Codigo_documento.length >= 500) {
-
-        var Codigo_documento = document.getElementById('Codigo_documento').style.border = "1px solid red";
-
-        return false;
-
-    } else {
-        var Codigo_documento = document.getElementById('Codigo_documento').style.border = "1px solid green";
-
-        return true;
 
 
+    function validar_nombre_documento() {
+        var nombre_documento = document.getElementById('nombre_documento').value;
 
+        if (nombre_documento == null || nombre_documento.length == 0 || nombre_documento.length >= 500) {
+
+            var nombre_documento = document.getElementById('nombre_documento').style.border = "1px solid red";
+
+            return false;
+
+        } else {
+            var nombre_documento = document.getElementById('nombre_documento').style.border = "1px solid green";
+
+            return true;
+        }
     }
-}
-
-
-function validar_nombre_documento() {
-    var nombre_documento = document.getElementById('nombre_documento').value;
-
-    if (nombre_documento == null || nombre_documento.length == 0 || nombre_documento.length >= 500) {
-
-        var nombre_documento = document.getElementById('nombre_documento').style.border = "1px solid red";
-
-        return false;
-
-    } else {
-        var nombre_documento = document.getElementById('nombre_documento').style.border = "1px solid green";
-
-        return true;
-    }
-}
 
 
 
 
-function validar_id_area() {
+    function validar_id_area() {
 
-    var id_area = document.getElementById('id_area').value;
+        var id_area = document.getElementById('id_area').value;
 
-    if (id_area == "Selecciona") {
-        var id_area = document.getElementById('id_area').style.border = "1px solid red";
+        if (id_area == "Selecciona") {
+            var id_area = document.getElementById('id_area').style.border = "1px solid red";
 
-        return false;
+            return false;
 
 
 
-    } else {
-        var id_area = document.getElementById('id_area').style.border = "1px solid green";
+        } else {
+            var id_area = document.getElementById('id_area').style.border = "1px solid green";
 
-        return true;
+            return true;
+
+        }
 
     }
 
-}
 
+    function validar_id_procedimiento() {
+        var id_procedimiento = document.getElementById('id_procedimiento').value;
 
-function validar_id_procedimiento() {
-    var id_procedimiento = document.getElementById('id_procedimiento').value;
+        if (id_procedimiento == "Selecciona") {
+            var id_procedimiento = document.getElementById('id_procedimiento').style.border = "1px solid red";
 
-    if (id_procedimiento == "Selecciona") {
-        var id_procedimiento = document.getElementById('id_procedimiento').style.border = "1px solid red";
-
-        return false;
-
-
-
-    } else {
-
-
-        var id_procedimiento = document.getElementById('id_procedimiento').style.border = "1px solid green";
-        return true;
-
-    }
-
-}
-
-function validar_id_proceso() {
-    var id_proceso = document.getElementById('id_proceso').value;
-
-    if (id_proceso == "Selecciona") {
-        var id_proceso = document.getElementById('id_proceso').style.border = "1px solid red";
-
-        return false;
+            return false;
 
 
 
-    } else {
+        } else {
 
 
-        var id_proceso = document.getElementById('id_proceso').style.border = "1px solid green";
-        return true;
+            var id_procedimiento = document.getElementById('id_procedimiento').style.border = "1px solid green";
+            return true;
+
+        }
 
     }
 
-}
+    function validar_id_proceso() {
+        var id_proceso = document.getElementById('id_proceso').value;
+
+        if (id_proceso == "Selecciona") {
+            var id_proceso = document.getElementById('id_proceso').style.border = "1px solid red";
+
+            return false;
+
+
+
+        } else {
+
+
+            var id_proceso = document.getElementById('id_proceso').style.border = "1px solid green";
+            return true;
+
+        }
+
+    }
 </script>
-<?php
 
-        }
-        else
-        {
-            echo "<script type='text/javascript'>alert('Acceso Denegado');location='../../../index.php?Acceso Denegado'</script>";
-        }
-    ?>
 
 </html>
