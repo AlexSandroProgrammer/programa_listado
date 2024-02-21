@@ -1,5 +1,4 @@
 <?
-session_start();
 // CONEXION A BASE DE DATOS
 require_once "../../../database/connection.php";
 $db = new Database();
@@ -11,7 +10,6 @@ if ((isset($_POST["MM_formArea"])) && ($_POST["MM_formArea"] == "formRegisterAre
 
     // VARIABLES DE ASIGNACION DE VALORES QUE SE ENVIA DEL FORMULARIO REGISTRO DE AREAS
     $area = $_POST['area'];
-
 
     // CONSULTA SQL PARA VERIFICAR SI EL REGISTRO YA EXISTE EN LA BASE DE DATOS
     $db_validation = $connection->prepare("SELECT * FROM area WHERE Nombre_Area='$area'");

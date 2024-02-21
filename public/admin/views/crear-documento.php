@@ -1,249 +1,127 @@
 <?php
-session_start();
 require_once "../../../database/connection.php";
 $db = new Database();
 $connection = $db->conectar();
+?>
+<?php require_once('menu.php') ?>
+<!------main-content-start----------->
+<!--Formulario -->
+<div class="container-fluid p-3 bg-light-subtle">
+    <div class="col-xs-12 bg-light-subtle border p-4">
 
-// creamos el contenedor que almacenara todos las areas al cual pertenece ese documento 
-if (!isset($_SESSION["carrito"])) $_SESSION["carrito"] = [];
+        <h3 class="text-center">Registro de Documento</h3>
+        <form action="../controllers/DocumentoController.php" method="POST" enctype="multipart/form-data" autocomplete="off" name="formRegisterDocument">
+            <div class="row">
+                <div class="col-md-6 p-2">
+                    <span class="help-block">Nombre del Documento</span>
+                    <input type="text" autofocus required class="form-control" id="nombre_documento" name="nombreDocumento">
+                </div>
+                <div class="col-md-6 p-2">
+                    <span class="help-block">Procedimiento</span>
+                    <select class="form-control" required id="id_procedimiento" name="idProcedimiento">
+                        <option value="">Seleccionar Procedimiento</option>
+                        <?php
+                        // CONSUMO DE DATOS DE LOS PROCESOS
+                        $listProcedimientos = $connection->prepare("SELECT * FROM procedimiento");
+                        $listProcedimientos->execute();
+                        $procedimientos = $listProcedimientos->fetchAll(PDO::FETCH_ASSOC);
+
+                        // Iterar sobre los procedimientos
+                        foreach ($procedimientos as $procedimiento) {
+                            echo "<option value='{$procedimiento['Id_Procedimiento']}'>{$procedimiento['Nombre_Procedimiento']}</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <!-- Campo de solo lectura para mostrar los detalles del procedimiento -->
+                <div class="col-md-6 p-2" id="detalle_procedimiento" style="display: none;">
+                    <span class="help-block">Proceso Asignado</span>
+                    <input type="text" required class="form-control" id="nombre_procedimiento" name="idProceso" readonly>
+                    <!-- Agrega más campos aquí para mostrar otros detalles del procedimiento si es necesario -->
+                </div>
+                <div class="col-md-6 p-2">
+                    <span class="help-block">Tipo de Documento</span>
+                    <select class="form-control" required id="Id_tipo_doc" name="tipoDocumento">
+                        <option value="Selecciona">Selecciona</option>
+                        <option value="Formato">Formato</option>
+                        <option value="Instructivo">Instructivo</option>
+                        <option value="Manual">Manual</option>
+                    </select>
+                </div>
+                <div class="col-md-6 p-2">
+                    <span class="help-block">Codigo del Documento</span>
+                    <input type="text" required class="form-control" id="codigo" name="codigo">
+                </div>
+
+                <div class="col-md-6 p-2">
+                    <span class="help-block">Version</span>
+                    <input type="number" required class="form-control" id="version" name="version">
+                </div>
+
+                <div class="col-md-6">
+                    <span class="help-block">Anexar Documento</span>
+                    <input type="file" required class="form-control" id="documento" name="documento">
+                </div>
+
+                <div class=" mt-4">
+                    <input type="submit" class="btn btn-success" value="Registrar"></input>
+                    <input type="hidden" required class="btn btn-info" value="formRegisterDocument" name="MM_registerDocument">
+                    <a href="index.php" class="btn btn-danger">Cancelar Registro</a>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+<script src="../../../assets/js/jquery-3.3.1.min.js"></script>
+<script src="../../../assets/js/bootstrap.min.js"></script>
+<!-- jQuery, Popper.js, Bootstrap JS -->
+<script src="../../libraries/bootstrap/popper/popper.min.js"></script>
+<script src="../../libraries/bootstrap/js/bootstrap.min.js"></script>
+<!-- datatables JS -->
+<script type="text/javascript" src="../../libraries/datatables/datatables.min.js"></script>
+
+<!-- código JS propìo-->
+<script type="text/javascript" src="../../../assets/js/props-datatable.js"></script>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectProcedimiento = document.getElementById('id_procedimiento');
+        const detalleProcedimiento = document.getElementById('detalle_procedimiento');
+        const inputNombreProcedimiento = document.getElementById('nombre_procedimiento');
+
+        selectProcedimiento.addEventListener('change', function() {
+            const selectedValue = this.value;
+            // Realizar una solicitud AJAX para obtener los detalles del procedimiento
+            fetch(`obtener_detalle_proceso.php?id=${selectedValue}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Actualizar los campos con los detalles del procedimiento
+                    inputNombreProcedimiento.value = data.nombre_procedimiento;
+                    // Mostrar el campo de detalles del procedimiento
+                    detalleProcedimiento.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error al obtener los detalles del procedimiento:', error);
+                });
+        });
+    });
+</script>
+<!------main-content-end----------->
+
+<!----footer-design------------->
+
+<?php
+require_once('footer.php');
 
 ?>
-
-<!doctype html>
-<html lang="en">
-
-<head>
-    <!-- Metas Requeridas -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <title>Listado Maestro Documentos</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../../../assets/css/bootstrap.min.css">
-    <!----css3---->
-    <link rel="stylesheet" href="../../../assets/css/custom.css">
-    <!-- datatables de bootstrap -->
-
-    <!-- CSS personalizado -->
-    <link rel="stylesheet" href="../../../assets/css/datatables.css" />
-
-    <!--datables CSS básico-->
-    <link rel="stylesheet" type="text/css" href="../../libraries/datatables/datatables.min.css" />
-
-    <!--datables estilo bootstrap 4 CSS-->
-    <link rel="stylesheet" type="text/css"
-        href="../../libraries/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
-
-    <!--google fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <!-- logo favicon de la empresa  -->
-    <link rel="shortcut icon" href="../../../assets/images/logoSenaEmpresa.png" type="image/x-icon">
-    <!--google material icon-->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
-
-</head>
-
-<body>
-
-    <div class="wrapper">
-
-        <?php require_once('menu.php') ?>
-        <!-------page-content start----------->
-        <div id="content">
-            <!------top-navbar-start----------->
-            <div class="top-navbar">
-                <div class="xd-topbar">
-                    <div class="row">
-                        <div class="col-2 col-md-1 col-lg-1 order-2 order-md-1 align-self-center">
-                            <div class="xp-menubar">
-                                <span class="material-icons text-white">signal_cellular_alt</span>
-                            </div>
-                        </div>
-                        <div class="col-md-5 col-lg-3 order-3 order-md-2">
-                        </div>
-                        <div class="col-10 col-md-6 col-lg-8 order-1 order-md-3">
-                            <div class="xp-profilebar text-right">
-                                <nav class="navbar p-0">
-                                    <ul class="nav navbar-nav flex-row ml-auto">
-
-                                        <li class="dropdown nav-item">
-                                            <a class="nav-link" href="#" data-toggle="dropdown">
-                                                <img src="../../../assets/images/logoSenaEmpresa.png"
-                                                    style="width:40px; border-radius:50%;" />
-                                                <span class="xp-user-live"></span>
-                                            </a>
-                                            <ul class="dropdown-menu small-menu">
-                                                <li><a href="#">
-                                                        <span class="material-icons">logout</span>
-                                                        Cerrar Sesion
-                                                    </a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="xp-breadcrumbbar text-center">
-                        <h4 class="page-title">Panel de Administrador</h4>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">Bienvenido</li>
-                            <li class="breadcrumb-item active" aria-curent="page"><?= $_SESSION['names']  ?></li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-            <!------main-content-start----------->
-
-
-            <!--Formulario -->
-
-            <div class="container-fluid p-3 bg-light-subtle">
-                <div class="col-xs-12 bg-light-subtle border p-4">
-
-                    <h3 class="text-center">Registro de Documento</h3>
-                    <form action="../controllers/DocumentoController.php" method="POST" enctype="multipart/form-data"
-                        autocomplete="off" name="formRegisterUser">
-
-
-                        <div class="row">
-                            <div class="col-md-6 p-2">
-                                <span class="help-block">Nombre del Documento</span>
-                                <input type="text" class="form-control" id="nombre_documento" name="nombre_documento">
-                            </div>
-                            <div class="col-md-6 p-2">
-                                <span class="help-block">Procedimiento</span>
-                                <select class="form-control" id="id_procedimiento" name="id_procedimiento">
-                                    <option value="">Seleccionar Procedimiento</option>
-                                    <?php
-
-                                    // CONSUMO DE DATOS DE LOS PROCESOS
-                                    $listProcedimientos = $connection->prepare("SELECT * FROM procedimiento");
-                                    $listProcedimientos->execute();
-                                    $procedimientos = $listProcedimientos->fetch(PDO::FETCH_ASSOC);
-
-                                    // Verificar si hay registros
-                                    if ($procedimientos) {
-                                        do {
-                                    ?>
-                                    <option value="<?php echo ($procedimientos['Id_Procedimiento']) ?>">
-                                        <?php echo ($procedimientos['Nombre_Procedimiento']) ?></option>
-                                    <?php
-                                        } while ($procedimientos = $listProcedimientos->fetch(PDO::FETCH_ASSOC));
-                                    } else {
-                                        // Mostrar mensaje si no hay registros
-                                        echo '<option disabled value="">No hay registros</option>';
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                            <div class="col-md-6 p-2">
-                                <span class="help-block">Tipo de Documento</span>
-                                <select class="form-control" id="Id_tipo_doc" onchange="validar_Id_tipo_doc()"
-                                    name="Id_tipo_doc">
-                                    <option value="Selecciona">Selecciona</option>
-                                    <option value="Formato">Formato</option>
-                                    <option value="Instructivo">Instructivo</option>
-                                    <option value="Manual">Manual</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 p-2">
-                                <span class="help-block">Codigo del Documento</span>
-                                <input type="text" class="form-control" id="Codigo_documento" name="Codigo_documento">
-                            </div>
-
-                            <div class="col-md-6 p-2">
-                                <span class="help-block">version</span>
-                                <input type="number" class="form-control" id="version" onchange="validar_version()"
-                                    name="version">
-                            </div>
-
-                            <div class="col-md-6 p-2">
-                                <span class="help-block">fecha de Elaboracion</span>
-                                <input type="date" class="form-control" id="Fecha_doc" name="Fecha_doc">
-                            </div>
-
-                            <input type="hidden" value="" id="xsdc" name="xsdc">
-
-                            <div class="col-md-6">
-                                <span class="help-block">Anexar Documento</span>
-                                <input type="file" class="form-control" id="documento" name="documento">
-                            </div>
-                            <div class="col-md-6 mt-2 p-2">
-                                <span class="help-block">Seleccionar Areas</span>
-                                <?php
-
-                                // CONSUMO DE DATOS DE LOS PROCESOS
-                                $listAreas = $connection->prepare("SELECT * FROM area");
-                                $listAreas->execute();
-                                $areas = $listAreas->fetch(PDO::FETCH_ASSOC);
-
-                                if ($areas) {
-                                    do {
-                                ?>
-
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="idAreas"
-                                        value="<?php echo $areas['Id_Area'] ?>">
-                                    <label class="form-check-label"
-                                        for="inlineCheckbox1"><?php echo $areas['Nombre_Area'] ?></label>
-                                </div>
-
-                                <?php
-                                    } while ($areas = $listAreas->fetch(PDO::FETCH_ASSOC));
-                                } else {
-                                    // Mostrar mensaje si no hay registros
-                                    echo '
-                                    <label class="form-check-label" for="inlineCheckbox1">No hay areas registradas</label>';
-                                }
-
-                                ?>
-
-                            </div>
-
-
-                            <div class=" mt-4">
-                                <input type="submit" class="btn btn-success" value="Registrar"></input>
-                                <input type="hidden" class="btn btn-info" value="formRegisterUser"
-                                    name="MM_forms"></input>
-                                <a href="index.php" class="btn btn-danger">Cancelar Registro</a>
-                            </div>
-                        </div>
-
-                    </form>
-
-                </div>
-            </div>
-
-
-            <script src="../../../assets/js/jquery-3.3.1.min.js"></script>
-            <script src="../../../assets/js/bootstrap.min.js"></script>
-
-            <!-- jQuery, Popper.js, Bootstrap JS -->
-            <script src="../../libraries/bootstrap/popper/popper.min.js"></script>
-            <script src="../../libraries/bootstrap/js/bootstrap.min.js"></script>
-
-            <!-- datatables JS -->
-            <script type="text/javascript" src="../../libraries/datatables/datatables.min.js"></script>
-
-
-
-            <!-- código JS propìo-->
-            <script type="text/javascript" src="../../../assets/js/props-datatable.js"></script>
-
-
-            <!------main-content-end----------->
-
-            <!----footer-design------------->
-
-            <?php
-            require_once('footer.php');
-
-            ?>
-        </div>
+</div>
 
 
 
