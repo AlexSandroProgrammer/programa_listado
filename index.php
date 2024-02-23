@@ -1,4 +1,3 @@
 <?php
-    header("Location:public/auth/pages/user");
-    exit;
-?>
+header("Location:public/");
+exit;

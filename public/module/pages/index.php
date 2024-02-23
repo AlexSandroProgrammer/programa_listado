@@ -4,7 +4,7 @@ session_start();
 
 if (isset($_SESSION['username']) || isset($_SESSION['rol_user'])) {
     echo "<script>alert('Debes iniciar sesión');</script>";
-    header("Location:../../../admin/");
+    header("Location:../../admin/");
     exit; // Agregar exit para asegurar que el script se detenga
 } else {
 ?>
@@ -17,18 +17,18 @@ if (isset($_SESSION['username']) || isset($_SESSION['rol_user'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Inicio de sesion || CompromisoSE</title>
+    <title>CompromisoSE</title>
 
     <!--========================================
         Fuentes - Tipo de letra - Iconografia
     ==========================================-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href="../../../../assets/images/logoSenaEmpresa.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../../../assets/images/logoSenaEmpresa.png" type="image/x-icon">
     <!--========================================
         STYLES CSS
     ==========================================-->
-    <link rel="stylesheet" href="../../../../assets/css/login.css">
+    <link rel="stylesheet" href="../../../assets/css/login.css">
 </head>
 
 <body>
@@ -46,16 +46,16 @@ if (isset($_SESSION['username']) || isset($_SESSION['rol_user'])) {
             <div class="slider">
                 <!-- Slide 1 -->
                 <div class="slide fade ">
-                    <img src="../../../../assets/images/slide-img-1.jpg" alt="">
+                    <img src="../../../assets/images/slide-img-1.jpg" alt="">
                 </div>
 
                 <!-- Slide 2 -->
                 <div class="slide fade">
-                    <img src="../../../../assets/images/slide-img-2.jpg" alt="">
+                    <img src="../../../assets/images/slide-img-2.jpg" alt="">
                 </div>
                 <!-- Slide 2 -->
                 <div class="slide fade">
-                    <img src="../../../../assets/images/slide-img-3.jpg" alt="">
+                    <img src="../../../assets/images/slide-img-3.jpg" alt="">
                 </div>
             </div>
 
@@ -71,7 +71,7 @@ if (isset($_SESSION['username']) || isset($_SESSION['rol_user'])) {
         </div>
 
         <!--========================================
-            Formularios
+            Opciones
         ==========================================-->
         <div class="contenedor-texto">
 
@@ -79,11 +79,11 @@ if (isset($_SESSION['username']) || isset($_SESSION['rol_user'])) {
 
                 <div class="container-center">
 
-                    <h1 class="titulo"><img src="../../../../assets/images/logoSenaEmpresa.png" alt="" class="log_free">
+                    <h1 class="titulo"><img src="../../../assets/images/logoSenaEmpresa.png" alt="" class="log_free">
                     </h1>
-                    <h1 class="titulo_login">Iniciar sesion </h1>
-                    <p class="descripcion">Ingresa para crear nuevos formatos para los funcionarios o aprendices de la
-                        entidad para su respectivo uso.</p>
+                    <h1 class="titulo_login">CompromisoSE</h1>
+                    <p class="descripcion">Bienvenido Usuario, le presentamos las siguientes opciones para que pueda
+                        conocer mas sobre nuestro sistema.</p>
 
                     <!-- Tabs -->
                     <ul class="tabs-links">
@@ -92,24 +92,16 @@ if (isset($_SESSION['username']) || isset($_SESSION['rol_user'])) {
                     <!--========================================
                         Formulario logue
                     ==========================================-->
-                    <form action="../../controller/AuthController.php" autocomplete="off" method="POST" id="formLogin"
-                        class="formulario active">
+                    <div class="formulario active">
 
-                        <input type="text" placeholder="Ingresa tu nombre de usuario" class="input-text" name="username"
-                            required autocomplete="off">
+                        <a class="btn" href="../../auth/pages/documents/">Modulo de Consulta</a>
+                        <a class="btn" href="../../auth/">Modulo de
+                            Administrador</a>
+                        <a class="btn" href="">Mision</a>
+                        <a class="btn" href="">Vision</a>
+                        <a class="btn" href="">Organigrama</a>
 
-                        <div class="grupo-input">
-                            <input type="password" placeholder="Ingresa tu Contraseña" name="password"
-                                class="input-text clave" title="Debe tener de 6 a 12 digitos" required
-                                onkeyup="espacios(this)" minlength="6" maxlength="20">
-                            <button type="button" class="icono fas fa-eye mostrarClave"></button>
-                        </div>
-
-                        <div class="redirecciones">
-                            <a href="../documents/index.php" class="link">Descarga de formatos</a>
-                        </div>
-                        <input class="btn" type="submit" name="iniciarSesion" value="Iniciar Sesion">
-                    </form>
+                    </div>
                 </div>
 
             </div>
@@ -123,7 +115,7 @@ if (isset($_SESSION['username']) || isset($_SESSION['rol_user'])) {
     <!--========================================
        Mis Scripts
     ==========================================-->
-    <script src="../../../../assets/js/login.js"></script>
+    <script src="../../../assets/js/login.js"></script>
 
 
     <script>

@@ -5,10 +5,10 @@ $connection = $db->conectar();
 
 // CONSULTA BASE DE DATOS PARA TRAER TODOS LOS DATOS RELACIONADOS CON LOS DOCUMENTOS 
 
-$listDocuments = $connection->prepare("SELECT * FROM documentos INNER JOIN area ON documentos.Id_Area=area.Id_Area 
-INNER join proceso ON documentos.Id_Proceso=proceso.Id_Proceso
+$listDocuments = $connection->prepare("SELECT * FROM documentos
+
 INNER JOIN  procedimiento ON documentos.Id_Procedimiento=procedimiento.Id_Procedimiento 
-INNER JOIN responsable ON documentos.Id_Responsable=responsable.Id_Responsable AND documentos.Id_Proceso=proceso.Id_Proceso AND documentos.Id_Procedimiento=procedimiento.Id_Procedimiento  AND documentos.Id_Procedimiento=procedimiento.Id_Procedimiento  AND   documentos.Id_Responsable=responsable.Id_Responsable
+INNER JOIN responsable ON documentos.Id_Responsable=responsable.Id_Responsable AND documentos.Id_Procedimiento=procedimiento.Id_Procedimiento  AND documentos.Id_Procedimiento=procedimiento.Id_Procedimiento  AND   documentos.Id_Responsable=responsable.Id_Responsable
 ");
 $listDocuments->execute();
 $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
@@ -66,8 +66,7 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Area</th>
-                                <th>Proceso</th>
+
                                 <th>Procedimiento</th>
                                 <th>Documento</th>
                                 <th>Archivo Medio Magnetico</th>
@@ -89,8 +88,7 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                                             aria-hidden="true"></i>
                                     </a></td>
 
-                                <td><?php echo $document['Nombre_Area'] ?></td>
-                                <td><?php echo $document['Nombre_Proceso'] ?></td>
+
                                 <td><?php echo $document['Nombre_Procedimiento'] ?></td>
                                 <td><?php echo $document['Nombre_Documento'] ?></td>
                                 <td><?php echo $document['Nombre_Documento_Magnetico'] ?> <a

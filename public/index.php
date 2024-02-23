@@ -1,3 +1,3 @@
 <?php
-header("Location:auth/");
+header("Location:module/");
 exit;
