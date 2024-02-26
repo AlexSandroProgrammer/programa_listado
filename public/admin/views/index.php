@@ -51,24 +51,21 @@ $users = $listUsers->fetchAll(PDO::FETCH_ASSOC);
 
                             <td>
                                 <form method="GET" action="../controllers/UserController.php">
-                                    <input type="hidden" name="id_procedure-delete"
-                                        value="<?= $procedimiento['Id_Procedimiento'] ?>">
+                                    <input type="hidden" name="id_procedure-delete" value="<?= $user['id_usuario'] ?>">
                                     <button class="btn btn-danger"
                                         onclick="return confirm('¿Desea eliminar el registro seleccionado?');"
                                         type="submit"><i class="material-icons" data-toggle="tooltip"
-                                            title="Delete">&#xE872;</i></button>
+                                            title="Delete">&#xE872;</i>
+                                    </button>
                                 </form>
                                 <form method="GET" action="actualizar-usuario.php">
-                                    <input type="hidden" name="id_procedure-edit"
-                                        value="<?= $procedimiento['Id_Procedimiento'] ?>">
+                                    <input type="hidden" name="id_user-edit" value="<?= $user['id_usuario'] ?>">
                                     <button class="btn btn-success mt-2"
                                         onclick="return confirm('desea actualizar el registro seleccionado');"
                                         type="submit"><i class="material-icons" data-toggle="tooltip"
                                             title="Edit">&#xE254;</i>
                                     </button>
                                 </form>
-
-
                             </td>
                             <td><?php echo $user['id_usuario'] ?></td>
                             <td><?php echo $user['rol'] ?></td>

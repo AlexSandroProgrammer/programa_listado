@@ -9,10 +9,8 @@ $connection = $database->conectar();
 date_default_timezone_set('America/Bogota');
 
 // ------------------------ FUNCTIONS OR METHODS ---------------------------------------
-
-
 // FUNCTION CREATE USER
-function registerUser($connection, $rol_user, $nombre_usuario, $usuario, $password)
+function registerUser($connection, $rol_user, $nombre_usuario, $usuario, $user_password)
 {
     // Prepara la consulta SQL usando sentencias preparadas
     $registerUser = "INSERT INTO usuarios(rol,nombre_usuario,usuario,contrasena) VALUES (?,?,?,?)";
@@ -22,7 +20,7 @@ function registerUser($connection, $rol_user, $nombre_usuario, $usuario, $passwo
     $requestUser->bindParam(1, $rol_user);
     $requestUser->bindParam(2, $nombre_usuario);
     $requestUser->bindParam(3, $usuario);
-    $requestUser->bindParam(4, $password);
+    $requestUser->bindParam(4, $user_password);
 
 
     // Ejecuta la consulta
@@ -35,7 +33,7 @@ function registerUser($connection, $rol_user, $nombre_usuario, $usuario, $passwo
 
 
 // FUNCTION UPDATE USER
-function updateUser($connection, $idUsuario, $rol, $nombre_usuario, $usuario, $password)
+function updateUser($connection, $idUsuario, $rol, $nombre_usuario, $usuario, $user_password)
 {
     // Prepara la consulta SQL usando sentencias preparadas
     $updateUser = "UPDATE usuarios SET id_Usuario = '$idUsuario', rol = '$rol', nombre_Usuario = '$nombre_usuario', usuario = '$usuario'";
@@ -46,7 +44,7 @@ function updateUser($connection, $idUsuario, $rol, $nombre_usuario, $usuario, $p
     $queryUser->bindParam(1, $rol);
     $queryUser->bindParam(2, $nombre_usuario);
     $queryUser->bindParam(3, $usuario);
-    $queryUser->bindParam(3, $password);
+    $queryUser->bindParam(3, $user_password);
 
 
     // Ejecuta la consulta
@@ -86,10 +84,8 @@ if (isset($_POST["MM_forms"]) && $_POST["MM_forms"] == "formRegisterUser") {
     $rol = $_POST['rol'];
     $password = $_POST['password'];
 
+    // colocamos el nombre del rol totalmente en miniscula
     $rol_user = strtolower($rol);
-
-
-
 
     // CONSULTA SQL PARA VERIFICAR SI EL USUARIO YA EXISTE EN LA BASE DE DATOS
 
@@ -107,10 +103,14 @@ if (isset($_POST["MM_forms"]) && $_POST["MM_forms"] == "formRegisterUser") {
         echo '<script> window.location="../views/auth/index.php"</script>';
     } else {
         // Hash de la contraseña
-        $user_password = password_hash($password, PASSWORD_DEFAULT);
+        $pass_encriptaciones = [
+            'cost' => 15
+        ];
+
+        $user_password = password_hash($password, PASSWORD_DEFAULT, $pass_encriptaciones);
 
         // Registrar el usuario en la base de datos
-        $userRegistered = registerUser($connection, $rol_user, $nombre_usuario, $usuario, $password);
+        $userRegistered = registerUser($connection, $rol_user, $nombre_usuario, $usuario, $user_password);
 
         if ($userRegistered) {
             showSuccessAndRedirect("Usuario registrado correctamente.", "../views/index.php");
@@ -142,11 +142,15 @@ if (isset($_POST["MM_formsUpdate"]) && $_POST["MM_formsUpdate"] == "formUpdateUs
         echo '<script> alert ("Estimado Usuario, Existen Datos Vacios En El Formulario");</script>';
         echo '<script> window.location="../views/auth/index.php"</script>';
     } else {
-        // Hash de la contraseña
-        $user_password = password_hash($password, PASSWORD_DEFAULT);
+        // VARIABLES QUE CONTIENE EL NUMERO DE ENCRIPTACIONES DE LAS CONTRASEÑAS
+        $pass_encriptaciones = [
+            'cost' => 15
+        ];
+
+        $user_password = password_hash($password, PASSWORD_DEFAULT, $pass_encriptaciones);
 
         // Registrar el usuario en la base de datos
-        $userRegistered = registerUser($connection, $rol, $nombre_usuario, $usuario, $password);
+        $userRegistered = registerUser($connection, $rol, $nombre_usuario, $usuario, $user_password);
 
         if ($userRegistered) {
             showSuccessAndRedirect("Usuario registrado correctamente.", "../views/index.php");

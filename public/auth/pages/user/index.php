@@ -2,6 +2,7 @@
 
 session_start();
 
+
 if (isset($_SESSION['username']) || isset($_SESSION['rol_user'])) {
     echo "<script>alert('Debes iniciar sesión');</script>";
     header("Location:../../../admin/");
@@ -98,6 +99,7 @@ if (isset($_SESSION['username']) || isset($_SESSION['rol_user'])) {
 
 
                             <input class="btn" type="submit" name="iniciarSesion" value="Iniciar Sesion">
+                            <a class="btn-update" href="../../../auth/pages/user/changePassword.php">Cambiar Contraseña</a>
                             <a class="btn-danger" href="../../../module/">Regresar</a>
 
                         </form>
