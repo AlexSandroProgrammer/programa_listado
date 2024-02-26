@@ -27,9 +27,16 @@ $users = $listUsers->fetchAll(PDO::FETCH_ASSOC);
     <div class="row">
         <div class="col-lg-12 p-4">
             <div class="table-responsive py-4 px-1">
-                <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <div class="col-xs-15">
+
+                    <input type="hidden" name="status" value="registrarProcedimiento">
+                    <a class="btn btn-success text-white" href="crear-usuario.php"> Registrar Usuario</a>
+
+                </div>
+                <table id="example" class="table table-striped table-bordered mt-2" cellspacing="0" width="100%">
                     <thead>
                         <tr>
+                            <th>Acciones</th>
                             <th>#</th>
                             <th>Rol</th>
                             <th>Nombre de Usuario</th>
@@ -40,17 +47,36 @@ $users = $listUsers->fetchAll(PDO::FETCH_ASSOC);
                         <?php
                         foreach ($users as $user) {
                         ?>
-                            <tr>
-                                <td><?php echo $user['id_Usuario'] ?></td>
-                                <td><?php echo $user['rol'] ?></td>
-                                <td><?php echo $user['nombre_Usuario'] ?></td>
-                                <td><?php echo $user['usuario'] ?></td>
+                        <tr>
 
-                            </tr>
+                            <td>
+                                <form method="GET" action="../controllers/UserController.php">
+                                    <input type="hidden" name="id_procedure-delete"
+                                        value="<?= $procedimiento['Id_Procedimiento'] ?>">
+                                    <button class="btn btn-danger"
+                                        onclick="return confirm('¿Desea eliminar el registro seleccionado?');"
+                                        type="submit"><i class="material-icons" data-toggle="tooltip"
+                                            title="Delete">&#xE872;</i></button>
+                                </form>
+                                <form method="GET" action="actualizar-usuario.php">
+                                    <input type="hidden" name="id_procedure-edit"
+                                        value="<?= $procedimiento['Id_Procedimiento'] ?>">
+                                    <button class="btn btn-success mt-2"
+                                        onclick="return confirm('desea actualizar el registro seleccionado');"
+                                        type="submit"><i class="material-icons" data-toggle="tooltip"
+                                            title="Edit">&#xE254;</i>
+                                    </button>
+                                </form>
+
+
+                            </td>
+                            <td><?php echo $user['id_usuario'] ?></td>
+                            <td><?php echo $user['rol'] ?></td>
+                            <td><?php echo $user['nombre_usuario'] ?></td>
+                            <td><?php echo $user['usuario'] ?></td>
+                        </tr>
                         <?php
-
                         }
-
                         ?>
                     </tbody>
 

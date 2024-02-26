@@ -295,11 +295,11 @@ input[type="search"] {
 }
 
 .breadcrumb .breadcrumb-item a {
-  color: #777777;
+  color: #ffffff;
 }
 
 .breadcrumb-item.active {
-  color: #6c757d;
+  color: #ffffff;
 }
 
 .breadcrumb-item + .breadcrumb-item {

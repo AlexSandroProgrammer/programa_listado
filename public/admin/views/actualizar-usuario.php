@@ -5,17 +5,12 @@ $db = new Database();
 $connection = $db->conectar();
 ?>
 
-
-
-
 <?php require_once('menu.php') ?>
-
-
 
 <div class="container-fluid p-3 bg-light-subtle">
     <div class="col-xs-12 bg-light-subtle border p-4">
 
-        <h3 class="text-center">Registro de Usuario</h3>
+        <h3 class="text-center">Actualizacion de Usuario</h3>
         <form action="../controllers/UserController.php" method="POST" autocomplete="off" name="formRegisterUser">
 
 

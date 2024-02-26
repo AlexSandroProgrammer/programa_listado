@@ -99,6 +99,7 @@ Estilos contenido slider
   text-align: center;
 }
 
+
 .contenido-slider .logo {
   margin-bottom: 20px;
 }
@@ -146,7 +147,7 @@ Estilos contenido slider
   top: 50%;
   width: auto;
   padding: 16px;
-  background: #086619;
+  background: #28a745;
   margin-top: -22px;
   color: #fff;
   font-weight: bold;
@@ -181,14 +182,14 @@ Estilos contenido slider
   height: 8px;
   width: 8px;
   margin: 0 2px;
-  border: 1px solid #0aa727;
+  border: 1px solid #28a745;
   border-radius: 4px;
   display: inline-block;
   transition: all 0.6s ease-in-out;
 }
 
 .dots .dot.active {
-  background: #0aa727;
+  background: #28a745;
   width: 30px;
 }
 
@@ -205,13 +206,13 @@ Estilos contenedor formularios
 
 .contenedor-form {
   width: 100%;
-  padding: 100px 50px 50px 50px;
+  padding: 50px 50px 50px 50px;
 }
 
 .titulo_login {
   font-size: 20px;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   color: var(--color-negro);
 }
 
@@ -273,7 +274,6 @@ Estilos Formularios
 ==========================================*/
 .formulario {
   display: none;
-  margin-top: 30px;
 }
 
 .formulario.active {
@@ -370,12 +370,12 @@ Estilos Formularios
   width: 100%;
   padding: 14px;
   border: none;
-  background: #086619;
+  background: #28a745;
   color: #fff;
   font-size: 14px;
   text-transform: uppercase;
   border-radius: 4px;
-  margin-top: 30px;
+  margin-top: 15px;
   outline: 0;
   cursor: pointer;
   display: block;
@@ -388,6 +388,32 @@ Estilos Formularios
     #0aa727 0%,
     #0aa226 50%,
     #0bb52a 100%
+  );
+  transition: 0.7s ease-in-out;
+}
+
+.formulario .btn-danger {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  background: #dc3545;
+  color: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  border-radius: 4px;
+  margin-top: 15px;
+  outline: 0;
+  cursor: pointer;
+  display: block;
+}
+
+.formulario .btn-danger:hover {
+
+  background: linear-gradient(
+    90deg,
+    #e31126 0%,
+    #e31126 50%,
+    #e31126 100%
   );
   transition: 0.7s ease-in-out;
 }
@@ -590,5 +616,10 @@ Responsive
 
   .contenido-slider .slider-texto {
     padding: 0px 30px;
+  }
+}
+@media screen and (min-width: 1400px) {
+  .contenedor-form{
+    padding: 70px 50px 50px 50px;
   }
 }

@@ -12,18 +12,17 @@ date_default_timezone_set('America/Bogota');
 
 
 // FUNCTION CREATE USER
-function registerUser($connection, $rol, $nombre_usuario, $usuario, $password)
+function registerUser($connection, $rol_user, $nombre_usuario, $usuario, $password)
 {
     // Prepara la consulta SQL usando sentencias preparadas
-    $registerUser = "INSERT INTO usuarios(rol,nombre_Usuario,usuario,contrasena) VALUES (?,?,?,?)";
+    $registerUser = "INSERT INTO usuarios(rol,nombre_usuario,usuario,contrasena) VALUES (?,?,?,?)";
     $requestUser = $connection->prepare($registerUser);
 
-
     // Bind de los parámetros
-    $requestUser->bindParam(1, $rol);
+    $requestUser->bindParam(1, $rol_user);
     $requestUser->bindParam(2, $nombre_usuario);
     $requestUser->bindParam(3, $usuario);
-    $requestUser->bindParam(3, $password);
+    $requestUser->bindParam(4, $password);
 
 
     // Ejecuta la consulta
@@ -87,10 +86,14 @@ if (isset($_POST["MM_forms"]) && $_POST["MM_forms"] == "formRegisterUser") {
     $rol = $_POST['rol'];
     $password = $_POST['password'];
 
+    $rol_user = strtolower($rol);
+
+
+
 
     // CONSULTA SQL PARA VERIFICAR SI EL USUARIO YA EXISTE EN LA BASE DE DATOS
 
-    $data = $connection->prepare("SELECT * FROM usuarios WHERE nombre_Usuario = '$nombre_usuario' OR usuario = '$usuario'");
+    $data = $connection->prepare("SELECT * FROM usuarios WHERE nombre_usuario = '$nombre_usuario' OR usuario = '$usuario'");
     $data->execute();
     $register_validation = $data->fetchAll();
     // CONDICIONALES DEPENDIENDO EL RESULTADO DE LA CONSULTA
@@ -98,7 +101,7 @@ if (isset($_POST["MM_forms"]) && $_POST["MM_forms"] == "formRegisterUser") {
         // SI SE CUMPLE LA CONSULTA ES PORQUE EL USUARIO YA EXISTE
         echo '<script> alert ("// Estimado Usuario, los datos ingresados ya estan registrados. //");</script>';
         echo '<script> window.location= "../views/auth/index.php"</script>';
-    } elseif ($nombre_usuario == "" || $usuario == "" || $password == "") {
+    } elseif ($nombre_usuario == "" || $usuario == "" || $password == "" || $rol_user == "") {
         // CONDICIONAL DEPENDIENDO SI EXISTEN ALGUN CAMPO VACIO EN EL FORMULARIO DE LA INTERFAZ
         echo '<script> alert ("Estimado Usuario, Existen Datos Vacios En El Formulario");</script>';
         echo '<script> window.location="../views/auth/index.php"</script>';
@@ -107,7 +110,7 @@ if (isset($_POST["MM_forms"]) && $_POST["MM_forms"] == "formRegisterUser") {
         $user_password = password_hash($password, PASSWORD_DEFAULT);
 
         // Registrar el usuario en la base de datos
-        $userRegistered = registerUser($connection, $rol, $nombre_usuario, $usuario, $password);
+        $userRegistered = registerUser($connection, $rol_user, $nombre_usuario, $usuario, $password);
 
         if ($userRegistered) {
             showSuccessAndRedirect("Usuario registrado correctamente.", "../views/index.php");

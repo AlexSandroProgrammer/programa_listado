@@ -5,10 +5,9 @@ $connection = $db->conectar();
 
 // CONSULTA BASE DE DATOS PARA TRAER TODOS LOS DATOS RELACIONADOS CON LOS DOCUMENTOS 
 
-$listDocuments = $connection->prepare("SELECT * FROM documentos INNER JOIN area ON documentos.Id_Area=area.Id_Area 
-INNER JOIN proceso ON documentos.Id_Proceso=proceso.Id_Proceso
-INNER JOIN  procedimiento ON documentos.Id_Procedimiento=procedimiento.Id_Procedimiento 
-INNER JOIN responsable ON documentos.Id_Responsable=responsable.Id_Responsable AND documentos.Id_Proceso=proceso.Id_Proceso AND documentos.Id_Procedimiento=procedimiento.Id_Procedimiento  AND documentos.Id_Procedimiento=procedimiento.Id_Procedimiento  AND   documentos.Id_Responsable=responsable.Id_Responsable
+$listDocuments = $connection->prepare("SELECT * FROM documentos
+INNER JOIN  procedimiento ON documentos.Id_Procedimiento=procedimiento.Id_Procedimiento INNER JOIN proceso ON procedimiento.id_proceso=  proceso.Id_Proceso
+INNER JOIN responsable ON documentos.Id_Responsable=responsable.Id_Responsable AND documentos.Id_Procedimiento=procedimiento.Id_Procedimiento  AND documentos.Id_Procedimiento=procedimiento.Id_Procedimiento  AND   documentos.Id_Responsable=responsable.Id_Responsable AND procedimiento.id_proceso = proceso.Id_Proceso
 ");
 $listDocuments->execute();
 $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
@@ -24,11 +23,16 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
     <div class="row">
         <div class="col-lg-12 p-4">
             <div class="table-responsive py-4 px-1">
-                <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <div class="col-xs-15">
+
+                    <input type="hidden" name="status" value="registrarProcedimiento">
+                    <a class="btn btn-success text-white" href="crear-documento.php"> Registrar Documento</a>
+
+                </div>
+                <table id="example" class="table table-striped table-bordered mt-2" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Area</th>
+                            <th>Acciones</th>
                             <th>Proceso</th>
                             <th>Procedimiento</th>
                             <th>Documento</th>
@@ -46,9 +50,26 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                         ?>
                             <tr>
 
-                                <td><a href="../documentos/<?php echo $document['Nombre_Documento_Magnetico'] ?>" class=" btn btn-outline-success form-control"><i class="fa fa-download" aria-hidden="true"></i>
-                                    </a></td>
-                                <td><?php echo $document['Nombre_Area'] ?></td>
+                                <td>
+
+                                    <a href="../documentos/<?php echo $document['Nombre_Documento_Magnetico'] ?>" class=" btn btn-info "><i class="fa fa-download"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-warning mt-2">
+                                        <i class="fa fa-archive"></i>
+                                    </a>
+                                    <form method="GET" action="">
+                                        <input type="hidden" name="status" value="updateProcedure">
+                                        <input type="hidden" name="id_procedure-edit" value="<?= $procedimiento['Id_Procedimiento'] ?>">
+                                        <button class="btn btn-success mt-2" onclick="return confirm('desea actualizar el registro seleccionado');" type="submit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></button>
+                                    </form>
+
+                                    <form method="GET" action="../controllers/ProcedimientoController.php">
+                                        <input type="hidden" name="id_procedure-delete" value="<?= $procedimiento['Id_Procedimiento'] ?>">
+                                        <button class="btn btn-danger mt-2" onclick="return confirm('¿Desea eliminar el registro seleccionado?');" type="submit"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></button>
+                                    </form>
+
+
+                                </td>
                                 <td><?php echo $document['Nombre_Proceso'] ?></td>
                                 <td><?php echo $document['Nombre_Procedimiento'] ?></td>
                                 <td><?php echo $document['Nombre_Documento'] ?></td>

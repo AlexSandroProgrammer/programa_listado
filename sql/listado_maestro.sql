@@ -1,7 +1,7 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.0listado_maestro
 -- https://www.phpmyadmin.net/
---
+--listado_maestro
 -- Servidor: 127.0.0.1
 -- Tiempo de generación: 20-02-2024 a las 13:31:13
 -- Versión del servidor: 10.4.27-MariaDB

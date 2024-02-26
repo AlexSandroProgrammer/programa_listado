@@ -6,10 +6,8 @@ $connection = $db->conectar();
 // CONSULTA BASE DE DATOS PARA TRAER TODOS LOS DATOS RELACIONADOS CON LOS DOCUMENTOS 
 
 $listDocuments = $connection->prepare("SELECT * FROM documentos
-
-INNER JOIN  procedimiento ON documentos.Id_Procedimiento=procedimiento.Id_Procedimiento 
-INNER JOIN responsable ON documentos.Id_Responsable=responsable.Id_Responsable AND documentos.Id_Procedimiento=procedimiento.Id_Procedimiento  AND documentos.Id_Procedimiento=procedimiento.Id_Procedimiento  AND   documentos.Id_Responsable=responsable.Id_Responsable
-");
+INNER JOIN  procedimiento ON documentos.Id_Procedimiento=procedimiento.Id_Procedimiento INNER JOIN proceso ON procedimiento.id_proceso=  proceso.Id_Proceso
+INNER JOIN responsable ON documentos.Id_Responsable=responsable.Id_Responsable AND documentos.Id_Procedimiento=procedimiento.Id_Procedimiento  AND documentos.Id_Procedimiento=procedimiento.Id_Procedimiento  AND   documentos.Id_Responsable=responsable.Id_Responsable AND procedimiento.id_proceso = proceso.Id_Proceso");
 $listDocuments->execute();
 $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -43,16 +41,13 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
     <header class="p-4">
 
         <h2 class="text-center text-light">
-            Listado Maestro Documentos
+            CompromisoSE
         </h2>
 
         <div class="row justify-content-end px-3">
-
-            <a href="../user/index.php" class="text-center text-light  btn btn-danger">
+            <a href="../user/../../../module/" class="text-center text-light  btn btn-danger">
                 Regresar
             </a>
-
-
         </div>
 
     </header>
@@ -66,7 +61,7 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                         <thead>
                             <tr>
                                 <th>#</th>
-
+                                <th>Proceso</th>
                                 <th>Procedimiento</th>
                                 <th>Documento</th>
                                 <th>Archivo Medio Magnetico</th>
@@ -88,6 +83,7 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                                             aria-hidden="true"></i>
                                     </a></td>
 
+                                <td><?php echo $document['Nombre_Proceso'] ?></td>
 
                                 <td><?php echo $document['Nombre_Procedimiento'] ?></td>
                                 <td><?php echo $document['Nombre_Documento'] ?></td>
