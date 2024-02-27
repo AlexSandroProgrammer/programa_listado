@@ -31,8 +31,8 @@ $user = $dataUser->fetch(PDO::FETCH_ASSOC);
             <label>Rol:</label>
             <input type="text" name="rol" value="<?php echo $user['rol'] ?>" class='form-control'>
             <div class=" mt-4">
-                <input type="submit" class="btn btn-success" value="Registrar"></input>
-                <input type="hidden" class="btn btn-info" value="formUpateUser" name="MM_forms"></input>
+                <input type="submit" class="btn btn-success" value="Actualizar"></input>
+                <input type="hidden" class="btn btn-info" value="formUpateUser" name="MM_formsUpdate"></input>
                 <a href="index.php" class="btn btn-danger">Cancelar Registro</a>
             </div>
 

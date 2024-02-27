@@ -30,6 +30,11 @@ if ((isset($_POST["MM_formProcedure"])) && ($_POST["MM_formProcedure"] == "formR
         echo '<script> alert ("Estimado Usuario, Existen Datos Vacios En El Formulario");</script>';
         echo '<script> windows.location= "../views/lista-procedimientos.php"</script>';
     } else {
+
+        // traemos el nombre del directorio del 
+
+        // colocamos la palabra en minuscula y quitamos los espacios
+        $directory_procedure = strtolower($procedimiento);
         $registerPorpcess = $connection->prepare("INSERT INTO procedimiento(Nombre_Procedimiento, id_proceso)VALUES('$procedimiento', '$proceso')");
         if ($registerPorpcess->execute()) {
             echo '<script>alert ("Registro de procedimiento exitoso.");</script>';

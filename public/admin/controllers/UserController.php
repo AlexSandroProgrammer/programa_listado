@@ -124,12 +124,16 @@ if (isset($_POST["MM_forms"]) && $_POST["MM_forms"] == "formRegisterUser") {
 
 if (isset($_POST["MM_formsUpdate"]) && $_POST["MM_formsUpdate"] == "formUpdateUser") {
     // Obtener datos del formulario
+    $names = $_POST['names'];
+    $username = $_POST['username'];
+    $rol = $_POST['rol'];
     $id_usuario = $_POST['id_usuario'];
+
 
 
     // CONSULTA SQL PARA VERIFICAR SI EL USUARIO YA EXISTE EN LA BASE DE DATOS
 
-    $data = $connection->prepare("SELECT * FROM usuarios WHERE id_Usuario = '$id_Usuario'");
+    $data = $connection->prepare("SELECT * FROM usuarios WHERE usuario = '$id_Usuario'");
     $data->execute();
     $register_validation = $data->fetchAll();
     // CONDICIONALES DEPENDIENDO EL RESULTADO DE LA CONSULTA
@@ -157,5 +161,27 @@ if (isset($_POST["MM_formsUpdate"]) && $_POST["MM_formsUpdate"] == "formUpdateUs
         } else {
             showErrorAndRedirect("Error al momento de registrar los datos.", "../views/crear-usuario.php");
         }
+    }
+}
+
+
+
+// DELETE USER METHOD OR FUNCTION 
+
+$id_user_delete = $_GET['id_user-delete'];
+
+
+if ($id_user_delete !== null) {
+
+    $delete = $connection->prepare("DELETE  FROM usuarios WHERE id_usuario = ' " . $id_user_delete . "'");
+    $delete->execute();
+
+
+    if ($delete) {
+        echo '<script> alert ("// Los datos se eliminaron correctamente //");</script>';
+        echo '<script> window.location= "../views"</script>';
+    } else {
+        echo '<script> alert ("// error al momento de eliminar los datos  //");</script>';
+        echo '<script> window.location= "../views"</script>';
     }
 }
