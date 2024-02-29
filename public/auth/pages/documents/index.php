@@ -6,10 +6,11 @@ $connection = $db->conectar();
 // CONSULTA BASE DE DATOS PARA TRAER TODOS LOS DATOS RELACIONADOS CON LOS DOCUMENTOS 
 
 $listDocuments = $connection->prepare("SELECT * FROM documentos
-INNER JOIN  procedimiento ON documentos.Id_Procedimiento=procedimiento.Id_Procedimiento INNER JOIN proceso ON procedimiento.id_proceso=  proceso.Id_Proceso
-INNER JOIN responsable ON documentos.Id_Responsable=responsable.Id_Responsable AND documentos.Id_Procedimiento=procedimiento.Id_Procedimiento  AND documentos.Id_Procedimiento=procedimiento.Id_Procedimiento  AND   documentos.Id_Responsable=responsable.Id_Responsable AND procedimiento.id_proceso = proceso.Id_Proceso");
+INNER JOIN procedimiento ON documentos.id_procedimiento = procedimiento.id_procedimiento
+INNER JOIN responsable ON documentos.id_responsable = responsable.id_responsable");
 $listDocuments->execute();
 $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -19,8 +20,7 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link rel="shortcut icon" href="#" />
-    <title>Listado Maestro Documentos</title>
+    <title>Compromiso SE || Modulo de Consulta </title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../../../../assets/css/bootstrap.min.css" />
 
@@ -34,6 +34,8 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
         href="../../../libraries/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
     <!--font awesome con CDN-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <!-- favicion logo  -->
+    <link rel="shortcut icon" href="../../../../assets/images/logoSenaEmpresa.png" type="image/x-icon">
 
 </head>
 
@@ -78,23 +80,23 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                             ?>
                             <tr>
 
-                                <td><a href="../../../admin/documentos/<?php echo $document['Nombre_Documento_Magnetico'] ?>"
+                                <td><a href="../../../admin/documentos/<?php echo $document['nombre_documento_magnetico'] ?>"
                                         class=" btn btn-outline-success form-control"><i class="fa fa-download"
                                             aria-hidden="true"></i>
                                     </a></td>
 
-                                <td><?php echo $document['Nombre_Proceso'] ?></td>
+                                <td><?php echo $document['nombre_proceso'] ?></td>
 
-                                <td><?php echo $document['Nombre_Procedimiento'] ?></td>
-                                <td><?php echo $document['Nombre_Documento'] ?></td>
-                                <td><?php echo $document['Nombre_Documento_Magnetico'] ?> <a
-                                        href="../../../admin/documentos/<?php echo $document['Nombre_Documento_Magnetico'] ?>"><?php echo $document['Nombre_Documento_Magnetico'] ?></a>
+                                <td><?php echo $document['nombre_procedimiento'] ?></td>
+                                <td><?php echo $document['nombre_documento'] ?></td>
+                                <td><?php echo $document['nombre_documento_magnetico'] ?> <a
+                                        href="../../../admin/documentos/<?php echo $document['nombre_documento_magnetico'] ?>"><?php echo $document['nombre_documento_magnetico'] ?></a>
                                 </td>
-                                <td><?php echo $document['Tipo_Documento'] ?></td>
-                                <td><?php echo $document['Codigo'] ?></td>
-                                <td><?php echo $document['Version'] ?></td>
-                                <td><?php echo $document['Fecha_Elaboracion'] ?></td>
-                                <td><?php echo $document['Nombre_Responsable'] ?></td>
+                                <td><?php echo $document['tipo_documento'] ?></td>
+                                <td><?php echo $document['codigo'] ?></td>
+                                <td><?php echo $document['version'] ?></td>
+                                <td><?php echo $document['fecha_elaboracion'] ?></td>
+                                <td><?php echo $document['nombre_responsable'] ?></td>
 
                             </tr>
                             <?php

@@ -16,7 +16,7 @@ if ((isset($_POST["MM_formProcedure"])) && ($_POST["MM_formProcedure"] == "formR
 
 
     // CONSULTA SQL PARA VERIFICAR SI EL REGISTRO YA EXISTE EN LA BASE DE DATOS
-    $db_validation = $connection->prepare("SELECT * FROM procedimiento WHERE Nombre_Procedimiento = '$procedimiento'");
+    $db_validation = $connection->prepare("SELECT * FROM procedimiento WHERE nombre_procedimiento = '$procedimiento'");
     $db_validation->execute();
     $register_validation = $db_validation->fetchAll();
 
@@ -31,13 +31,38 @@ if ((isset($_POST["MM_formProcedure"])) && ($_POST["MM_formProcedure"] == "formR
         echo '<script> windows.location= "../views/lista-procedimientos.php"</script>';
     } else {
 
-        // traemos el nombre del directorio del 
+        // traemos el nombre del directorio del proceso seleccionado para generar la ruta para el procedimiento 
+
+        $getProccessSelected = $connection->prepare("SELECT * FROM proceso WHERE id_proceso = '$proceso'");
+        $getProccessSelected->execute();
+        $proccess = $getProccessSelected->fetch(PDO::FETCH_ASSOC);
+
+        if ($proccess) {
+            // colocamos la palabra en minuscula y quitamos los espacios
+            $directory = strtolower($procedimiento);
+            $directory_procedimiento = str_replace(' ', '', $directory);
+
+            $ruta = '../documentos/' . $proccess['nombre_directorio_proceso'] . '/' . $directory_procedimiento;
+
+            // Verificamos que el directorio no se haya creado
+            if (!is_dir($ruta)) {
+                if (!mkdir($ruta, 0755, true)) {
+                    echo '<script> alert ("Error al crear el directorio.");</script>';
+                    echo '<script> window.location= "../views/lista-procedimientos.php"</script>';
+                    exit();
+                }
+            } else {
+                echo '<script> alert ("Ya está creado un directorio con el nombre de ese proceso, por favor cámbielo.");</script>';
+                echo '<script> window.location= "../views/lista-procedimientos.php"</script>';
+                exit();
+            }
+        }
 
         // colocamos la palabra en minuscula y quitamos los espacios
         $directory_procedure = strtolower($procedimiento);
-        $registerPorpcess = $connection->prepare("INSERT INTO procedimiento(Nombre_Procedimiento, id_proceso)VALUES('$procedimiento', '$proceso')");
+        $registerPorpcess = $connection->prepare("INSERT INTO procedimiento(nombre_procedimiento, id_proceso, nombre_directorio_procedimiento)VALUES('$procedimiento', '$proceso', '$directory_procedimiento')");
         if ($registerPorpcess->execute()) {
-            echo '<script>alert ("Registro de procedimiento exitoso.");</script>';
+            echo '<script>alert ("Registro de procedimiento exitoso, se ha creado correctamente el directorio.");</script>';
             echo '<script>window.location="../views/lista-procedimientos.php"</script>';
         }
     }

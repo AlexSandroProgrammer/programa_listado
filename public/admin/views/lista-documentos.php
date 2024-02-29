@@ -6,9 +6,9 @@ $connection = $db->conectar();
 // CONSULTA BASE DE DATOS PARA TRAER TODOS LOS DATOS RELACIONADOS CON LOS DOCUMENTOS 
 
 $listDocuments = $connection->prepare("SELECT * FROM documentos
-INNER JOIN  procedimiento ON documentos.Id_Procedimiento=procedimiento.Id_Procedimiento INNER JOIN proceso ON procedimiento.id_proceso=  proceso.Id_Proceso
-INNER JOIN responsable ON documentos.Id_Responsable=responsable.Id_Responsable AND documentos.Id_Procedimiento=procedimiento.Id_Procedimiento  AND documentos.Id_Procedimiento=procedimiento.Id_Procedimiento  AND   documentos.Id_Responsable=responsable.Id_Responsable AND procedimiento.id_proceso = proceso.Id_Proceso
-");
+INNER JOIN procedimiento ON documentos.id_procedimiento = procedimiento.id_procedimiento
+INNER JOIN proceso ON procedimiento.id_proceso = proceso.Id_Proceso
+INNER JOIN responsable ON documentos.Id_responsable = responsable.id_responsable");
 $listDocuments->execute();
 $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
 
