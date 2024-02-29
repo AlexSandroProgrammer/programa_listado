@@ -43,8 +43,8 @@ $procedimientos = $listProcedimientos->fetchAll(PDO::FETCH_ASSOC);
                                         <?php
                                         do {
                                         ?>
-                                            <option value="<?php echo ($procesos['Id_Proceso']) ?>">
-                                                <?php echo ($procesos['Nombre_Proceso']) ?></option>
+                                            <option value="<?php echo ($procesos['id_proceso']) ?>">
+                                                <?php echo ($procesos['nombre_proceso']) ?></option>
                                         <?php
                                         } while ($procesos = $listProcesos->fetch(PDO::FETCH_ASSOC));
                                         ?>
@@ -163,8 +163,8 @@ $procedimientos = $listProcedimientos->fetchAll(PDO::FETCH_ASSOC);
 
 
                                 </td>
-                                <td><?php echo $procedimiento['Nombre_Procedimiento'] ?></td>
-                                <td><?php echo $procedimiento['Nombre_Proceso'] ?></td>
+                                <td><?php echo $procedimiento['nombre_procedimiento'] ?></td>
+                                <td><?php echo $procedimiento['nombre_proceso'] ?></td>
 
 
                             </tr>

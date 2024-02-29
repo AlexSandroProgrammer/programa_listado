@@ -33,25 +33,25 @@ function registerUser($connection, $rol_user, $nombre_usuario, $usuario, $user_p
 
 
 // FUNCTION UPDATE USER
-function updateUser($connection, $idUsuario, $rol, $nombre_usuario, $usuario, $user_password)
+function updateUser($connection, $id_usuario, $rol, $names, $username)
 {
     // Prepara la consulta SQL usando sentencias preparadas
-    $updateUser = "UPDATE usuarios SET id_Usuario = '$idUsuario', rol = '$rol', nombre_Usuario = '$nombre_usuario', usuario = '$usuario'";
+    $updateUser = "UPDATE usuarios SET rol = ?, nombre_Usuario = ?, usuario = ? WHERE id_usuario = ?";
     $queryUser = $connection->prepare($updateUser);
 
 
     // Bind de los parámetros
     $queryUser->bindParam(1, $rol);
-    $queryUser->bindParam(2, $nombre_usuario);
-    $queryUser->bindParam(3, $usuario);
-    $queryUser->bindParam(3, $user_password);
+    $queryUser->bindParam(2, $names);
+    $queryUser->bindParam(3, $username);
+    $queryUser->bindParam(4, $id_usuario);
 
 
     // Ejecuta la consulta
     if ($queryUser->execute()) {
-        return true; // Registro exitoso
+        return true; // Actualizacion exitosa
     } else {
-        return false; // Error al registrar el usuario
+        return false; // Error al actualizar el usuario
     }
 }
 
@@ -122,66 +122,61 @@ if (isset($_POST["MM_forms"]) && $_POST["MM_forms"] == "formRegisterUser") {
 
 
 
-if (isset($_POST["MM_formsUpdate"]) && $_POST["MM_formsUpdate"] == "formUpdateUser") {
+if (isset($_POST["MM_formsUpdate"]) && $_POST["MM_formsUpdate"] == "formUpateUser") {
     // Obtener datos del formulario
     $names = $_POST['names'];
     $username = $_POST['username'];
     $rol = $_POST['rol'];
     $id_usuario = $_POST['id_usuario'];
 
-
-
-    // CONSULTA SQL PARA VERIFICAR SI EL USUARIO YA EXISTE EN LA BASE DE DATOS
-
-    $data = $connection->prepare("SELECT * FROM usuarios WHERE usuario = '$id_Usuario'");
-    $data->execute();
-    $register_validation = $data->fetchAll();
-    // CONDICIONALES DEPENDIENDO EL RESULTADO DE LA CONSULTA
-    if ($register_validation) {
-        // SI SE CUMPLE LA CONSULTA ES PORQUE EL USUARIO YA EXISTE
-        echo '<script> alert ("// Estimado Usuario, los datos ingresados ya estan registrados. //");</script>';
-        echo '<script> window.location= "../views/auth/index.php"</script>';
-    } elseif ($nombre_usuario == "" || $usuario == "" || $password == "") {
-        // CONDICIONAL DEPENDIENDO SI EXISTEN ALGUN CAMPO VACIO EN EL FORMULARIO DE LA INTERFAZ
-        echo '<script> alert ("Estimado Usuario, Existen Datos Vacios En El Formulario");</script>';
-        echo '<script> window.location="../views/auth/index.php"</script>';
+    // Verificar si hay campos vacíos en el formulario
+    if ($names == "" || $username == "" || $rol == "" || $id_usuario == "") {
+        echo '<script>alert("Estimado Usuario, Existen Datos Vacios En El Formulario");</script>';
+        echo '<script>window.location="../views/actualizar-usuario.php?id_user-edit=' . $id_usuario . '";</script>';
     } else {
-        // VARIABLES QUE CONTIENE EL NUMERO DE ENCRIPTACIONES DE LAS CONTRASEÑAS
-        $pass_encriptaciones = [
-            'cost' => 15
-        ];
+        // CONSULTA SQL PARA VERIFICAR SI EL USUARIO YA EXISTE EN LA BASE DE DATOS
+        $data = $connection->prepare("SELECT * FROM usuarios WHERE usuario = :username AND id_usuario != :id_usuario");
+        $data->bindParam(':username', $username);
+        $data->bindParam(':id_usuario', $id_usuario);
+        $data->execute();
+        $register_validation = $data->fetchAll();
 
-        $user_password = password_hash($password, PASSWORD_DEFAULT, $pass_encriptaciones);
-
-        // Registrar el usuario en la base de datos
-        $userRegistered = registerUser($connection, $rol, $nombre_usuario, $usuario, $user_password);
-
-        if ($userRegistered) {
-            showSuccessAndRedirect("Usuario registrado correctamente.", "../views/index.php");
+        // Si el usuario ya existe
+        if ($register_validation) {
+            echo '<script>alert("Estimado Usuario, los datos ingresados ya están registrados.");</script>';
+            echo '<script>window.location="../views/actualizar-usuario.php?id_user-edit=' . $id_usuario . '";</script>';
         } else {
-            showErrorAndRedirect("Error al momento de registrar los datos.", "../views/crear-usuario.php");
+            // Actualizar el usuario en la base de datos
+            $userUpdated = updateUser($connection, $id_usuario, $rol, $names, $username);
+
+            if ($userUpdated) {
+                // Redireccionar con mensaje de éxito
+                showSuccessAndRedirect("Usuario actualizado correctamente.", "../views/index.php");
+            } else {
+                // Redireccionar con mensaje de error
+
+                showSuccessAndRedirect("Error al momento de actualizar los datos.", "../views/actualizar-usuario.php?id_user-edit=' . $id_usuario . '");
+            }
         }
     }
 }
 
 
-
 // DELETE USER METHOD OR FUNCTION 
+if (isset($_GET["id_user-delete"])) {
+    $id_user_delete = $_GET['id_user-delete'];
 
-$id_user_delete = $_GET['id_user-delete'];
-
-
-if ($id_user_delete !== null) {
-
-    $delete = $connection->prepare("DELETE  FROM usuarios WHERE id_usuario = ' " . $id_user_delete . "'");
-    $delete->execute();
+    if ($id_user_delete !== null) {
+        $delete = $connection->prepare("DELETE  FROM usuarios WHERE id_usuario = ' " . $id_user_delete . "'");
+        $delete->execute();
 
 
-    if ($delete) {
-        echo '<script> alert ("// Los datos se eliminaron correctamente //");</script>';
-        echo '<script> window.location= "../views"</script>';
-    } else {
-        echo '<script> alert ("// error al momento de eliminar los datos  //");</script>';
-        echo '<script> window.location= "../views"</script>';
+        if ($delete) {
+            echo '<script> alert ("// Los datos se eliminaron correctamente //");</script>';
+            echo '<script> window.location= "../views"</script>';
+        } else {
+            echo '<script> alert ("// error al momento de eliminar los datos  //");</script>';
+            echo '<script> window.location= "../views"</script>';
+        }
     }
 }

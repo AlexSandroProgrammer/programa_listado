@@ -17,7 +17,7 @@ if (isset($_POST["iniciarSesion"])) {
     if ($authSession && password_verify($passwordLog, $authSession['contrasena'])) {
         // Si la autenticación es exitosa
         $_SESSION['rol_user'] = $authSession['rol'];
-        $_SESSION['names'] = $authSession['nombre_Usuario'];
+        $_SESSION['names'] = $authSession['nombre_usuario'];
         $_SESSION['username'] = $authSession['usuario'];
 
 

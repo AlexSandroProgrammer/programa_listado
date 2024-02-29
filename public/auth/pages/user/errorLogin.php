@@ -2,14 +2,13 @@
 
 session_start();
 
+
 if (isset($_SESSION['username']) || isset($_SESSION['rol_user'])) {
     echo "<script>alert('Debes iniciar sesión');</script>";
     header("Location:../../../admin/");
     exit; // Agregar exit para asegurar que el script se detenga
 } else {
 ?>
-
-
     <!DOCTYPE html>
     <html lang="en">
 
@@ -32,13 +31,10 @@ if (isset($_SESSION['username']) || isset($_SESSION['rol_user'])) {
     </head>
 
     <body>
-
         <!--========================================
        contenido
     ==========================================-->
-
         <div class="contenedor-login">
-
             <!--========================================
             Slider
         ==========================================-->
@@ -81,8 +77,9 @@ if (isset($_SESSION['username']) || isset($_SESSION['rol_user'])) {
 
                         <h1 class="titulo"><img src="../../../../assets/images/logoSenaEmpresa.png" alt="" class="log_free">
                         </h1>
-                        <h1 class="titulo_login">Iniciar sesion </h1>
-                        <p class="descripcion">Ingresa para crear nuevos formatos para los funcionarios o aprendices de la
+                        <h1 class="titulo_login">Error Inicio de sesion </h1>
+                        <p class="descripcion">Los datos ingresados son incorrectos, por favor ingreselos nuevamente para
+                            crear nuevos formatos para los funcionarios o aprendices de la
                             entidad para su respectivo uso.</p>
 
                         <!-- Tabs -->
@@ -101,10 +98,11 @@ if (isset($_SESSION['username']) || isset($_SESSION['rol_user'])) {
                                 <button type="button" class="icono fas fa-eye mostrarClave"></button>
                             </div>
 
-                            <div class="redirecciones">
-                                <a href="../documents/index.php" class="link">Descarga de formatos</a>
-                            </div>
+
                             <input class="btn" type="submit" name="iniciarSesion" value="Iniciar Sesion">
+                            <a class="btn-update" href="../../../auth/pages/user/changePassword.php">Cambiar Contraseña</a>
+                            <a class="btn-danger" href="../../../module/">Regresar</a>
+
                         </form>
                     </div>
 
