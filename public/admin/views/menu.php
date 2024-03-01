@@ -27,7 +27,8 @@ require_once("../../validation/validarSesion.php");
     <link rel="stylesheet" type="text/css" href="../../libraries/datatables/datatables.min.css" />
 
     <!--datables estilo bootstrap 4 CSS-->
-    <link rel="stylesheet" type="text/css" href="../../libraries/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" type="text/css"
+        href="../../libraries/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
 
     <!--google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -82,6 +83,8 @@ require_once("../../validation/validarSesion.php");
                     </a>
                     <ul class="collapse list-unstyled menu" id="homeSubmenu2">
                         <li><a href="lista-procesos.php">Lista de Procesos</a></li>
+                        <li><a href="lista-procesos.php?status=createProcess">Crear Proceso</a>
+
                     </ul>
                 </li>
 
@@ -91,6 +94,9 @@ require_once("../../validation/validarSesion.php");
                     </a>
                     <ul class="collapse list-unstyled menu" id="homeSubmenu3">
                         <li><a href="lista-procedimientos.php">Lista de Procedimientos</a></li>
+                        <li><a href="lista-procedimientos.php?status=registrarProcedimiento">Crear Procedimiento</a>
+                        </li>
+
                     </ul>
                 </li>
 
@@ -101,7 +107,7 @@ require_once("../../validation/validarSesion.php");
                     </a>
                     <ul class="collapse list-unstyled menu" id="homeSubmenu4">
                         <li><a href="lista-responsable.php">Lista de Responsables</a></li>
-                        <li><a href="crear-responsable.php">Crear Responsable</a></li>
+                        <li><a href="lista-responsable.php?status=registrarResponsable">Crear Responsable</a></li>
                     </ul>
                 </li>
                 <li class="">
@@ -136,7 +142,8 @@ require_once("../../validation/validarSesion.php");
 
                                         <li class="dropdown nav-item">
                                             <a class="nav-link" href="#" data-toggle="dropdown">
-                                                <img src="../../../assets/images/logoSenaEmpresa.png" style="width:40px; border-radius:50%;" />
+                                                <img src="../../../assets/images/logoSenaEmpresa.png"
+                                                    style="width:40px; border-radius:50%;" />
                                                 <span class="xp-user-live"></span>
                                             </a>
                                             <ul class="dropdown-menu small-menu">

@@ -12,22 +12,16 @@ $users = $listUsers->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!-------page-content start----------->
 <?php require_once('menu.php') ?>
-
-
-
 <!------main-content-start----------->
-
-
 <!--Ejemplo tabla con DataTables-->
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12 p-4">
             <div class="table-responsive py-4 px-1">
                 <div class="col-xs-15">
-
                     <input type="hidden" name="status" value="registrarProcedimiento">
                     <a class="btn btn-success text-white" href="crear-usuario.php"> Registrar Usuario</a>
-
                 </div>
                 <table id="example" class="table table-striped table-bordered mt-2" cellspacing="0" width="100%">
                     <thead>
@@ -43,30 +37,24 @@ $users = $listUsers->fetchAll(PDO::FETCH_ASSOC);
                         <?php
                         foreach ($users as $user) {
                         ?>
-                        <tr>
-                            <td>
-                                <form method="GET" action="../controllers/UserController.php">
-                                    <input type="hidden" name="id_user-delete" value="<?= $user['id_usuario'] ?>">
-                                    <button class="btn btn-danger"
-                                        onclick="return confirm('¿Desea eliminar el registro seleccionado?');"
-                                        type="submit"><i class="material-icons" data-toggle="tooltip"
-                                            title="Delete">&#xE872;</i>
-                                    </button>
-                                </form>
-                                <form method="GET" action="actualizar-usuario.php">
-                                    <input type="hidden" name="id_user-edit" value="<?= $user['id_usuario'] ?>">
-                                    <button class="btn btn-success mt-2"
-                                        onclick="return confirm('desea actualizar el registro seleccionado');"
-                                        type="submit"><i class="material-icons" data-toggle="tooltip"
-                                            title="Edit">&#xE254;</i>
-                                    </button>
-                                </form>
-                            </td>
-                            <td><?php echo $user['id_usuario'] ?></td>
-                            <td><?php echo $user['rol'] ?></td>
-                            <td><?php echo $user['nombre_usuario'] ?></td>
-                            <td><?php echo $user['usuario'] ?></td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    <form method="GET" action="../controllers/UserController.php">
+                                        <input type="hidden" name="id_user-delete" value="<?= $user['id_usuario'] ?>">
+                                        <button class="btn btn-danger" onclick="return confirm('¿Desea eliminar el registro seleccionado?');" type="submit"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                                        </button>
+                                    </form>
+                                    <form method="GET" action="actualizar-usuario.php">
+                                        <input type="hidden" name="id_user-edit" value="<?= $user['id_usuario'] ?>">
+                                        <button class="btn btn-success mt-2" onclick="return confirm('desea actualizar el registro seleccionado');" type="submit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+                                        </button>
+                                    </form>
+                                </td>
+                                <td><?php echo $user['id_usuario'] ?></td>
+                                <td><?php echo $user['rol'] ?></td>
+                                <td><?php echo $user['nombre_usuario'] ?></td>
+                                <td><?php echo $user['usuario'] ?></td>
+                            </tr>
                         <?php
                         }
                         ?>

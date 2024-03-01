@@ -66,14 +66,14 @@ if ((isset($_POST["MM_formProccessUpdate"])) && ($_POST["MM_formProccessUpdate"]
     $proceso = $_POST['proceso'];
 
 
-    $exami = $connection->prepare("SELECT * FROM proceso WHERE Id_Proceso='$id_proceso'");
+    $exami = $connection->prepare("SELECT * FROM proceso WHERE id_proceso='$id_proceso'");
     $exami->execute();
     $register_validation = $exami->fetchAll();
 
     // CONDICIONALES DEPENDIENDO EL RESULTADO DE LA CONSULTA
     if ($register_validation) {
 
-        $update = $connection->prepare("UPDATE proceso SET Nombre_Proceso ='$proceso' WHERE Id_Proceso='$id_proceso'");
+        $update = $connection->prepare("UPDATE proceso SET nombre_proceso ='$proceso' WHERE id_proceso='$id_proceso'");
         $update->execute();
 
         echo '<script> alert ("//Estimado Usuario la actualizacion se ha realizado exitosamente. //");</script>';
@@ -95,7 +95,7 @@ $id_proccess = $_GET["id_proccess-delete"];
 
 if ($id_proccess !== null) {
 
-    $delete = $connection->prepare("DELETE  FROM proceso WHERE Id_Proceso = ' " . $id_proccess . "'");
+    $delete = $connection->prepare("DELETE  FROM proceso WHERE id_proceso = ' " . $id_proccess . "'");
     $delete->execute();
 
 

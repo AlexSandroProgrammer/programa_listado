@@ -9,7 +9,7 @@ $id_procedimiento = $_GET['id'] ?? null;
 
 if ($id_procedimiento) {
     // Consulta SQL para obtener los detalles del procedimiento
-    $query = "SELECT * FROM procedimiento INNER JOIN proceso ON procedimiento.Id_Proceso = proceso.Id_Proceso AND procedimiento.Id_Proceso = proceso.Id_Proceso WHERE Id_Procedimiento = :id_procedimiento";
+    $query = "SELECT * FROM procedimiento INNER JOIN proceso ON procedimiento.id_Proceso = proceso.id_proceso AND procedimiento.id_proceso = proceso.id_proceso WHERE id_procedimiento = :id_procedimiento";
     $stmt = $connection->prepare($query);
     $stmt->bindParam(':id_procedimiento', $id_procedimiento);
     $stmt->execute();
@@ -17,7 +17,7 @@ if ($id_procedimiento) {
 
     // Devolver los detalles del procedimiento en formato JSON
     echo json_encode([
-        'nombre_procedimiento' => $procedimiento['Nombre_Proceso'],
+        'nombre_procedimiento' => $procedimiento['nombre_proceso'],
         // Agrega más campos aquí si es necesario
     ]);
 } else {

@@ -12,16 +12,16 @@ if (isset($_POST["MM_registerDocument"]) && $_POST["MM_registerDocument"] == "fo
 
     $idProceso = $_POST['idProceso'];
     $idProcedimiento = $_POST['idProcedimiento'];
+    $idResponsable = $_POST['idResponsable'];
     $nombreDocumento = $_POST['nombreDocumento'];
     $codigo = $_POST['codigo'];
+    $version = $_POST['version'];
     $tipoDocumento = $_POST['tipoDocumento'];
-
     // RECIBIMOS EL ARCHIVO 
     $nombreDocumentoMagnetico = $_FILES['documento']["name"];
 
-
     // Consulta para verificar si el avatar ya existe
-    $documentData = $connection->prepare("SELECT * FROM documentos WHERE Nombre_Documento = :nombreDocumento OR Nombre_Documento_Magnetico = :nombreDocumentoMagnetico OR Codigo = :codigo");
+    $documentData = $connection->prepare("SELECT * FROM documentos WHERE nombre_documento = :nombreDocumento OR nombre_documento_magnetico = :nombreDocumentoMagnetico OR Codigo = :codigo");
     $documentData->bindParam(':nombreDocumento', $nombreDocumento);
     $documentData->bindParam(':nombreDocumentoMagnetico', $nombreDocumentoMagnetico);
     $documentData->bindParam(':codigo', $codigo);
@@ -33,40 +33,52 @@ if (isset($_POST["MM_registerDocument"]) && $_POST["MM_registerDocument"] == "fo
     } elseif (isEmpty([$idProceso, $idProcedimiento, $nombreDocumento, $codigo, $tipoDocumento])) {
         showErrorAndRedirect("Existen datos vacíos en el formulario, debes ingresar todos los datos.", "");
     } else {
-        // Verifica si se ha enviado un archivo y si no hay errores al subirlo
-        if (isFileUploaded($_FILES['documento'])) {
-            $permitidos = array("file/pdf", "file/word", "file/csv");
-            $limite_KB = 1000;
 
-            if (isFileValid($_FILES["documento"], $permitidos, $limite_KB)) {
+        // traemos los directorios de procesos y procedimientos
 
-                $ruta = "../documents/" . $idProceso . '/' . $idProcedimiento . '/../views/crear-documento.php';
-                $documento = $ruta . $_FILES['documento']["name"];
-                createDirectoryIfNotExists($ruta);
+        $getProccessAndProcedure = $connection->prepare("SELECT * FROM procedimiento INNER JOIN proceso ON procedimiento.id_proceso = proceso.id_proceso WHERE procedimiento.id_procedimiento ='$idProcedimiento'");
+        $getProccessAndProcedure->execute();
+        $proccessAndProcedure = $getProccessAndProcedure->fetch(PDO::FETCH_ASSOC);
 
-                if (!file_exists($documento)) {
-                    $resultado = moveUploadedFile($_FILES["documento"], $documento);
+        if ($proccessAndProcedure) {
+            // Verifica si se ha enviado un archivo y si no hay errores al subirlo
+            if (isFileUploaded($_FILES['documento'])) {
+                $permitidos = array("application/pdf", "application/msword", "file/csv");
+                $limite_KB = 4000;
 
-                    if ($resultado) {
-                        // Inserta los datos en la base de datos
-                        $registerAvatar = $connection->prepare("INSERT INTO documentos(Id_Procedimiento,Nombre_Documento,Nombre_Documento_Magnetico, Tipo_Documento, Codigo, Version, Id_Responsable, Fecha_Elaboracion) VALUES(:idProcedimiento, :nombreDocumento, :nombreDocumentoMagnetico, :tipoDocumento, :codigo, :version, :id_responsable, NOW())");
-                        $registerAvatar->bindParam(':serialAvatar', $idProcedimiento);
-                        $registerAvatar->bindParam(':nombreDocumento', $nombreDocumento);
-                        $registerAvatar->bindParam(':nombreDocumentoMagnetico', $nombreDocumentoMagnetico);
-                        $registerAvatar->bindParam(':codigo', $codigo);
-                        $registerAvatar->bindParam(':tipoDocumento', $tipoDocumento);
-                        $registerAvatar->execute();
+                if (isFileValid($_FILES["documento"], $permitidos, $limite_KB)) {
 
-                        showSuccessAndRedirect("Los datos han sido registrados correctamente.", "../views/crear-documento.php");
-                    } else {
-                        showErrorAndRedirect("Error al momento de cargar la imagen del avatar.", "../views/crear-documento.php");
+                    $ruta = "../documentos/" . $proccessAndProcedure['nombre_directorio_proceso'] . '/' . $proccessAndProcedure['nombre_directorio_procedimiento'] . '/';
+                    $documento = $ruta . $_FILES['documento']["name"];
+                    createDirectoryIfNotExists($ruta);
+
+                    if (!file_exists($documento)) {
+                        $resultado = moveUploadedFile($_FILES["documento"], $documento);
+
+                        if ($resultado) {
+                            // Inserta los datos en la base de datos
+                            $registerAvatar = $connection->prepare("INSERT INTO documentos(id_procedimiento,nombre_documento,nombre_documento_magnetico, tipo_documento, codigo, version, id_responsable, fecha_elaboracion) VALUES(:idProcedimiento, :nombreDocumento, :nombreDocumentoMagnetico, :tipoDocumento, :codigo, :version, :id_responsable, NOW())");
+                            $registerAvatar->bindParam(':idProcedimiento', $idProcedimiento);
+                            $registerAvatar->bindParam(':nombreDocumento', $nombreDocumento);
+                            $registerAvatar->bindParam(':nombreDocumentoMagnetico', $nombreDocumentoMagnetico);
+                            $registerAvatar->bindParam(':codigo', $codigo);
+                            $registerAvatar->bindParam(':tipoDocumento', $tipoDocumento);
+                            $registerAvatar->bindParam(':version', $version);
+                            $registerAvatar->bindParam(':id_responsable', $id_responsable);
+
+
+                            $registerAvatar->execute();
+                            showSuccessAndRedirect("Los datos han sido registrados correctamente.", "../views/crear-documento.php");
+                        } else {
+                            showErrorAndRedirect("Error al momento de cargar la imagen del avatar.", "../views/crear-documento.php");
+                        }
                     }
+                } else {
+                    showErrorAndRedirect("Error al momento de cargar el archivo, asegúrate de que sea de tipo PDF, WORD o formatos de excel y que su tamaño sea menor o igual a 1 MB.", "../views/crear-documento.php");
                 }
             } else {
-                showErrorAndRedirect("Error al momento de cargar el archivo, asegúrate de que sea de tipo PDF, WORD o formatos de excel y que su tamaño sea menor o igual a 1 MB.", "../views/crear-documento.php");
+                showErrorAndRedirect("Error al cargar el documento. Asegúrate de seleccionar un archivo valido.", "../views/crear-documento.php");
             }
-        } else {
-            showErrorAndRedirect("Error al cargar el documento. Asegúrate de seleccionar un archivo valido.", "../views/crear-documento.php");
         }
     }
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-02-2024 a las 21:50:38
+-- Tiempo de generación: 01-03-2024 a las 21:47:21
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -34,7 +34,7 @@ CREATE TABLE `documentos` (
   `nombre_documento_magnetico` varchar(300) NOT NULL,
   `tipo_documento` varchar(20) DEFAULT NULL,
   `codigo` varchar(500) NOT NULL,
-  `Version` int(11) NOT NULL,
+  `version` int(11) NOT NULL,
   `fecha_elaboracion` datetime NOT NULL,
   `id_responsable` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -43,7 +43,7 @@ CREATE TABLE `documentos` (
 -- Volcado de datos para la tabla `documentos`
 --
 
-INSERT INTO `documentos` (`id_documento`, `id_procedimiento`, `nombre_documento`, `nombre_documento_magnetico`, `tipo_documento`, `codigo`, `Version`, `fecha_elaboracion`, `id_responsable`) VALUES
+INSERT INTO `documentos` (`id_documento`, `id_procedimiento`, `nombre_documento`, `nombre_documento_magnetico`, `tipo_documento`, `codigo`, `version`, `fecha_elaboracion`, `id_responsable`) VALUES
 (2, 1, 'PRODUCCION	FORMATO COSECHA (BPA)', '04 FOr CBPA 01 cosecha bpa.xlsx', 'Formato', 'FOr-CBPA-04-01/09-15', 1, '2015-09-01 00:00:00', 1),
 (3, 1, 'FORMATO APLICACIÃ“N DE ABONO ORGANICO (BPA)', '04 FOr AAOBPA 01 apli abon org.xlsx', 'Formato', 'FOr-AAOBPA-04-01/09-15', 1, '2015-09-01 00:00:00', 1),
 (4, 1, 'FORMATO APLICACIÃ“N DE FUNGICIDA (BPA)', '04 FOr AFBPA 01 apli fungicida.xlsx', 'Formato', 'FOr-AFBPA-04-01/09-15', 1, '2015-08-01 00:00:00', 1),
@@ -337,35 +337,23 @@ CREATE TABLE `procedimiento` (
 --
 
 INSERT INTO `procedimiento` (`id_procedimiento`, `nombre_procedimiento`, `id_proceso`, `nombre_directorio_procedimiento`) VALUES
-(1, 'PLANEACION Y CONTROL DE LA PRODUCCION', 1, ''),
-(2, 'CONTROL DE INVENTARIOS', 2, ''),
-(3, 'PLANEACION OPERATIVA', 3, ''),
-(4, 'PRESTACION Y CONTROL DEL SERVICIO', 1, ''),
-(13, 'PLANEACION ADMINISTRATIVA Y OPERATIVA ', 3, ''),
-(14, 'PROGRAMACION Y CONTROL DE TURNOS', 9, ''),
-(16, 'LIMPIEZA Y DESINFECCION', 1, ''),
-(17, 'MANTENIMIENTO', 1, ''),
-(18, 'ELABORACIÃ“N DE NOMINA', 1, ''),
-(19, 'GESTIÃ“N FINANCIERA Y CONTABLE', 1, ''),
-(20, 'AUDITORIAS INTERNAS', 1, ''),
-(21, 'MERCADEO Y VENTAS', 1, ''),
-(22, 'SELECCIÃ“N, DESARROLLO Y EVALUACIÃ“N DE DESEMPEÃ‘O DE PERSONAL ', 1, ''),
-(23, 'CONTROL Y REGISTROS DE DOCUMENTOS ', 1, ''),
-(24, 'ACCIONES PREVENTIVAS Y CORRECTIVAS', 1, ''),
-(25, 'CONTROL DEL PRODUCTO O SERVICIO NO CONFORME', 1, ''),
-(26, 'INTRUCTIVO DE NOMBRES DE ARCHIVOS', 1, ''),
-(27, 'FORMATO DE INFORME SEMANAL DE ACTIVIDADES ', 1, ''),
-(28, 'FORMATO ASISTENCIA DE VISITAS AL CENTRO', 1, ''),
-(29, 'FORMATO DE TURNOS DE APOYO FIN DE SEMANA ', 1, ''),
-(30, 'FORMATO DE PERMISOS SENA EMPRESA DOMINGO ', 1, ''),
-(31, 'FORMATO DE REPORTE NOVEDADES DE NOMINA ', 1, ''),
-(32, 'FORMATO DE REGISTRO Y VERIFICACIÃ“N DE DOCUMENTOS EN EL LISTADO MAESTRO', 1, ''),
-(33, 'FORMATO LISTADO DE INGRESO AL CENTRO FIN DE SEMANA ', 1, ''),
-(34, 'MEMORANDO TURNOS ', 1, ''),
-(35, ' MEMORANDO SENA EMPRESA ', 1, ''),
-(36, 'PLANEACION Y CONTROL DE CALIDAD', 1, ''),
-(39, 'prueba de nuevo procedimieno', 1, ''),
-(41, 'actualizacion de procedimiento 121', 1, '');
+(44, 'Planeacion Administrativa y Operativa', 24, 'planeacionadministrativayoperativa'),
+(45, 'Gestion de Innovacion', 24, 'gestiondeinnovacion'),
+(46, 'Control y Mejora de Proceos', 27, 'controlymejoradeproceos'),
+(47, 'Auditoria Interna', 27, 'auditoriainterna'),
+(48, 'Planeacion Seguimiento y Evaluacion de Proyectos', 31, 'planeacionseguimientoyevaluaciondeproyectos'),
+(49, 'Planeacion y Control de la produccion', 23, 'planeacionycontroldelaproduccion'),
+(50, 'Prestacion y Control del Servicio', 23, 'prestacionycontroldelservicio'),
+(51, 'Acciones Preventivas y Correctivas', 27, 'accionespreventivasycorrectivas'),
+(52, 'Mercadeo y Ventas', 29, 'mercadeoyventas'),
+(53, 'Seleccion Desarrollo y Evaluacion del Desempeño de Personal', 26, 'selecciondesarrolloyevaluaciondeldesempeñodepersonal'),
+(54, 'Elaboracion de Nomina', 26, 'elaboraciondenomina'),
+(55, 'Programacion y Control de Turnos', 26, 'programacionycontroldeturnos'),
+(56, 'Gestion Financiera y Contable', 25, 'gestionfinancieraycontable'),
+(57, 'Control de Inventarios', 25, 'controldeinventarios'),
+(58, 'Control y Registro de Documentos', 22, 'controlyregistrodedocumentos'),
+(59, 'Administrar Base de Datos', 22, 'administrarbasededatos'),
+(60, 'Gestion de la Informacion', 22, 'gestiondelainformacion');
 
 -- --------------------------------------------------------
 
@@ -392,7 +380,8 @@ INSERT INTO `proceso` (`id_proceso`, `nombre_proceso`, `nombre_directorio_proces
 (27, 'Mejora Continua', 'mejoracontinua'),
 (28, 'Limpieza y Desinfeccion', 'limpiezaydesinfeccion'),
 (29, 'Mercado y Ventas', 'mercadoyventas'),
-(30, 'Planeacion y Control de la Produccion', 'planeacionycontroldelaproduccion');
+(30, 'Planeacion y Control de la Produccion', 'planeacionycontroldelaproduccion'),
+(31, 'Gestion de Proyectos', 'gestiondeproyectos');
 
 -- --------------------------------------------------------
 
@@ -401,15 +390,15 @@ INSERT INTO `proceso` (`id_proceso`, `nombre_proceso`, `nombre_directorio_proces
 --
 
 CREATE TABLE `responsable` (
-  `Id_Responsable` bigint(20) NOT NULL,
-  `Nombre_Responsable` varchar(500) NOT NULL
+  `id_responsable` bigint(20) NOT NULL,
+  `nombre_responsable` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `responsable`
 --
 
-INSERT INTO `responsable` (`Id_Responsable`, `Nombre_Responsable`) VALUES
+INSERT INTO `responsable` (`id_responsable`, `nombre_responsable`) VALUES
 (1, 'GESTOR DE LA UNIDAD Y LIDER AGRICOLA'),
 (2, 'INSTRUCTOR TECNICO'),
 (3, 'GESTOR DE AGUAS'),
@@ -461,7 +450,8 @@ INSERT INTO `responsable` (`Id_Responsable`, `Nombre_Responsable`) VALUES
 (49, 'LIDER DE  MECANIZACION Y MANTENIMIENTO  '),
 (50, 'GESTOR DE MECANIZACION'),
 (51, 'GESTOR DE LA UNIDAD Y LIDER DE MECANIZACION'),
-(52, 'GESTOR DE LABORATORIO DE REPRODUCCION');
+(52, 'GESTOR DE LABORATORIO DE REPRODUCCION'),
+(53, 'nuevo responsable actualizada');
 
 -- --------------------------------------------------------
 
@@ -484,7 +474,7 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` (`id_usuario`, `rol`, `nombre_usuario`, `usuario`, `contrasena`) VALUES
 (4, 'administrador', 'Luis Alejandro Munoz', 'munoz2005', '$2y$15$99.8CHDDMKkjpeIC6yo28uauvNOtzeG8yVN.0vdm5M5FeSODGG7Fq'),
 (6, 'administrador', 'Daniel Cardenas', 'dacarloz', '$2y$15$mpz55PeLY1y4pBYdFyWhHe5d9/DCRdsHkUVkLQLzMw1JmYQzjo4ou'),
-(9, 'administrador', 'Miguel Angel Villalba', 'miguelvillalba', '$2y$15$UxibjqYEgRPjWIQeqQXT.OI/C3WeKpkFEnOfBA.bJ6PNNy7XIOiGq');
+(10, 'administrador', 'Miguel Angel Villalba ', 'miguelVillalba', '$2y$15$89YiLoS4YqgDRRIPfJC6UeG/jKIZY/SijLzHn1wHy3rLNGeZvlhnK');
 
 --
 -- Índices para tablas volcadas
@@ -512,7 +502,7 @@ ALTER TABLE `proceso`
 -- Indices de la tabla `responsable`
 --
 ALTER TABLE `responsable`
-  ADD PRIMARY KEY (`Id_Responsable`);
+  ADD PRIMARY KEY (`id_responsable`);
 
 --
 -- Indices de la tabla `usuarios`
@@ -534,25 +524,25 @@ ALTER TABLE `documentos`
 -- AUTO_INCREMENT de la tabla `procedimiento`
 --
 ALTER TABLE `procedimiento`
-  MODIFY `id_procedimiento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id_procedimiento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT de la tabla `proceso`
 --
 ALTER TABLE `proceso`
-  MODIFY `id_proceso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id_proceso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de la tabla `responsable`
 --
 ALTER TABLE `responsable`
-  MODIFY `Id_Responsable` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id_responsable` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_usuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

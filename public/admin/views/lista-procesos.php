@@ -8,17 +8,10 @@ $connection = $db->conectar();
 $listProcesos = $connection->prepare("SELECT * FROM proceso");
 $listProcesos->execute();
 $procesos = $listProcesos->fetchAll(PDO::FETCH_ASSOC);
-
-
 ?>
-
-
 <!-------page-content start----------->
 <?php require_once('menu.php') ?>
-
 <!------main-content-start----------->
-
-
 <!--Ejemplo tabla con DataTables-->
 <div class="container-fluid">
     <div class="row">
@@ -26,14 +19,14 @@ $procesos = $listProcesos->fetchAll(PDO::FETCH_ASSOC);
             <div class="table-responsive py-4 px-1">
                 <div class="col-xs-15">
                     <?php
-                    if (isset($_GET["status"])) {
+                    if (!empty($_GET["status"])) {
                         if ($_GET["status"] === "createProcess") {
                     ?>
                     <h3 class="text-center">Registro de Proceso</h3>
                     <form action="../controllers/ProcesoController.php" autocomplete="off" method="POST"
                         name="formRegisterProccess">
                         <label>Nombre del Proceso:</label>
-                        <input type="text" name="proceso" class='form-control'>
+                        <input type="text" autofocus name="proceso" class='form-control'>
 
                         <div class="my-3">
                             <input type="submit" class="btn btn-success" value="Registrar"></input>
@@ -44,7 +37,7 @@ $procesos = $listProcesos->fetchAll(PDO::FETCH_ASSOC);
                     </form>
 
                     <?php
-                        } else if ($_GET["status"] === null || $_GET["id_proccess-edit"] === null) {
+                        } else if (empty($_GET["status"]) or empty($_GET["id_proccess-edit"])) {
 
                         ?>
                     <script>
@@ -53,11 +46,11 @@ $procesos = $listProcesos->fetchAll(PDO::FETCH_ASSOC);
                     </script>
 
                     <?php
-                        } else if ($_GET["status"] === "updateProccess" || $_GET["id_proccess-edit"] !== null) {
+                        } else if ($_GET["status"] === "updateProccess" and (!empty($_GET["id_proccess-edit"]))) {
 
                             $id_proccess = $_GET["id_proccess-edit"];
 
-                            $listProccess = $connection->prepare("SELECT * FROM proceso WHERE Id_Proceso = ' " . $id_proccess . "'");
+                            $listProccess = $connection->prepare("SELECT * FROM proceso WHERE id_proceso = ' " . $id_proccess . "'");
                             $listProccess->execute();
                             $proccess = $listProccess->fetch(PDO::FETCH_ASSOC);
                         ?>
@@ -65,24 +58,22 @@ $procesos = $listProcesos->fetchAll(PDO::FETCH_ASSOC);
                     <h3 class="text-center">Editar Proceso</h3>
                     <form action="../controllers/ProcesoController.php" method="POST" name="formUpdateProccess">
                         <label>Nombre del Procesos:</label>
-                        <input type="hidden" name="id_proceso" value="<?php echo $proccess['Id_Proceso'] ?>"
+                        <input type="hidden" name="id_proceso" value="<?php echo $proccess['id_proceso'] ?>"
                             class='form-control'>
-                        <input type="text" name="proceso" value="<?php echo $proccess['Nombre_Proceso'] ?>"
+                        <input type="text" name="proceso" autofocus value="<?php echo $proccess['nombre_proceso'] ?>"
                             class='form-control'>
 
                         <div class="my-3">
                             <input type="submit" class="btn btn-success" value="Actualizar"></input>
                             <input type="hidden" class="btn btn-info" value="formUpdateProccess"
                                 name="MM_formProccessUpdate"></input>
-                            <a href="lista-areas.php" class="btn btn-danger">Cancelar Registro</a>
+                            <a href="lista-procesos.php" class="btn btn-danger">Cancelar Registro</a>
                         </div>
                     </form>
                     <?php
                         }
                         ?>
                     <?php
-
-
                     }
                     if (!isset($_GET["status"])) {
                     ?>
@@ -91,12 +82,8 @@ $procesos = $listProcesos->fetchAll(PDO::FETCH_ASSOC);
                         <input class="btn btn-success" type="submit" value="Registrar Proceso" />
                     </form>
                     <?php
-
                     }
-
                     ?>
-
-
                 </div>
                 <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
@@ -121,7 +108,8 @@ $procesos = $listProcesos->fetchAll(PDO::FETCH_ASSOC);
                                 </form>
                                 <form method="GET" action="">
                                     <input type="hidden" name="status" value="updateProccess">
-                                    <input type="hidden" name="id_proccess-edit" value="<?= $proceso['id_proceso'] ?>">
+                                    <input type="hidden" autofocus name="id_proccess-edit"
+                                        value="<?= $proceso['id_proceso'] ?>">
                                     <button class="btn btn-success mt-2"
                                         onclick="return confirm('desea actualizar el registro seleccionado');"
                                         type="submit"><i class="material-icons" data-toggle="tooltip"

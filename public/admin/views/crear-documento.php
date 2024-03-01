@@ -10,11 +10,13 @@ $connection = $db->conectar();
     <div class="col-xs-12 bg-light-subtle border p-4">
 
         <h3 class="text-center">Registro de Documento</h3>
-        <form action="../controllers/DocumentoController.php" method="POST" enctype="multipart/form-data" autocomplete="off" name="formRegisterDocument">
+        <form action="../controllers/DocumentoController.php" method="POST" enctype="multipart/form-data"
+            autocomplete="off" name="formRegisterDocument">
             <div class="row">
                 <div class="col-md-6 p-2">
                     <span class="help-block">Nombre del Documento</span>
-                    <input type="text" autofocus required class="form-control" id="nombre_documento" name="nombreDocumento">
+                    <input type="text" autofocus required class="form-control" id="nombre_documento"
+                        name="nombreDocumento">
                 </div>
                 <div class="col-md-6 p-2">
                     <span class="help-block">Procedimiento</span>
@@ -25,10 +27,9 @@ $connection = $db->conectar();
                         $listProcedimientos = $connection->prepare("SELECT * FROM procedimiento");
                         $listProcedimientos->execute();
                         $procedimientos = $listProcedimientos->fetchAll(PDO::FETCH_ASSOC);
-
                         // Iterar sobre los procedimientos
                         foreach ($procedimientos as $procedimiento) {
-                            echo "<option value='{$procedimiento['Id_Procedimiento']}'>{$procedimiento['Nombre_Procedimiento']}</option>";
+                            echo "<option value='{$procedimiento['id_procedimiento']}'>{$procedimiento['nombre_procedimiento']}</option>";
                         }
                         ?>
                     </select>
@@ -37,8 +38,26 @@ $connection = $db->conectar();
                 <!-- Campo de solo lectura para mostrar los detalles del procedimiento -->
                 <div class="col-md-6 p-2" id="detalle_procedimiento" style="display: none;">
                     <span class="help-block">Proceso Asignado</span>
-                    <input type="text" required class="form-control" id="nombre_procedimiento" name="idProceso" readonly>
-                    <!-- Agrega más campos aquí para mostrar otros detalles del procedimiento si es necesario -->
+                    <input type="text" required class="form-control" id="nombre_procedimiento" name="idProceso"
+                        readonly>
+                </div>
+
+                <div class="col-md-6 p-2">
+                    <span class="help-block">Responsable</span>
+                    <select class="form-control" required id="id_procedimiento" name="idResponsable">
+                        <option value="">Seleccionar Responsable</option>
+                        <?php
+                        // CONSUMO DE DATOS DE LOS PROCESOS
+                        $listResponsables = $connection->prepare("SELECT * FROM responsable");
+                        $listResponsables->execute();
+                        $responsables = $listResponsables->fetchAll(PDO::FETCH_ASSOC);
+
+                        // Iterar sobre los procedimientos
+                        foreach ($responsables as $responsable) {
+                            echo "<option value='{$responsable['id_responsable']}'>{$responsable['nombre_responsable']}</option>";
+                        }
+                        ?>
+                    </select>
                 </div>
                 <div class="col-md-6 p-2">
                     <span class="help-block">Tipo de Documento</span>
@@ -66,8 +85,9 @@ $connection = $db->conectar();
 
                 <div class=" mt-4">
                     <input type="submit" class="btn btn-success" value="Registrar"></input>
-                    <input type="hidden" required class="btn btn-info" value="formRegisterDocument" name="MM_registerDocument">
-                    <a href="index.php" class="btn btn-danger">Cancelar Registro</a>
+                    <input type="hidden" required class="btn btn-info" value="formRegisterDocument"
+                        name="MM_registerDocument">
+                    <a href="lista-documentos.php" class="btn btn-danger">Cancelar Registro</a>
                 </div>
             </div>
 
@@ -91,27 +111,27 @@ $connection = $db->conectar();
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const selectProcedimiento = document.getElementById('id_procedimiento');
-        const detalleProcedimiento = document.getElementById('detalle_procedimiento');
-        const inputNombreProcedimiento = document.getElementById('nombre_procedimiento');
+document.addEventListener('DOMContentLoaded', function() {
+    const selectProcedimiento = document.getElementById('id_procedimiento');
+    const detalleProcedimiento = document.getElementById('detalle_procedimiento');
+    const inputNombreProcedimiento = document.getElementById('nombre_procedimiento');
 
-        selectProcedimiento.addEventListener('change', function() {
-            const selectedValue = this.value;
-            // Realizar una solicitud AJAX para obtener los detalles del procedimiento
-            fetch(`obtener_detalle_proceso.php?id=${selectedValue}`)
-                .then(response => response.json())
-                .then(data => {
-                    // Actualizar los campos con los detalles del procedimiento
-                    inputNombreProcedimiento.value = data.nombre_procedimiento;
-                    // Mostrar el campo de detalles del procedimiento
-                    detalleProcedimiento.style.display = 'block';
-                })
-                .catch(error => {
-                    console.error('Error al obtener los detalles del procedimiento:', error);
-                });
-        });
+    selectProcedimiento.addEventListener('change', function() {
+        const selectedValue = this.value;
+        // Realizar una solicitud AJAX para obtener los detalles del procedimiento
+        fetch(`obtener_detalle_proceso.php?id=${selectedValue}`)
+            .then(response => response.json())
+            .then(data => {
+                // Actualizar los campos con los detalles del procedimiento
+                inputNombreProcedimiento.value = data.nombre_procedimiento;
+                // Mostrar el campo de detalles del procedimiento
+                detalleProcedimiento.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error al obtener los detalles del procedimiento:', error);
+            });
     });
+});
 </script>
 <!------main-content-end----------->
 
