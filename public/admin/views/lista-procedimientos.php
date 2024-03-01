@@ -22,7 +22,7 @@ $procedimientos = $listProcedimientos->fetchAll(PDO::FETCH_ASSOC);
             <div class="table-responsive py-4 px-1">
                 <div class="col-xs-15">
                     <?php
-                    if (isset($_GET["status"])) {
+                    if (!empty($_GET["status"])) {
                         if ($_GET["status"] === "registrarProcedimiento") {
 
                             // CONSUMO DE DATOS DE LOS PROCESOS
@@ -62,11 +62,11 @@ $procedimientos = $listProcedimientos->fetchAll(PDO::FETCH_ASSOC);
                     </form>
 
                     <?php
-                        } else if ($_GET["status"] === null || $_GET["id_procedure-edit"] === null) {
+                        } else if (empty($_GET["status"]) or empty($_GET["id_procedure-edit"])) {
                         ?>
                     <script>
                     alert("// No se cumplen los parametros requeridos //");
-                    window.location = "lista-procedimiento.php";
+                    window.location = "lista-procedimientos.php";
                     </script>
 
                     <?php
@@ -77,7 +77,7 @@ $procedimientos = $listProcedimientos->fetchAll(PDO::FETCH_ASSOC);
                             $id_procedure = $_GET["id_procedure-edit"];
 
                             // TRAEMOS LOS DATOS DEL REGISTRO SELECCIONADO 
-                            $listProcedures = $connection->prepare("SELECT * FROM procedimiento INNER JOIN proceso ON procedimiento.id_proceso = proceso.Id_Proceso AND procedimiento.id_proceso = proceso.Id_Proceso  WHERE procedimiento.Id_Procedimiento = ' " . $id_procedure . "'");
+                            $listProcedures = $connection->prepare("SELECT * FROM procedimiento INNER JOIN proceso ON procedimiento.id_proceso = proceso.id_proceso AND procedimiento.id_proceso = proceso.id_proceso  WHERE procedimiento.id_procedimiento = ' " . $id_procedure . "'");
                             $listProcedures->execute();
                             $procedure = $listProcedures->fetch(PDO::FETCH_ASSOC);
 
@@ -91,16 +91,16 @@ $procedimientos = $listProcedimientos->fetchAll(PDO::FETCH_ASSOC);
                     <h3 class="text-center">Editar Procedimiento</h3>
                     <form action="../controllers/ProcedimientoController.php" method="POST" name="formUpdateProcedure">
                         <input type="hidden" name="id_procedimiento"
-                            value="<?php echo $procedure['Id_Procedimiento'] ?>" class='form-control'>
+                            value="<?php echo $procedure['id_procedimiento'] ?>" class='form-control'>
                         <label>Nombre del Procedimiento:</label>
 
-                        <input type="text" name="procedimiento" value="<?php echo $procedure['Nombre_Procedimiento'] ?>"
+                        <input type="text" name="procedimiento" value="<?php echo $procedure['nombre_procedimiento'] ?>"
                             class='form-control'>
 
                         <label>Nombre del Proceso:</label>
 
                         <select name="proceso" class="form-control">
-                            <option value=<?php echo $procedure['Id_Proceso'] ?>>Seleccionar Proceso
+                            <option value=<?php echo $procedure['id_proceso'] ?>>Seleccionar Proceso
                             </option>
                             <?php
                                     do {
@@ -130,7 +130,7 @@ $procedimientos = $listProcedimientos->fetchAll(PDO::FETCH_ASSOC);
                     <?php
                         }
                     }
-                    if (!isset($_GET["status"])) {
+                    if (empty($_GET["status"])) {
                         ?>
                     <form class="mb-2" action="" method="GET">
                         <input type="hidden" name="status" value="registrarProcedimiento">

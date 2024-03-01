@@ -13,8 +13,6 @@ if ((isset($_POST["MM_formProcedure"])) && ($_POST["MM_formProcedure"] == "formR
     $procedimiento = $_POST['procedimiento'];
     $proceso = $_POST['proceso'];
 
-
-
     // CONSULTA SQL PARA VERIFICAR SI EL REGISTRO YA EXISTE EN LA BASE DE DATOS
     $db_validation = $connection->prepare("SELECT * FROM procedimiento WHERE nombre_procedimiento = '$procedimiento'");
     $db_validation->execute();
@@ -78,14 +76,15 @@ if ((isset($_POST["MM_formProcedureUpdate"])) && ($_POST["MM_formProcedureUpdate
 
 
 
-    $exami = $connection->prepare("SELECT * FROM procedimiento WHERE Id_Procedimiento='$id_procedimiento'");
+    $exami = $connection->prepare("SELECT * FROM procedimiento WHERE id_Procedimiento ='$id_procedimiento'");
     $exami->execute();
     $register_validation = $exami->fetchAll();
 
     // CONDICIONALES DEPENDIENDO EL RESULTADO DE LA CONSULTA
     if ($register_validation) {
 
-        $update = $connection->prepare("UPDATE procedimiento SET Nombre_Procedimiento ='$procedimiento', id_proceso = '$proceso' WHERE Id_Procedimiento='$id_procedimiento'");
+
+        $update = $connection->prepare("UPDATE procedimiento SET nombre_procedimiento ='$procedimiento', id_proceso = '$proceso' WHERE id_procedimiento='$id_procedimiento'");
         $update->execute();
 
         echo '<script> alert ("//Estimado Usuario la actualizacion se ha realizado exitosamente. //");</script>';
@@ -101,21 +100,23 @@ if ((isset($_POST["MM_formProcedureUpdate"])) && ($_POST["MM_formProcedureUpdate
     }
 }
 
-// ELIMINAR AREA
+// ELIMINAR PROCEDIMIENTO
+if (!empty($_GET["id_procedure-delete"])) {
 
-$id_procedure = $_GET["id_procedure-delete"];
+    $id_procedure = $_GET["id_procedure-delete"];
 
-if ($id_procedure !== null) {
+    if ($id_procedure !== null) {
 
-    $delete = $connection->prepare("DELETE  FROM procedimiento WHERE Id_Procedimiento = ' " . $id_procedure . "'");
-    $delete->execute();
+        $delete = $connection->prepare("DELETE  FROM procedimiento WHERE Id_Procedimiento = ' " . $id_procedure . "'");
+        $delete->execute();
 
 
-    if ($delete) {
-        echo '<script> alert ("// Los datos se eliminaron correctamente //");</script>';
-        echo '<script> window.location= "../views/lista-procedimientos.php"</script>';
-    } else {
-        echo '<script> alert ("// error al momento de eliminar los datos  //");</script>';
-        echo '<script> window.location= "../views/lista-procedimientos.php"</script>';
+        if ($delete) {
+            echo '<script> alert ("// Los datos se eliminaron correctamente //");</script>';
+            echo '<script> window.location= "../views/lista-procedimientos.php"</script>';
+        } else {
+            echo '<script> alert ("// error al momento de eliminar los datos  //");</script>';
+            echo '<script> window.location= "../views/lista-procedimientos.php"</script>';
+        }
     }
 }
