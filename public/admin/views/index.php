@@ -23,7 +23,7 @@ $users = $listUsers->fetchAll(PDO::FETCH_ASSOC);
                     <input type="hidden" name="status" value="registrarProcedimiento">
                     <a class="btn btn-success text-white" href="crear-usuario.php"> Registrar Usuario</a>
                 </div>
-                <table id="example" class="table table-striped table-bordered mt-2" cellspacing="0" width="100%">
+                <table id="example" class="table table-striped table-bordered top-table" cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <th>Acciones</th>

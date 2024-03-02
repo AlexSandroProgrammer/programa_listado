@@ -5,10 +5,19 @@ $connection = $db->conectar();
 
 // CONSULTA BASE DE DATOS PARA TRAER TODOS LOS DATOS RELACIONADOS CON LOS DOCUMENTOS 
 
-$listDocuments = $connection->prepare("SELECT * FROM documentos
-INNER JOIN procedimiento ON documentos.id_procedimiento = procedimiento.id_procedimiento
-INNER JOIN proceso ON procedimiento.id_proceso = proceso.Id_Proceso
-INNER JOIN responsable ON documentos.Id_responsable = responsable.id_responsable");
+$listDocuments = $connection->prepare("SELECT 
+documentos.*, 
+procedimiento.*, 
+responsable.*, 
+proceso.*
+FROM 
+documentos
+INNER JOIN 
+procedimiento ON documentos.id_procedimiento = procedimiento.id_procedimiento
+INNER JOIN 
+responsable ON documentos.id_responsable = responsable.id_responsable
+INNER JOIN 
+proceso ON procedimiento.id_proceso = proceso.id_proceso");
 $listDocuments->execute();
 $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
 
@@ -24,12 +33,10 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
         <div class="col-lg-12 p-4">
             <div class="table-responsive py-4 px-1">
                 <div class="col-xs-15">
-
                     <input type="hidden" name="status" value="registrarProcedimiento">
                     <a class="btn btn-success text-white" href="crear-documento.php"> Registrar Documento</a>
-
                 </div>
-                <table id="example" class="table table-striped table-bordered mt-2" cellspacing="0" width="100%">
+                <table id="example" class="table table-striped table-bordered top-table" cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <th>Acciones</th>
@@ -49,37 +56,34 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                         foreach ($documents as $document) {
                         ?>
                             <tr>
-
                                 <td>
-
-                                    <a href="../documentos/<?php echo $document['Nombre_Documento_Magnetico'] ?>" class=" btn btn-info "><i class="fa fa-download"></i>
+                                    <a href="../documentos/<?php echo $document['nombre_directorio_proceso'] ?>/<?php echo $document['nombre_directorio_procedimiento'] ?>/<?php echo $document['nombre_documento_magnetico'] ?>" class=" btn btn-info "><i class="fa fa-download"></i>
                                     </a>
                                     <a href="#" class="btn btn-warning mt-2">
                                         <i class="fa fa-archive"></i>
                                     </a>
-                                    <form method="GET" action="">
-                                        <input type="hidden" name="status" value="updateProcedure">
-                                        <input type="hidden" name="id_procedure-edit" value="<?= $procedimiento['Id_Procedimiento'] ?>">
+                                    <form method="GET" action="actualizar-documento.php">
+                                        <input type="hidden" name="id_document-edit" value="<?= $document['id_documento'] ?>">
                                         <button class="btn btn-success mt-2" onclick="return confirm('desea actualizar el registro seleccionado');" type="submit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></button>
                                     </form>
 
                                     <form method="GET" action="../controllers/ProcedimientoController.php">
-                                        <input type="hidden" name="id_procedure-delete" value="<?= $procedimiento['Id_Procedimiento'] ?>">
-                                        <button class="btn btn-danger mt-2" onclick="return confirm('¿Desea eliminar el registro seleccionado?');" type="submit"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></button>
+                                        <input type="hidden" name="id_procedure-delete" value="<?= $document['id_documento'] ?>">
+                                        <button class="btn btn-danger   mt-2" onclick="return confirm('¿Desea eliminar el registro seleccionado?');" type="submit"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></button>
                                     </form>
 
 
                                 </td>
-                                <td><?php echo $document['Nombre_Proceso'] ?></td>
-                                <td><?php echo $document['Nombre_Procedimiento'] ?></td>
-                                <td><?php echo $document['Nombre_Documento'] ?></td>
-                                <td><?php echo $document['Nombre_Documento_Magnetico'] ?> <a href="../documentos/<?php echo $document['Nombre_Documento_Magnetico'] ?>"><?php echo $document['Nombre_Documento_Magnetico'] ?></a>
+                                <td><?php echo $document['nombre_proceso'] ?></td>
+                                <td><?php echo $document['nombre_procedimiento'] ?></td>
+                                <td><?php echo $document['nombre_documento'] ?></td>
+                                <td><?php echo $document['nombre_documento_magnetico'] ?> <a href="../documentos/<?php echo $document['nombre_directorio_proceso'] ?>/<?php echo $document['nombre_directorio_procedimiento'] ?>/<?php echo $document['nombre_documento_magnetico'] ?>"><?php echo $document['nombre_documento_magnetico'] ?></a>
                                 </td>
-                                <td><?php echo $document['Tipo_Documento'] ?></td>
-                                <td><?php echo $document['Codigo'] ?></td>
-                                <td><?php echo $document['Version'] ?></td>
-                                <td><?php echo $document['Fecha_Elaboracion'] ?></td>
-                                <td class="texto_persona"><?php echo $document['Nombre_Responsable'] ?></td>
+                                <td><?php echo $document['tipo_documento'] ?></td>
+                                <td><?php echo $document['codigo'] ?></td>
+                                <td><?php echo $document['version'] ?></td>
+                                <td><?php echo $document['fecha_elaboracion'] ?></td>
+                                <td class="texto_persona"><?php echo $document['nombre_responsable'] ?></td>
 
                             </tr>
                         <?php

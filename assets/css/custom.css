@@ -328,6 +328,9 @@ input[type="search"] {
   color: #fff;
 }
 
+.top-table {
+  margin-top: 10px;
+}
 .xp-menubar {
   border-radius: 50%;
   width: 45px;
@@ -755,6 +758,5 @@ footer {
     opacity: 0;
     z-index: 3;
     transition: all 150ms linear;
-    background-color: rgba(0, 0, 0, 0.5);
   }
 }
