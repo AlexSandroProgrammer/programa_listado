@@ -6,19 +6,18 @@ $connection = $db->conectar();
 <?php require_once('menu.php') ?>
 <!------main-content-start----------->
 <!--Formulario -->
-<div class="container-fluid p-3 bg-light-subtle">
-    <div class="col-xs-12 bg-light-subtle border p-4">
-
+<div class="container-fluid bg-success-subtle p-3">
+    <div class="col-xs-12 bg-success-subtle border p-4">
         <h3 class="text-center">Registro de Documento</h3>
         <form action="../controllers/DocumentoController.php" method="POST" enctype="multipart/form-data"
             autocomplete="off" name="formRegisterDocument">
             <div class="row">
-                <div class="col-md-6 p-2">
+                <div class="col-12 p-2">
                     <span class="help-block">Nombre del Documento</span>
                     <input type="text" autofocus required class="form-control" id="nombre_documento"
                         name="nombreDocumento">
                 </div>
-                <div class="col-md-6 p-2">
+                <div class="col-12 p-2">
                     <span class="help-block">Procedimiento</span>
                     <select class="form-control" required id="id_procedimiento" name="idProcedimiento">
                         <option value="">Seleccionar Procedimiento</option>
@@ -36,13 +35,13 @@ $connection = $db->conectar();
                 </div>
 
                 <!-- Campo de solo lectura para mostrar los detalles del procedimiento -->
-                <div class="col-md-6 p-2" id="detalle_procedimiento" style="display: none;">
+                <div class="col-12 p-2" id="detalle_procedimiento" style="display: none;">
                     <span class="help-block">Proceso Asignado</span>
                     <input type="text" required class="form-control" id="nombre_procedimiento" name="idProceso"
                         readonly>
                 </div>
 
-                <div class="col-md-6 p-2">
+                <div class="col-12 p-2">
                     <span class="help-block">Responsable</span>
                     <select class="form-control" required id="id_procedimiento" name="idResponsable">
                         <option value="">Seleccionar Responsable</option>
@@ -59,26 +58,26 @@ $connection = $db->conectar();
                         ?>
                     </select>
                 </div>
-                <div class="col-md-6 p-2">
-                    <span class="help-block">Tipo de Documento</span>
+                <div class="col-12 p-2">
+                    <span class="help-block" for="tipoDocumento">Tipo de Documento</span>
                     <select class="form-control" required id="Id_tipo_doc" name="tipoDocumento">
-                        <option value="Selecciona">Selecciona</option>
+                        <option disabled value="">Selecciona</option>
                         <option value="Formato">Formato</option>
                         <option value="Instructivo">Instructivo</option>
                         <option value="Manual">Manual</option>
                     </select>
                 </div>
-                <div class="col-md-6 p-2">
+                <div class="col-12 p-2">
                     <span class="help-block">Codigo del Documento</span>
                     <input type="text" required class="form-control" id="codigo" name="codigo">
                 </div>
 
-                <div class="col-md-6 p-2">
+                <div class="col-12 p-2">
                     <span class="help-block">Version</span>
                     <input type="number" required class="form-control" id="version" name="version">
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-12">
                     <span class="help-block">Anexar Documento</span>
                     <input type="file" required class="form-control" id="documento" name="documento">
                 </div>

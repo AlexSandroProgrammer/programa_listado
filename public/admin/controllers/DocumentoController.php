@@ -19,7 +19,7 @@ if (isset($_POST["MM_registerDocument"]) && $_POST["MM_registerDocument"] == "fo
     $nombreDocumentoMagnetico = $_FILES['documento']["name"];
 
     // Consulta para verificar si el documento ya existe
-    $documentData = $connection->prepare("SELECT * FROM documentos WHERE nombre_documento = :nombreDocumento OR nombre_documento_magnetico = :nombreDocumentoMagnetico OR Codigo = :codigo");
+    $documentData = $connection->prepare("SELECT * FROM documentos WHERE nombre_documento = :nombreDocumento OR nombre_documento_magnetico = :nombreDocumentoMagnetico OR codigo = :codigo");
     $documentData->bindParam(':nombreDocumento', $nombreDocumento);
     $documentData->bindParam(':nombreDocumentoMagnetico', $nombreDocumentoMagnetico);
     $documentData->bindParam(':codigo', $codigo);
@@ -28,8 +28,8 @@ if (isset($_POST["MM_registerDocument"]) && $_POST["MM_registerDocument"] == "fo
 
     if ($validationDocument) {
         showErrorAndRedirect("Los datos ingresados ya están registrados.", "../views/crear-documento.php");
-    } elseif (isEmpty([$idProceso, $idProcedimiento, $nombreDocumento, $codigo, $tipoDocumento])) {
-        showErrorAndRedirect("Existen datos vacíos en el formulario, debes ingresar todos los datos.", "");
+    } elseif (isEmpty([$idProceso, $idProcedimiento, $nombreDocumento, $codigo, $version, $tipoDocumento, $nombreDocumentoMagnetico])) {
+        showErrorAndRedirect("Existen datos vacíos en el formulario, debes ingresar todos los datos.", "../views/crear-documento.php");
     } else {
         // traemos los directorios de procesos y procedimientos
         $getProccessAndProcedure = $connection->prepare("SELECT * FROM procedimiento INNER JOIN proceso ON procedimiento.id_proceso = proceso.id_proceso WHERE procedimiento.id_procedimiento ='$idProcedimiento'");
@@ -67,7 +67,7 @@ if (isset($_POST["MM_registerDocument"]) && $_POST["MM_registerDocument"] == "fo
                             $registerDocument->bindParam(':idResponsable', $idResponsable);
                             $registerDocument->execute();
                             if ($registerDocument) {
-                                showSuccessAndRedirect("Los datos han sido registrados correctamente.", "../views/crear-documento.php");
+                                showSuccessAndRedirect("Los datos han sido registrados correctamente.", "../views/lista-documentos.php");
                             }
                         } else {
                             showErrorAndRedirect("Error al momento de cargar la imagen del avatar.", "../views/lista-documentos.php");
@@ -96,11 +96,11 @@ if (isset($_POST["MM_updateDocument"]) && $_POST["MM_updateDocument"] == "formUp
     $tipoDocumento = $_POST['tipoDocumento'];
 
     // Consulta para verificar si el documento ya existe
-    $documentData = $connection->prepare("SELECT * FROM documentos WHERE nombre_documento = :nombreDocumento OR nombre_documento_magnetico = :nombreDocumentoMagnetico OR Codigo = :codigo AND id_document = :id_document");
+    $documentData = $connection->prepare("SELECT * FROM documentos WHERE nombre_documento = :nombreDocumento OR nombre_documento_magnetico = :nombreDocumentoMagnetico OR codigo = :codigo AND id_documento = :id_document");
     $documentData->bindParam(':nombreDocumento', $nombreDocumento);
     $documentData->bindParam(':nombreDocumentoMagnetico', $nombreDocumentoMagnetico);
     $documentData->bindParam(':codigo', $codigo);
-    $documentData->bindParam(':idDocument', $idDocument);
+    $documentData->bindParam(':id_document', $idDocument);
     $documentData->execute();
     $validationDocument = $documentData->fetch(PDO::FETCH_ASSOC);
 
@@ -109,54 +109,20 @@ if (isset($_POST["MM_updateDocument"]) && $_POST["MM_updateDocument"] == "formUp
     } elseif (isEmpty([$idProceso, $idProcedimiento, $nombreDocumento, $codigo, $tipoDocumento])) {
         showErrorAndRedirect("Existen datos vacíos en el formulario, debes ingresar todos los datos.", "");
     } else {
-        // traemos los directorios de procesos y procedimientos
-        $getProccessAndProcedure = $connection->prepare("SELECT * FROM procedimiento INNER JOIN proceso ON procedimiento.id_proceso = proceso.id_proceso WHERE procedimiento.id_procedimiento ='$idProcedimiento'");
-        $getProccessAndProcedure->execute();
-        $proccessAndProcedure = $getProccessAndProcedure->fetch(PDO::FETCH_ASSOC);
-        if ($proccessAndProcedure) {
-            // Verifica si se ha enviado un archivo y si no hay errores al subirlo
-            if (isFileUploaded($_FILES['documento'])) {
-                $permitidos = array(
-                    "application/pdf", // PDF
-                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // Word
-                    "application/vnd.openxmlformats-officedocument.presentationml.presentation", // PowerPoint
-                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // Excel
-                    "text/csv" // CSV
-                );
-                $limite_KB = 10000;
-
-                if (isFileValid($_FILES["documento"], $permitidos, $limite_KB)) {
-                    $ruta = "../documentos/" . $proccessAndProcedure['nombre_directorio_proceso'] . '/' . $proccessAndProcedure['nombre_directorio_procedimiento'] . '/';
-                    $documento = $ruta . $_FILES['documento']["name"];
-                    createDirectoryIfNotExists($ruta);
-
-                    if (!file_exists($documento)) {
-                        $resultado = moveUploadedFile($_FILES["documento"], $documento);
-
-                        if ($resultado) {
-                            // Inserta los datos en la base de datos
-                            $registerDocument = $connection->prepare("INSERT INTO documentos(id_procedimiento,nombre_documento,nombre_documento_magnetico, tipo_documento, codigo, version, id_responsable, fecha_elaboracion) VALUES(:idProcedimiento, :nombreDocumento, :nombreDocumentoMagnetico, :tipoDocumento, :codigo, :version, :idResponsable, NOW())");
-                            $registerDocument->bindParam(':idProcedimiento', $idProcedimiento);
-                            $registerDocument->bindParam(':nombreDocumento', $nombreDocumento);
-                            $registerDocument->bindParam(':nombreDocumentoMagnetico', $nombreDocumentoMagnetico);
-                            $registerDocument->bindParam(':codigo', $codigo);
-                            $registerDocument->bindParam(':tipoDocumento', $tipoDocumento);
-                            $registerDocument->bindParam(':version', $version);
-                            $registerDocument->bindParam(':idResponsable', $idResponsable);
-                            $registerDocument->execute();
-                            if ($registerDocument) {
-                                showSuccessAndRedirect("Los datos han sido registrados correctamente.", "../views/crear-documento.php");
-                            }
-                        } else {
-                            showErrorAndRedirect("Error al momento de cargar la imagen del avatar.", "../views/lista-documentos.php");
-                        }
-                    }
-                } else {
-                    showErrorAndRedirect("Error al momento de cargar el archivo, asegúrate de que sea de tipo PDF, WORD o formatos de excel y que su tamaño sea menor o igual a 1 MB.", "../views/crear-documento.php");
-                }
-            } else {
-                showErrorAndRedirect("Error al cargar el documento. Asegúrate de seleccionar un archivo valido.", "../views/crear-documento.php");
-            }
+        // Actualzacion de datos en la base de datos
+        $registerDocument = $connection->prepare("INSERT INTO documentos(id_procedimiento,nombre_documento,nombre_documento_magnetico, tipo_documento, codigo, version, id_responsable, fecha_elaboracion) VALUES(:idProcedimiento, :nombreDocumento, :nombreDocumentoMagnetico, :tipoDocumento, :codigo, :version, :idResponsable, NOW())");
+        $registerDocument = $connection->prepare("UPDATE documentos SET id_procedimiento = :idProcedimiento, nombre_documento = :nombreDocumento, tipo_documento = :tipoDocumento,codigo = :codigo,version = :version, id_responsable = :idResponsable WHERE id_documento = :idDocumento");
+        $registerDocument->bindParam(':idProcedimiento', $idProcedimiento);
+        $registerDocument->bindParam(':nombreDocumento', $nombreDocumento);
+        $registerDocument->bindParam(':tipoDocumento', $tipoDocumento);
+        $registerDocument->bindParam(':codigo', $codigo);
+        $registerDocument->bindParam(':version', $version);
+        $registerDocument->bindParam(':idResponsable', $idResponsable);
+        $registerDocument->execute();
+        if ($registerDocument) {
+            showSuccessAndRedirect("Los datos han sido actualizados correctamente.", "../views/lista-documentos.php");
+        } else {
+            showSuccessAndRedirect("Error al momento de actualizar los datos.", "../views/actualizar-documento.php");
         }
     }
 }

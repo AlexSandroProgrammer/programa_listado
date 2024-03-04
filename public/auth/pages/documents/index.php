@@ -5,9 +5,19 @@ $connection = $db->conectar();
 
 // CONSULTA BASE DE DATOS PARA TRAER TODOS LOS DATOS RELACIONADOS CON LOS DOCUMENTOS 
 
-$listDocuments = $connection->prepare("SELECT * FROM documentos
-INNER JOIN procedimiento ON documentos.id_procedimiento = procedimiento.id_procedimiento
-INNER JOIN responsable ON documentos.id_responsable = responsable.id_responsable");
+$listDocuments = $connection->prepare("SELECT 
+documentos.*, 
+procedimiento.*, 
+responsable.*, 
+proceso.*
+FROM 
+documentos
+INNER JOIN 
+procedimiento ON documentos.id_procedimiento = procedimiento.id_procedimiento
+INNER JOIN 
+responsable ON documentos.id_responsable = responsable.id_responsable
+INNER JOIN 
+proceso ON procedimiento.id_proceso = proceso.id_proceso");
 $listDocuments->execute();
 $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
 
@@ -80,23 +90,22 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                             ?>
                             <tr>
 
-                                <td><a href="../../../admin/documentos/<?php echo $document['nombre_documento_magnetico'] ?>"
-                                        class=" btn btn-outline-success form-control"><i class="fa fa-download"
-                                            aria-hidden="true"></i>
-                                    </a></td>
-
+                                <td>
+                                    <a href="../../../admin/documentos/<?php echo $document['nombre_directorio_proceso'] ?>/<?php echo $document['nombre_directorio_procedimiento'] ?>/<?php echo $document['nombre_documento_magnetico'] ?>"
+                                        class=" btn btn-success "><i class="fa fa-download"></i>
+                                    </a>
+                                </td>
                                 <td><?php echo $document['nombre_proceso'] ?></td>
-
                                 <td><?php echo $document['nombre_procedimiento'] ?></td>
                                 <td><?php echo $document['nombre_documento'] ?></td>
                                 <td><?php echo $document['nombre_documento_magnetico'] ?> <a
-                                        href="../../../admin/documentos/<?php echo $document['nombre_documento_magnetico'] ?>"><?php echo $document['nombre_documento_magnetico'] ?></a>
+                                        href="../../../admin/documentos/<?php echo $document['nombre_directorio_proceso'] ?>/<?php echo $document['nombre_directorio_procedimiento'] ?>/<?php echo $document['nombre_documento_magnetico'] ?>"><?php echo $document['nombre_documento_magnetico'] ?></a>
                                 </td>
                                 <td><?php echo $document['tipo_documento'] ?></td>
                                 <td><?php echo $document['codigo'] ?></td>
                                 <td><?php echo $document['version'] ?></td>
                                 <td><?php echo $document['fecha_elaboracion'] ?></td>
-                                <td><?php echo $document['nombre_responsable'] ?></td>
+                                <td class="texto_persona"><?php echo $document['nombre_responsable'] ?></td>
 
                             </tr>
                             <?php
