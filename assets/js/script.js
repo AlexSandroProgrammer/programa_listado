@@ -79,6 +79,7 @@ document
       width: 1200,
       imageAlt: "logo sena empresa",
       confirmButtonColor: "#28a745",
+      showCloseButton: true,
       cancelButtonText: `
       <i class="fa fa-thumbs-down"></i>`,
     });
@@ -97,6 +98,7 @@ document
       imageAlt: "logo sena empresa",
       confirmButtonColor: "#28a745",
       width: 1000,
+      showCloseButton: true,
       cancelButtonText: `
       <i class="fa fa-thumbs-down"></i>`,
     });

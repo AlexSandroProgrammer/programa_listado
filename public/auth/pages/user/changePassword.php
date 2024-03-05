@@ -89,8 +89,8 @@ if (isset($_SESSION['username']) || isset($_SESSION['rol_user'])) {
                     <form action="../../controller/ChangePasswordController.php" autocomplete="off" method="POST"
                         id="formLogin" class="formulario active">
 
-                        <input type="text" placeholder="Ingresa tu nombre de usuario" class="input-text" name="username"
-                            required autocomplete="off">
+                        <input type="text" autofocus placeholder="Ingresa tu nombre de usuario" class="input-text"
+                            name="username" required autocomplete="off">
 
                         <input class="btn" type="submit" name="validateUser" value="Verificar">
                         <a class="btn-danger" href="../../../auth/">Regresar</a>

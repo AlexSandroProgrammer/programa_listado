@@ -91,7 +91,7 @@ if (isset($_SESSION['username']) || isset($_SESSION['rol_user'])) {
                     <form action="../../controller/ChangePasswordController.php" autocomplete="off" method="POST"
                         id="formLogin" class="formulario active">
                         <div class="grupo-input">
-                            <input type="password" placeholder="Ingresa tu nueva contraseña" name="password"
+                            <input type="password" autofocus placeholder="Ingresa tu nueva contraseña" name="password"
                                 class="input-text clave" title="Debe tener de 6 a 12 digitos" required
                                 onkeyup="espacios(this)" minlength="6" maxlength="20">
                             <button type="button" class="icono fas fa-eye mostrarClave"></button>

@@ -43,6 +43,7 @@ if (isset($_POST["MM_registerDocument"]) && $_POST["MM_registerDocument"] == "fo
                     "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // Word
                     "application/vnd.openxmlformats-officedocument.presentationml.presentation", // PowerPoint
                     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // Excel
+                    "application/vnd.ms-excel", // Excel (formato anterior)
                     "text/csv" // CSV
                 );
                 $limite_KB = 10000;
@@ -110,7 +111,6 @@ if (isset($_POST["MM_updateDocument"]) && $_POST["MM_updateDocument"] == "formUp
         showErrorAndRedirect("Existen datos vacíos en el formulario, debes ingresar todos los datos.", "");
     } else {
         // Actualzacion de datos en la base de datos
-        $registerDocument = $connection->prepare("INSERT INTO documentos(id_procedimiento,nombre_documento,nombre_documento_magnetico, tipo_documento, codigo, version, id_responsable, fecha_elaboracion) VALUES(:idProcedimiento, :nombreDocumento, :nombreDocumentoMagnetico, :tipoDocumento, :codigo, :version, :idResponsable, NOW())");
         $registerDocument = $connection->prepare("UPDATE documentos SET id_procedimiento = :idProcedimiento, nombre_documento = :nombreDocumento, tipo_documento = :tipoDocumento,codigo = :codigo,version = :version, id_responsable = :idResponsable WHERE id_documento = :idDocumento");
         $registerDocument->bindParam(':idProcedimiento', $idProcedimiento);
         $registerDocument->bindParam(':nombreDocumento', $nombreDocumento);
