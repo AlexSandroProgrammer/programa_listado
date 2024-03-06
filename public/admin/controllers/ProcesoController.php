@@ -32,7 +32,6 @@ if ((isset($_POST["MM_formProccess"])) && ($_POST["MM_formProccess"] == "formReg
         $directory_proccess = str_replace(' ', '', $directory);
 
         $ruta = '../documentos/' . $directory_proccess;
-
         // Verificamos que el directorio no se haya creado
         if (!is_dir($ruta)) {
             if (!mkdir($ruta, 0755, true)) {
@@ -58,7 +57,7 @@ if ((isset($_POST["MM_formProccess"])) && ($_POST["MM_formProccess"] == "formReg
     }
 }
 
-// EDITAR AREA 
+// EDITAR PROCESO  
 if ((isset($_POST["MM_formProccessUpdate"])) && ($_POST["MM_formProccessUpdate"] == "formUpdateProccess")) {
 
     // DECLARACION DE LOS VALORES DE LAS VARIABLES DEPENDIENDO DEL TIPO DE CAMPO QUE TENGA EN EL FORMULARIO
@@ -66,30 +65,61 @@ if ((isset($_POST["MM_formProccessUpdate"])) && ($_POST["MM_formProccessUpdate"]
     $proceso = $_POST['proceso'];
 
 
-    $exami = $connection->prepare("SELECT * FROM proceso WHERE id_proceso='$id_proceso'");
+    $exami = $connection->prepare("SELECT * FROM proceso WHERE nombre_proceso='$proceso' AND id_proceso !='$id_proceso'");
     $exami->execute();
     $register_validation = $exami->fetchAll();
 
     // CONDICIONALES DEPENDIENDO EL RESULTADO DE LA CONSULTA
     if ($register_validation) {
-
-        $update = $connection->prepare("UPDATE proceso SET nombre_proceso ='$proceso' WHERE id_proceso='$id_proceso'");
-        $update->execute();
-
-        echo '<script> alert ("//Estimado Usuario la actualizacion se ha realizado exitosamente. //");</script>';
-        echo '<script> window.location= "../views/lista-procesos.php"</script>';
+        echo '<script> alert ("//El nombre de proceso ya esta registrado. //");</script>';
+        echo '<script> window.location= "../views/lista-procesos.php?id_proccess-edit=' . $id_proceso . '"</script>';
     } else if ($id_proceso == "" || $proceso == "") {
         // CONDICIONAL DEPENDIENDO SI EXISTEN ALGUN CAMPO VACIO EN EL FORMULARIO DE LA INTERFAZ
         echo '<script> alert (" //Estimado usuario existen datos vacios. //");</script>';
-        echo '<script> windows.location= "../views/lista-procesos.php"</script>';
+        echo '<script> windows.location= "../views/lista-procesos.php?id_proccess-edit=' . $id_proceso . ' "</script>';
     } else {
+        // eliminamos el nombre del directorio para crear uno nuevo 
+        // Obtenemos el nombre del directorio anterior
+        $getDirectory = $connection->prepare("SELECT nombre_directorio_proceso FROM proceso WHERE id_proceso = '$id_proceso'");
+        $getDirectory->execute();
+        $previousDirectory = $getDirectory->fetch(PDO::FETCH_ASSOC)['nombre_directorio_proceso'];
+        // Eliminamos el directorio anterior si existe
+        $previousDirectoryPath = '../documentos/' . $previousDirectory;
+        if (is_dir($previousDirectoryPath)) {
+            if (!rmdir($previousDirectoryPath)) {
+                echo '<script> alert ("Error al eliminar el directorio anterior.");</script>';
+                echo '<script> window.location= "../views/lista-procesos.php"</script>';
+                exit();
+            }
+        }
+        // colocamos la palabra en minuscula y quitamos los espacios
+        $directory = strtolower($proceso);
+        $directory_proccess = str_replace(' ', '', $directory);
 
+        $ruta = '../documentos/' . $directory_proccess;
+
+        // Verificamos que el directorio no se haya creado
+        if (!is_dir($ruta)) {
+            if (!mkdir($ruta, 0755, true)) {
+                echo '<script> alert ("Error al crear el directorio.");</script>';
+                echo '<script> window.location= "../views/lista-procesos.php"</script>';
+                exit();
+            }
+        } else {
+            echo '<script> alert ("Ya está creado un directorio con el nombre de ese proceso, por favor cámbielo.");</script>';
+            echo '<script> window.location= "../views/lista-procesos.php"</script>';
+            exit();
+        }
+
+
+        $update = $connection->prepare("UPDATE proceso SET nombre_proceso ='$proceso' WHERE id_proceso='$id_proceso'");
+        $update->execute();
         echo '<script>alert("// Error al momento de la actualizacion de los datos. //");</script>';
         echo '<script>windows.location="../views/lista-procesos.php"</script>';
     }
 }
 
-// ELIMINAR AREA
+// ELIMINAR PROCESO
 
 $id_proccess = $_GET["id_proccess-delete"];
 

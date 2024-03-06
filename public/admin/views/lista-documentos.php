@@ -74,10 +74,6 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                                 <a href="#" class="btn btn-light mt-2">
                                     <i class="fa fa-eye"></i>
                                 </a>
-
-
-
-
                             </td>
                             <td><?php echo $document['nombre_proceso'] ?></td>
                             <td><?php echo $document['nombre_procedimiento'] ?></td>

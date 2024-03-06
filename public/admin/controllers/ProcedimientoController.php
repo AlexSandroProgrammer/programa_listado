@@ -5,8 +5,7 @@ require_once "../../../database/connection.php";
 $db = new Database();
 $connection = $db->conectar();
 
-//  REGISTRO DE PROCESO
-
+//  REGISTRO DE PROCEDIMIENTO
 if ((isset($_POST["MM_formProcedure"])) && ($_POST["MM_formProcedure"] == "formRegisterProcedure")) {
 
     // VARIABLES DE ASIGNACION DE VALORES QUE SE ENVIA DEL FORMULARIO REGISTRO DE PROCESOS
@@ -28,7 +27,6 @@ if ((isset($_POST["MM_formProcedure"])) && ($_POST["MM_formProcedure"] == "formR
         echo '<script> alert ("Estimado Usuario, Existen Datos Vacios En El Formulario");</script>';
         echo '<script> windows.location= "../views/lista-procedimientos.php"</script>';
     } else {
-
         // traemos el nombre del directorio del proceso seleccionado para generar la ruta para el procedimiento 
 
         $getProccessSelected = $connection->prepare("SELECT * FROM proceso WHERE id_proceso = '$proceso'");
@@ -48,6 +46,14 @@ if ((isset($_POST["MM_formProcedure"])) && ($_POST["MM_formProcedure"] == "formR
                     echo '<script> alert ("Error al crear el directorio.");</script>';
                     echo '<script> window.location= "../views/lista-procedimientos.php"</script>';
                     exit();
+                } else {
+                    // Si se crea el directorio, creamos el directorio "cuarentena" dentro de él
+                    $ruta_cuarentena = $ruta . '/cuarentena';
+                    if (!mkdir($ruta_cuarentena, 0755, true)) {
+                        echo '<script> alert ("Error al crear el directorio de cuarentena.");</script>';
+                        echo '<script> window.location= "../views/lista-procedimientos.php"</script>';
+                        exit();
+                    }
                 }
             } else {
                 echo '<script> alert ("Ya está creado un directorio con el nombre de ese proceso, por favor cámbielo.");</script>';
@@ -66,7 +72,7 @@ if ((isset($_POST["MM_formProcedure"])) && ($_POST["MM_formProcedure"] == "formR
     }
 }
 
-// EDITAR AREA 
+// EDITAR PROCEDIMIENTO 
 if ((isset($_POST["MM_formProcedureUpdate"])) && ($_POST["MM_formProcedureUpdate"] == "formUpdateProcedure")) {
 
     // DECLARACION DE LOS VALORES DE LAS VARIABLES DEPENDIENDO DEL TIPO DE CAMPO QUE TENGA EN EL FORMULARIO

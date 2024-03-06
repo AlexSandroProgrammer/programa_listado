@@ -114,11 +114,6 @@ require_once("../../validation/validarSesion.php");
                     <a href="change-password.php" class=""><i class="material-icons">border_color</i>Cambiar Contraseña
                     </a>
                 </li>
-                <li class="logout">
-
-                    <a href="../controllers/LogOutController.php" class=""><i class="material-icons">logout</i>Cerrar
-                        Sesion </a>
-                </li>
             </ul>
         </div>
 
@@ -140,18 +135,11 @@ require_once("../../validation/validarSesion.php");
                                 <nav class="navbar p-0">
                                     <ul class="nav navbar-nav flex-row ml-auto">
 
-                                        <li class="dropdown nav-item">
-                                            <a class="nav-link" href="#" data-toggle="dropdown">
-                                                <img src="../../../assets/images/logoSenaEmpresa.png"
-                                                    style="width:40px; border-radius:50%;" />
-                                                <span class="xp-user-live"></span>
-                                            </a>
-                                            <ul class="dropdown-menu small-menu">
-                                                <li><a href="#">
-                                                        <span class="material-icons">logout</span>
-                                                        Cerrar Sesion
-                                                    </a></li>
-                                            </ul>
+                                        <li class="dropdown nav-item mt-2">
+                                            <form action="">
+                                                <a class="btn btn-danger rounded-2"><i
+                                                        class="material-icons">logout</i></a>
+                                            </form>
                                         </li>
                                     </ul>
                                 </nav>

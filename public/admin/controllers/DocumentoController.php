@@ -25,7 +25,6 @@ if (isset($_POST["MM_registerDocument"]) && $_POST["MM_registerDocument"] == "fo
     $documentData->bindParam(':codigo', $codigo);
     $documentData->execute();
     $validationDocument = $documentData->fetch(PDO::FETCH_ASSOC);
-
     if ($validationDocument) {
         showErrorAndRedirect("Los datos ingresados ya están registrados.", "../views/crear-documento.php");
     } elseif (isEmpty([$idProceso, $idProcedimiento, $nombreDocumento, $codigo, $version, $tipoDocumento, $nombreDocumentoMagnetico])) {
@@ -88,6 +87,7 @@ if (isset($_POST["MM_registerDocument"]) && $_POST["MM_registerDocument"] == "fo
 // ACTUALIZACION DE DOCUMENTOS 
 if (isset($_POST["MM_updateDocument"]) && $_POST["MM_updateDocument"] == "formUpdateDocument") {
     // ASIGNACION VALORES DE DATOS
+    $idDocument = $_POST['idDocument'];
     $idProceso = $_POST['idProceso'];
     $idProcedimiento = $_POST['idProcedimiento'];
     $idResponsable = $_POST['idResponsable'];
@@ -97,18 +97,14 @@ if (isset($_POST["MM_updateDocument"]) && $_POST["MM_updateDocument"] == "formUp
     $tipoDocumento = $_POST['tipoDocumento'];
 
     // Consulta para verificar si el documento ya existe
-    $documentData = $connection->prepare("SELECT * FROM documentos WHERE nombre_documento = :nombreDocumento OR nombre_documento_magnetico = :nombreDocumentoMagnetico OR codigo = :codigo AND id_documento = :id_document");
-    $documentData->bindParam(':nombreDocumento', $nombreDocumento);
-    $documentData->bindParam(':nombreDocumentoMagnetico', $nombreDocumentoMagnetico);
-    $documentData->bindParam(':codigo', $codigo);
-    $documentData->bindParam(':id_document', $idDocument);
+    $documentData = $connection->prepare("SELECT * FROM documentos WHERE (nombre_documento = ? OR codigo = ?) AND id_documento != ?");
+    $documentData->execute([$nombreDocumento, $codigo, $idDocument]);
     $documentData->execute();
-    $validationDocument = $documentData->fetch(PDO::FETCH_ASSOC);
-
-    if ($validationDocument) {
-        showErrorAndRedirect("Los datos ingresados ya están registrados.", "../views/crear-documento.php");
-    } elseif (isEmpty([$idProceso, $idProcedimiento, $nombreDocumento, $codigo, $tipoDocumento])) {
-        showErrorAndRedirect("Existen datos vacíos en el formulario, debes ingresar todos los datos.", "");
+    $register_validation = $documentData->fetchAll();
+    if ($register_validation) {
+        showErrorAndRedirect("Los datos ingresados ya están registrados.", "../views/actualizar-documento.php?id_document-edit=" . $idDocument);
+    } elseif (isEmpty([$idProceso, $idProcedimiento, $nombreDocumento, $codigo, $tipoDocumento, $idDocument])) {
+        showErrorAndRedirect("Existen datos vacíos en el formulario, debes ingresar todos los datos.",  "../views/actualizar-documento.php?id_document-edit=" . $idDocument);
     } else {
         // Actualzacion de datos en la base de datos
         $registerDocument = $connection->prepare("UPDATE documentos SET id_procedimiento = :idProcedimiento, nombre_documento = :nombreDocumento, tipo_documento = :tipoDocumento,codigo = :codigo,version = :version, id_responsable = :idResponsable WHERE id_documento = :idDocumento");
@@ -118,11 +114,12 @@ if (isset($_POST["MM_updateDocument"]) && $_POST["MM_updateDocument"] == "formUp
         $registerDocument->bindParam(':codigo', $codigo);
         $registerDocument->bindParam(':version', $version);
         $registerDocument->bindParam(':idResponsable', $idResponsable);
+        $registerDocument->bindParam(':idDocumento', $idDocument);
         $registerDocument->execute();
         if ($registerDocument) {
             showSuccessAndRedirect("Los datos han sido actualizados correctamente.", "../views/lista-documentos.php");
         } else {
-            showSuccessAndRedirect("Error al momento de actualizar los datos.", "../views/actualizar-documento.php");
+            showSuccessAndRedirect("Error al momento de actualizar los datos.", "../views/actualizar-documento.php?id_document-edit=" . $idDocument);
         }
     }
 }
