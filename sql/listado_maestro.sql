@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-03-2024 a las 21:52:00
+-- Tiempo de generación: 06-03-2024 a las 21:54:30
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -44,8 +44,8 @@ CREATE TABLE `documentos` (
 --
 
 INSERT INTO `documentos` (`id_documento`, `id_procedimiento`, `nombre_documento`, `nombre_documento_magnetico`, `tipo_documento`, `codigo`, `version`, `fecha_elaboracion`, `id_responsable`) VALUES
-(279, 49, 'Produccion Formato Cosecha (BPA)', '04 FOr CBPA 01 cosecha bpa.xlsx', 'Formato', 'FOr-CBPA-04-01/09-15', 1, '2024-03-02 11:53:22', 1),
-(280, 44, 'Formato Acta de Entrega', '01 FOr AE 01 acta entrega.docx', 'Formato', 'FOr-AE-01-01/11-12', 1, '2024-03-04 07:53:29', 25),
+(279, 49, 'Produccion Formato Cosecha (BPA)  ', '04 FOr CBPA 01 cosecha bpa.xlsx', 'Selecciona', 'FOr-CBPA-04-01/09-15  ', 1, '2024-03-02 11:53:22', 1),
+(280, 44, 'Formato Acta de Entrega ', '01 FOr AE 01 acta entrega.docx', 'Selecciona', 'FOr-AE-01-01/11-12 ', 1, '2024-03-04 07:53:29', 25),
 (281, 44, 'Formato Asistencia de Visitas al Centro', '01 FOr AVC 01 visit al centr.xlsx', 'Formato', 'FOr-AVC-01-01/10-17', 1, '2024-03-04 08:02:35', 40),
 (282, 44, 'Formato Cronograma De Capacitaciones (BPA)', '01 FOr CCBPA 01 cronog capaci bpa.pdf', 'Formato', 'FOr-CCBPA-01-01/07-16', 1, '2024-03-04 08:16:52', 2),
 (283, 44, 'Formato Cronograma de Actividades Aguas', '01 FOr CDA 01 cronogr actv aguas.xlsx', 'Formato', 'FOr CDA 01-01/10-14', 1, '2024-03-04 08:34:15', 3),
@@ -68,7 +68,34 @@ INSERT INTO `documentos` (`id_documento`, `id_procedimiento`, `nombre_documento`
 (301, 44, 'Formato Pedido de Oficina Sena Empresa', '01 For POSE 01 pedi ofi senaemp.xlsx', 'Formato', 'FOr-POSE-01-01/09-15', 1, '2024-03-04 15:44:26', 40),
 (302, 44, 'Formato de Permiso Sena Empresa Domingo', '01 For PSED 01 permi dom.xlsx', 'Formato', 'FOr-PSED-06-01/10-17', 1, '2024-03-04 15:46:10', 40),
 (303, 44, 'Formato Paz y Salvo Sena Empresa', '01 FOr PSSE 01 paz salvo se em.docx', 'Formato', 'FOr-PSSE-01-01/03-15 ', 1, '2024-03-04 15:47:49', 40),
-(304, 44, 'Formato Registro Control de Visitas Tecnicas', '01 FOr RCVT 01 regi con vis te.xlsx', 'Formato', 'FOr-RCVT-01-01/11-14 ', 1, '2024-03-04 15:49:18', 40);
+(304, 44, 'Formato Registro Control de Visitas Tecnicas', '01 FOr RCVT 01 regi con vis te.xlsx', 'Formato', 'FOr-RCVT-01-01/11-14 ', 1, '2024-03-04 15:49:18', 40),
+(305, 44, 'Formato Turnos de Apoyo Fin de Semana', '01 For TAFS 01 Apoyo Fin.xlsx', 'Formato', 'FOr-TAFS-01-01/10-17', 1, '2024-03-05 08:23:19', 40),
+(306, 44, 'Instructivo Para la Atencion a Visitantes', '01 INs AV 01 ins atenc visitas.docx', 'Instructivo', '01 INs AV 01 ins atenc visitas', 1, '2024-03-05 09:30:34', 40),
+(307, 62, 'Formato Control Del Producto o Servicio No Conforme', '02 FOr CDPOSNC 02 cont prod SC.pdf', 'Formato', 'FOr-CPSC-02-02/11-15', 1, '2024-03-05 10:16:34', 5),
+(308, 47, 'Formato Plan de Auditorias', '02 FOr PA 02 plan auditori.docx', 'Formato', 'FOr-PA-02-02/04-13  ', 1, '2024-03-05 10:19:20', 5),
+(309, 47, 'Formato Programa de Auditorias Internas', '02 FOr PAI 01 programa aud.pdf', 'Formato', 'FOr-PAI-02-01/09-15', 1, '2024-03-05 11:30:24', 5),
+(310, 63, 'Formato de Registro Uso de Equipos, Utensilios y Otros Elementos', '02 FOr REUE 02 reg uso equipos .pdf', 'Formato', 'FOr-REUE-02-02/11-12', 1, '2024-03-05 11:32:56', 5),
+(311, 47, 'Formato Evaluacion de Auditores Internos Por Auditados', '02-FOr- EAIPA 02-01 eval audi inter PA.pdf', 'Formato', 'Or-EAIA-02-01/04-13 ', 1, '2024-03-05 11:35:05', 5),
+(312, 47, 'Formato de Evaluacion de Auditor Interno Por Parte del Auditor Lider', '02-FOr- EDAIPDAL 02-01 eva audi inter PPAL.pdf', 'Formato', 'FOr-EAIPAL-02-01/04-13 ', 1, '2024-03-05 11:37:14', 5),
+(313, 47, 'Formato Informe Auditorias', '02-FOr- IDA 02-01 auditorias inter.pdf', 'Formato', 'Or-IA-02-01/04-13', 1, '2024-03-05 11:43:12', 5),
+(314, 49, 'Formato Para Control de Inventarios De Producto Terminado (Remanentes en plata)', '04 CIPT 01 prod term.xlsx', 'Formato', 'FOr-CIPT-04-01/11-17', 1, '2024-03-05 11:50:06', 34),
+(315, 49, 'Formato Control de Alimentos Para Semovientes (KARDEX)', '04 FOr 01 contro alimen semovien.pdf', 'Formato', 'FOr-CASK-04-01/06-16', 1, '2024-03-05 11:53:21', 18),
+(316, 49, 'Formato Reporte De Mortalidad Unidad de Porcinos', '04 FOr 01 report mortali porci.pdf', 'Formato', 'FOr-RMUP-04-02/06-16', 1, '2024-03-05 11:56:44', 18),
+(317, 49, 'Formato Solicitud de Materiales', '04 FOr 01 solicitud materiales.pdf', 'Formato', 'FOr-SM-04-01/06-16', 1, '2024-03-05 11:58:49', 18),
+(318, 51, 'Formato Acciones Preventivas y Correctivas', '02 FOr APC 01 accio preven y correc.xls', 'Formato', 'FOr-APC-02-01/08-15', 1, '2024-03-05 14:48:46', 16),
+(319, 49, 'Formato Informe de Produccion De Bienes de Agroindustria', '04 FOr  IPBA 01 informe produccion.xls', 'Formato', 'FOr-IPBA-04-01/02-15   ', 1, '2024-03-05 14:56:46', 10),
+(320, 50, 'Formato Informe de Prestacion de Servicios', '04 FOr  IPS 01 informe servicio agroind.xls', 'Formato', 'FOr-IPS-04-01/03-15  ', 1, '2024-03-05 14:59:53', 23),
+(321, 49, 'Formato Aplicacion de Abono Organico (BPA)', '04 FOr AAOBPA 01 apli abon org.xlsx', 'Formato', 'FOr-AAOBPA-04-01/09-15', 1, '2024-03-05 15:02:54', 1),
+(322, 49, 'Formato De Alimentacion Diaria Unidad de Porcinos', '04 FOr ADUP 01 aliment dia.xlsx', 'Formato', 'For-ADUP-04-01/11-17', 1, '2024-03-05 15:17:46', 18),
+(323, 49, 'Formato De Aplicaciones de Fitosanitarios (BPA)', '04 FOr AF 01 aplic fito.xlsx', 'Formato', 'FOr-AF-04-01/11-17', 1, '2024-03-05 15:21:47', 18),
+(324, 49, 'Formato Aplicacion de Fungicida (BPA)', '04 FOr AFBPA 01 apli fungicida.xlsx', 'Formato', 'FOr-AFBPA-04-01/09-15', 1, '2024-03-06 08:18:08', 1),
+(325, 49, 'Formato Aplicacion de Fertilizantes Quimico (BPA)', '04 FOr AFQBPA 01 apli fert qui.xlsx', 'Formato', 'FOr-AFQBPA-04-01/09-15', 1, '2024-03-06 08:20:05', 1),
+(326, 49, 'Formato Aplicacion de Insecticida (BPA)', '04 FOr AIBPA 01 apli insec.xlsx', 'Formato', 'FOr-AIBPA-04-01/09-15', 1, '2024-03-06 08:22:12', 1),
+(327, 49, 'Formato Comparendo Ambiental', '04 FOr CA 01 comparen ambient.pdf', 'Formato', '04 FOr CA 01 comparen ambient', 1, '2024-03-06 08:25:04', 37),
+(328, 49, 'Formato Control de Arvenses (BPA)', '04 FOr CABPA 01 control arven.xlsx', 'Formato', 'FOr-CABPA-04-01/09-15', 1, '2024-03-06 08:26:54', 1),
+(329, 50, '04 FOR CB 01 control botellones ', '04 FOr CB 01 control botellones.pdf', 'Formato', '04 FOr CB 01 control botellon', 1, '2024-03-06 08:29:13', 38),
+(330, 50, 'Formato Control de Contaminacion por Hongos y Bacterias de Plantulas de Laboratorio de Biotecnologia', '04 FOr CCHBPLB  01 conta hong.docx', 'Formato', 'FOr-CCHBPLB-04-02/06-16', 1, '2024-03-06 08:36:09', 18),
+(331, 46, 'nuevo documento actualizado', 'TAREAS PENDIENTES.docx', 'Selecciona', 'sdd-2323 ', 2, '2024-03-06 14:22:47', 16);
 
 -- --------------------------------------------------------
 
@@ -104,7 +131,9 @@ INSERT INTO `procedimiento` (`id_procedimiento`, `nombre_procedimiento`, `id_pro
 (57, 'Control de Inventarios', 25, 'controldeinventarios'),
 (58, 'Control y Registro de Documentos', 22, 'controlyregistrodedocumentos'),
 (59, 'Administrar Base de Datos', 22, 'administrarbasededatos'),
-(60, 'Gestion de la Informacion', 22, 'gestiondelainformacion');
+(60, 'Gestion de la Informacion', 22, 'gestiondelainformacion'),
+(62, 'Control del Producto o Servicio no Conforme', 27, 'controldelproductooservicionoconforme'),
+(63, 'Mantenimiento', 27, 'mantenimiento');
 
 -- --------------------------------------------------------
 
@@ -201,8 +230,7 @@ INSERT INTO `responsable` (`id_responsable`, `nombre_responsable`) VALUES
 (49, 'LIDER DE  MECANIZACION Y MANTENIMIENTO  '),
 (50, 'GESTOR DE MECANIZACION'),
 (51, 'GESTOR DE LA UNIDAD Y LIDER DE MECANIZACION'),
-(52, 'GESTOR DE LABORATORIO DE REPRODUCCION'),
-(53, 'nuevo responsable actualizada');
+(52, 'GESTOR DE LABORATORIO DE REPRODUCCION');
 
 -- --------------------------------------------------------
 
@@ -269,13 +297,13 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `documentos`
 --
 ALTER TABLE `documentos`
-  MODIFY `id_documento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=305;
+  MODIFY `id_documento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=332;
 
 --
 -- AUTO_INCREMENT de la tabla `procedimiento`
 --
 ALTER TABLE `procedimiento`
-  MODIFY `id_procedimiento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id_procedimiento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT de la tabla `proceso`
