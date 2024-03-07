@@ -5,8 +5,41 @@ require_once "../../../database/connection.php";
 $db = new Database();
 $connection = $db->conectar();
 
-//  REGISTRO DE PROCESO
 
+// ELIMINAR PROCESO
+if (isset($_GET['id_proccess-delete'])) {
+    $id_proccess = $_GET["id_proccess-delete"];
+    if ($id_proccess !== null) {
+        $getDirectory = $connection->prepare("SELECT * FROM proceso WHERE id_proceso = ?");
+        $getDirectory->execute([$id_proccess]);
+        $previousDirectory = $getDirectory->fetch(PDO::FETCH_ASSOC);
+        // Eliminamos el directorio anterior si existe
+        $previousDirectoryPath = '../documentos/' . $previousDirectory['nombre_directorio_proceso'];
+        if (is_dir($previousDirectoryPath)) {
+            if (!rmdir($previousDirectoryPath)) {
+                echo '<script> alert ("Error al eliminar el directorio anterior.");</script>';
+                echo '<script> window.location= "../views/lista-procesos.php"</script>';
+                exit();
+            } else {
+                $delete = $connection->prepare("DELETE  FROM proceso WHERE id_proceso = ' " . $id_proccess . "'");
+                $delete->execute();
+                if ($delete) {
+                    echo '<script> alert ("// Los datos se eliminaron correctamente //");</script>';
+                    echo '<script> window.location= "../views/lista-procesos.php"</script>';
+                } else {
+                    echo '<script> alert ("// error al momento de eliminar los datos  //");</script>';
+                    echo '<script> window.location= "../views/lista-procesos.php"</script>';
+                }
+            }
+        }
+    } else {
+        echo '<script> alert ("// Error al eliminar los datos //");</script>';
+        echo '<script> window.location= "../views/lista-procesos.php"</script>';
+    }
+}
+
+
+//  REGISTRO DE PROCESO
 if ((isset($_POST["MM_formProccess"])) && ($_POST["MM_formProccess"] == "formRegisterProccess")) {
 
     // VARIABLES DE ASIGNACION DE VALORES QUE SE ENVIA DEL FORMULARIO REGISTRO DE PROCESOS
@@ -80,11 +113,11 @@ if ((isset($_POST["MM_formProccessUpdate"])) && ($_POST["MM_formProccessUpdate"]
     } else {
         // eliminamos el nombre del directorio para crear uno nuevo 
         // Obtenemos el nombre del directorio anterior
-        $getDirectory = $connection->prepare("SELECT nombre_directorio_proceso FROM proceso WHERE id_proceso = '$id_proceso'");
+        $getDirectory = $connection->prepare("SELECT * FROM proceso WHERE id_proceso = '$id_proceso'");
         $getDirectory->execute();
-        $previousDirectory = $getDirectory->fetch(PDO::FETCH_ASSOC)['nombre_directorio_proceso'];
+        $previousDirectory = $getDirectory->fetch(PDO::FETCH_ASSOC);
         // Eliminamos el directorio anterior si existe
-        $previousDirectoryPath = '../documentos/' . $previousDirectory;
+        $previousDirectoryPath = '../documentos/' . $previousDirectory['nombre_directorio_proceso'];
         if (is_dir($previousDirectoryPath)) {
             if (!rmdir($previousDirectoryPath)) {
                 echo '<script> alert ("Error al eliminar el directorio anterior.");</script>';
@@ -104,36 +137,17 @@ if ((isset($_POST["MM_formProccessUpdate"])) && ($_POST["MM_formProccessUpdate"]
                 echo '<script> alert ("Error al crear el directorio.");</script>';
                 echo '<script> window.location= "../views/lista-procesos.php"</script>';
                 exit();
+            } else {
+                $update = $connection->prepare("UPDATE proceso SET nombre_proceso ='$proceso' WHERE id_proceso='$id_proceso'");
+                $update->execute();
+                echo '<script>alert("// Los datos han sido actualizados correctamente. //");</script>';
+                echo '<script>window.location="../views/lista-procesos.php"</script>';
+                exit();
             }
         } else {
             echo '<script> alert ("Ya está creado un directorio con el nombre de ese proceso, por favor cámbielo.");</script>';
             echo '<script> window.location= "../views/lista-procesos.php"</script>';
             exit();
         }
-
-
-        $update = $connection->prepare("UPDATE proceso SET nombre_proceso ='$proceso' WHERE id_proceso='$id_proceso'");
-        $update->execute();
-        echo '<script>alert("// Error al momento de la actualizacion de los datos. //");</script>';
-        echo '<script>windows.location="../views/lista-procesos.php"</script>';
-    }
-}
-
-// ELIMINAR PROCESO
-
-$id_proccess = $_GET["id_proccess-delete"];
-
-if ($id_proccess !== null) {
-
-    $delete = $connection->prepare("DELETE  FROM proceso WHERE id_proceso = ' " . $id_proccess . "'");
-    $delete->execute();
-
-
-    if ($delete) {
-        echo '<script> alert ("// Los datos se eliminaron correctamente //");</script>';
-        echo '<script> window.location= "../views/lista-procesos.php"</script>';
-    } else {
-        echo '<script> alert ("// error al momento de eliminar los datos  //");</script>';
-        echo '<script> window.location= "../views/lista-procesos.php"</script>';
     }
 }

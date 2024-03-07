@@ -3,6 +3,11 @@ session_start();
 
 require_once("../../validation/validarSesion.php");
 
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header("Location:../../");
+}
+
 
 ?>
 <!doctype html>
@@ -27,8 +32,7 @@ require_once("../../validation/validarSesion.php");
     <link rel="stylesheet" type="text/css" href="../../libraries/datatables/datatables.min.css" />
 
     <!--datables estilo bootstrap 4 CSS-->
-    <link rel="stylesheet" type="text/css"
-        href="../../libraries/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../libraries/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
 
     <!--google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -135,10 +139,9 @@ require_once("../../validation/validarSesion.php");
                                 <nav class="navbar p-0">
                                     <ul class="nav navbar-nav flex-row ml-auto">
 
-                                        <li class="dropdown nav-item mt-2">
-                                            <form action="">
-                                                <a class="btn btn-danger rounded-2"><i
-                                                        class="material-icons">logout</i></a>
+                                        <li class="dropdown nav-item mt-2 rounded-2">
+                                            <form method="post" action="">
+                                                <a class="btn btn-danger" href="menu.php?logout"><i class="material-icons">logout</i></a>
                                             </form>
                                         </li>
                                     </ul>
