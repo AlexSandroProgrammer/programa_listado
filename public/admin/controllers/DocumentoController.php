@@ -45,7 +45,7 @@ if (isset($_POST["MM_registerDocument"]) && $_POST["MM_registerDocument"] == "fo
                     "application/vnd.ms-excel", // Excel (formato anterior)
                     "text/csv" // CSV
                 );
-                $limite_KB = 10000;
+                $limite_KB = 12000;
 
                 if (isFileValid($_FILES["documento"], $permitidos, $limite_KB)) {
                     $ruta = "../documentos/" . $proccessAndProcedure['nombre_directorio_proceso'] . '/' . $proccessAndProcedure['nombre_directorio_procedimiento'] . '/';
@@ -74,7 +74,7 @@ if (isset($_POST["MM_registerDocument"]) && $_POST["MM_registerDocument"] == "fo
                         }
                     }
                 } else {
-                    showErrorAndRedirect("Error al momento de cargar el archivo, asegúrate de que sea de tipo PDF, WORD o formatos de excel y que su tamaño sea menor o igual a 1 MB.", "../views/crear-documento.php");
+                    showErrorAndRedirect("Error al momento de cargar el archivo, asegúrate de que sea de tipo PDF, WORD o formatos de excel y que su tamaño sea menor o igual a 10 MB.", "../views/crear-documento.php");
                 }
             } else {
                 showErrorAndRedirect("Error al cargar el documento. Asegúrate de seleccionar un archivo valido.", "../views/crear-documento.php");
