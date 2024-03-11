@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-03-2024 a las 21:54:30
+-- Tiempo de generación: 11-03-2024 a las 21:53:53
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -71,7 +71,6 @@ INSERT INTO `documentos` (`id_documento`, `id_procedimiento`, `nombre_documento`
 (304, 44, 'Formato Registro Control de Visitas Tecnicas', '01 FOr RCVT 01 regi con vis te.xlsx', 'Formato', 'FOr-RCVT-01-01/11-14 ', 1, '2024-03-04 15:49:18', 40),
 (305, 44, 'Formato Turnos de Apoyo Fin de Semana', '01 For TAFS 01 Apoyo Fin.xlsx', 'Formato', 'FOr-TAFS-01-01/10-17', 1, '2024-03-05 08:23:19', 40),
 (306, 44, 'Instructivo Para la Atencion a Visitantes', '01 INs AV 01 ins atenc visitas.docx', 'Instructivo', '01 INs AV 01 ins atenc visitas', 1, '2024-03-05 09:30:34', 40),
-(307, 62, 'Formato Control Del Producto o Servicio No Conforme', '02 FOr CDPOSNC 02 cont prod SC.pdf', 'Formato', 'FOr-CPSC-02-02/11-15', 1, '2024-03-05 10:16:34', 5),
 (308, 47, 'Formato Plan de Auditorias', '02 FOr PA 02 plan auditori.docx', 'Formato', 'FOr-PA-02-02/04-13  ', 1, '2024-03-05 10:19:20', 5),
 (309, 47, 'Formato Programa de Auditorias Internas', '02 FOr PAI 01 programa aud.pdf', 'Formato', 'FOr-PAI-02-01/09-15', 1, '2024-03-05 11:30:24', 5),
 (310, 63, 'Formato de Registro Uso de Equipos, Utensilios y Otros Elementos', '02 FOr REUE 02 reg uso equipos .pdf', 'Formato', 'FOr-REUE-02-02/11-12', 1, '2024-03-05 11:32:56', 5),
@@ -95,7 +94,27 @@ INSERT INTO `documentos` (`id_documento`, `id_procedimiento`, `nombre_documento`
 (328, 49, 'Formato Control de Arvenses (BPA)', '04 FOr CABPA 01 control arven.xlsx', 'Formato', 'FOr-CABPA-04-01/09-15', 1, '2024-03-06 08:26:54', 1),
 (329, 50, '04 FOR CB 01 control botellones ', '04 FOr CB 01 control botellones.pdf', 'Formato', '04 FOr CB 01 control botellon', 1, '2024-03-06 08:29:13', 38),
 (330, 50, 'Formato Control de Contaminacion por Hongos y Bacterias de Plantulas de Laboratorio de Biotecnologia', '04 FOr CCHBPLB  01 conta hong.docx', 'Formato', 'FOr-CCHBPLB-04-02/06-16', 1, '2024-03-06 08:36:09', 18),
-(331, 46, 'nuevo documento actualizado', 'TAREAS PENDIENTES.docx', 'Selecciona', 'sdd-2323 ', 2, '2024-03-06 14:22:47', 16);
+(332, 49, 'Formato Control de Herramientas (BPA)', '04 FOr CHBPA 01 control herram bpa.pdf', 'Formato', 'FOr-CHBPA-04-01/07-16', 1, '2024-03-07 08:36:53', 18),
+(333, 57, 'Formato de Control de Inventario de Bolsas', '04 FOr CIB 02 inve bols.xlsx', 'Formato', 'FOr-CIB-07-02/11-17', 1, '2024-03-07 08:42:46', 37),
+(334, 50, 'Programa Mantenimiento Correctivo de Tractores e Implementos Agricolas', '04 FOr CMCTIA 01 mant corre tract.pdf', 'Formato', 'FOr-MCTIA-04-01/12-15 ', 1, '2024-03-07 08:51:14', 49),
+(335, 50, 'Formato Control de Mantenimiento Preventivo de Tractores E Implementos Agricolas', '04 FOr CMPTIA 01 mant prev tract.pdf', 'Formato', 'FOr-MPTIA-04-01/12-15 ', 1, '2024-03-07 09:04:02', 51),
+(336, 49, 'Formato de Celos y Montas Unidad de Ganaderia', '04 FOr CMUG 01 for cel y mon.xlsx', 'Formato', 'FOr-CMUG-04-01/11-17', 1, '2024-03-07 09:12:55', 18),
+(337, 49, 'Formato Control de Montas Unidades de Ovinos', '04 FOr CMUO 01 montas uni ovi.docx', 'Formato', 'FOr-CMUO-04-01/ 09-15 ', 1, '2024-03-07 09:18:57', 18),
+(338, 49, 'Formato de Control de Plagas', '04 FOr CP 01 contr plag.docx', 'Formato', 'FOr-CP-04-01/05-12 ', 1, '2024-03-07 09:21:40', 1),
+(339, 50, 'Formato Control de Prestamo de Equipo de Laboratorio', '04 FOr CPEL 01 cont pres equ.xls', 'Formato', 'FOr-CPEL-04-01/07-15', 1, '2024-03-11 08:39:49', 12),
+(340, 49, 'Formato Control de Plagas en la Unidad de Avicultura', '04 FOr CPUA 01 con pla avi.docx', 'Formato', 'FOr – CPUA – 04-01/07-15', 1, '2024-03-11 08:44:49', 18),
+(341, 44, 'Formato Cronograma Semestral de Fertilizacion (BPA)', '04 FOr CSFBPA 01 cron semes ferti bpa.pdf', 'Formato', 'FOr-CSFBPA-01-01/07-16', 1, '2024-03-11 08:49:36', 2),
+(342, 50, 'Formato Control y Uso de los Reactivos de Laboratorio de Suelos', '04 FOr CURLS 01 cont uso rls.xls', 'Formato', 'For-CURLS-04-01/07-15', 1, '2024-03-11 08:53:53', 12),
+(343, 49, 'Formato de Evaluacion de Criterios de Aceptacion o Rechazo de Materias Primas, Insumos y Producto Terminado', '04 FOr ECARMPIPT 03 eval crit mp i pt f-236.pdf', 'Formato', 'FOr ECARMPIPT 04-03/02-15', 1, '2024-03-11 08:57:39', 17),
+(345, 49, 'Formato Ficha Producto Terminado ', '04 FOr FPT 01 ft product.docx', 'Formato', 'FOr-FPT-04-01/08-13', 1, '2024-03-11 09:10:59', 17),
+(346, 49, 'Formato de Fichas Tecnicas de los Cultivos', '04 FOr FTC 01 fich tec cult.xls', 'Formato', 'FOr-FTC-04-01/11-13', 1, '2024-03-11 09:32:26', 1),
+(347, 49, 'Formato Ficha Tecnica de Detergentes y Desinfectantes', '04 FOr FTDYD 01 ft det y desif.docx', 'Formato', 'FOr-FTDD-04-01/08-13  ', 1, '2024-03-11 09:39:22', 17),
+(348, 49, 'Formato Ficha Tecnica de Equipos', '04 FOr FTE 01 ft equipos.docx', 'Formato', 'FOr-FTE-04-01/08-13', 1, '2024-03-11 09:54:21', 17),
+(349, 49, 'Formato Ficha Tecnica de Materias Primas e Insumos', '04 FOr FTMPEI 01 ft mp.docx', 'Formato', 'FOr-FTMPI-04-01/02-13', 1, '2024-03-11 13:55:56', 18),
+(350, 49, 'Formato Historial de Cultivo (BPA)', '04 FOr HCBPA 01 histor culti bpa.pdf', 'Formato', 'FOr-HCBPA-04-01/07-16', 1, '2024-03-11 14:05:49', 17),
+(351, 50, 'Formato de Inspeccion y Auditoria Programa de Limpieza y Desinfeccion', '04 FOr IAPLD 01 insp y aud.docx', 'Formato', 'FOr-IAPLD 04-02/11-17', 1, '2024-03-11 14:08:22', 22),
+(352, 49, 'Formato Informe Ejecutivo', '04 FOr IE 01 forma inf ejecu.xlsx', 'Formato', 'FOr-IE-04-01/02-15      ', 1, '2024-03-11 14:15:55', 2),
+(353, 49, 'Formato Informe Ejecutivo Area de Mecanizacion Agricola', '04 FOr IEAMA 04 inform ejec mec..pdf', 'Formato', 'FOr-IEAMA- 04-02/05-16 ', 1, '2024-03-11 14:18:24', 2);
 
 -- --------------------------------------------------------
 
@@ -132,8 +151,7 @@ INSERT INTO `procedimiento` (`id_procedimiento`, `nombre_procedimiento`, `id_pro
 (58, 'Control y Registro de Documentos', 22, 'controlyregistrodedocumentos'),
 (59, 'Administrar Base de Datos', 22, 'administrarbasededatos'),
 (60, 'Gestion de la Informacion', 22, 'gestiondelainformacion'),
-(62, 'Control del Producto o Servicio no Conforme', 27, 'controldelproductooservicionoconforme'),
-(63, 'Mantenimiento', 27, 'mantenimiento');
+(65, 'Limpieza y Desinfeccion', 23, 'limpiezaydesinfeccion');
 
 -- --------------------------------------------------------
 
@@ -297,13 +315,13 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `documentos`
 --
 ALTER TABLE `documentos`
-  MODIFY `id_documento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=332;
+  MODIFY `id_documento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=354;
 
 --
 -- AUTO_INCREMENT de la tabla `procedimiento`
 --
 ALTER TABLE `procedimiento`
-  MODIFY `id_procedimiento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id_procedimiento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT de la tabla `proceso`
