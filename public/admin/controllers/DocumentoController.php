@@ -124,6 +124,10 @@ if (isset($_POST["MM_updateDocument"]) && $_POST["MM_updateDocument"] == "formUp
     }
 }
 
+
+
+// METODO DE CUARENTENA
+
 function showErrorAndRedirect($message, $location)
 {
     echo "<script>alert('$message');</script>";

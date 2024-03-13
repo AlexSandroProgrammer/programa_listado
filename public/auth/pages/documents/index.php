@@ -20,7 +20,6 @@ INNER JOIN
 proceso ON procedimiento.id_proceso = proceso.id_proceso");
 $listDocuments->execute();
 $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 
 <!DOCTYPE html>
@@ -46,7 +45,6 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <!-- favicion logo  -->
     <link rel="shortcut icon" href="../../../../assets/images/logoSenaEmpresa.png" type="image/x-icon">
-
 </head>
 
 <body>
