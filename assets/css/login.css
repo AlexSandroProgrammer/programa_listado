@@ -649,8 +649,9 @@ Responsive
     padding: 0px 30px;
   }
 }
-@media screen and (min-width: 1500px) {
+@media screen and (min-width: 1400px) {
   .contenedor-form{
+    margin-top: 50px;
     padding: 100px 50px 50px 50px;
   }
 }
