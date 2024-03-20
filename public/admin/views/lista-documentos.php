@@ -4,7 +4,6 @@ $db = new Database();
 $connection = $db->conectar();
 
 // CONSULTA BASE DE DATOS PARA TRAER TODOS LOS DATOS RELACIONADOS CON LOS DOCUMENTOS 
-
 $listDocuments = $connection->prepare("SELECT 
 documentos.*, 
 procedimiento.*, 
