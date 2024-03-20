@@ -26,7 +26,6 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
 
 <?php require_once('menu.php') ?>
 
-
 <!--Ejemplo tabla con DataTables-->
 <div class="container-fluid">
     <div class="row">

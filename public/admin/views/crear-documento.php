@@ -61,7 +61,7 @@ $connection = $db->conectar();
                 <div class="col-12 p-2">
                     <span class="help-block" for="tipoDocumento">Tipo de Documento</span>
                     <select class="form-control" required id="Id_tipo_doc" name="tipoDocumento">
-                        <option disabled value="">Selecciona</option>
+                        <option value="">Selecciona</option>
                         <option value="Formato">Formato</option>
                         <option value="Instructivo">Instructivo</option>
                         <option value="Manual">Manual</option>
