@@ -58,9 +58,14 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                                 <a href="../documentos/<?php echo $document['nombre_directorio_proceso'] ?>/<?php echo $document['nombre_directorio_procedimiento'] ?>/<?php echo $document['nombre_documento_magnetico'] ?>"
                                     class=" btn btn-info "><i class="fa fa-download"></i>
                                 </a>
-                                <a href="#" class="btn btn-warning mt-2">
-                                    <i class="fa fa-archive"></i>
-                                </a>
+
+                                <form method="GET" action="archivar-documento.php">
+                                    <input type="hidden" name="id_archive_document"
+                                        value="<?= $document['id_documento'] ?>">
+                                    <button class="btn btn-warning mt-2"
+                                        onclick="return confirm('desea enviar a cuarentena el formato seleccionado');"
+                                        type="submit"> <i class="fa fa-archive"></i></button>
+                                </form>
                                 <form method="GET" action="actualizar-documento.php">
                                     <input type="hidden" name="id_document-edit"
                                         value="<?= $document['id_documento'] ?>">
