@@ -5,7 +5,6 @@ $connection = $db->conectar();
 
 // validamos que se reciba el id del documento seleccionado 
 if (!empty($_GET["id_archive_document"])) {
-    echo $_GET['id_archive_document'];
     // realizamos consulta de los datos del documento seleccionado 
     $id_document = $_GET['id_archive_document'];
     $listDocument = $connection->prepare("SELECT documentos.*, procedimiento.*, 
@@ -38,12 +37,12 @@ proceso ON procedimiento.id_proceso = proceso.id_proceso WHERE documentos.id_doc
                         value="<?php echo $document['id_documento'] ?> " name="idDocument">
                 </div>
                 <div class="col-12 p-2" hidden>
-                    <input type="text" hidden required class="form-control" id="id_document"
+                    <input type="text" hidden required class="form-control" id="id_procedimiento"
                         value="<?php echo $document['id_procedimiento'] ?> " name="id_procedimiento">
                 </div>
                 <div class="col-12 p-2">
-                    <input type="text" autofocus required class="form-control" id="id_document"
-                        value="<?php echo $document['nombre_documento'] ?> " name="idDocument">
+                    <input type="text" autofocus required class="form-control" id="nombre_documento"
+                        value="<?php echo $document['nombre_documento'] ?> " name="nombreDocumento">
                 </div>
                 <div class="col-12 p-2" hidden>
                     <span class="help-block">Nombre del Documento</span>

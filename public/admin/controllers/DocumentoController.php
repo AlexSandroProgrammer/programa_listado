@@ -54,7 +54,6 @@ if (isset($_POST["MM_registerDocument"]) && $_POST["MM_registerDocument"] == "fo
 
                     if (!file_exists($documento)) {
                         $resultado = moveUploadedFile($_FILES["documento"], $documento);
-
                         if ($resultado) {
                             // Inserta los datos en la base de datos
                             $registerDocument = $connection->prepare("INSERT INTO documentos(id_procedimiento,nombre_documento,nombre_documento_magnetico, tipo_documento, codigo, version, id_responsable, fecha_elaboracion) VALUES(:idProcedimiento, :nombreDocumento, :nombreDocumentoMagnetico, :tipoDocumento, :codigo, :version, :idResponsable, NOW())");
@@ -134,22 +133,25 @@ if (isset($_POST["MM_archiveDocument"]) && $_POST["MM_archiveDocument"] == "form
     $id_procedimiento = $_POST['id_procedimiento'];
     $codigo = $_POST['codigo'];
     $version = $_POST['version'];
+    $nombreDocumento = $_POST['nombreDocumento'];
     $nombreDocumentoMagneticoOld = $_POST['nombreDocumentoMagnetico'];
+
 
     // RECIBIMOS EL ARCHIVO 
     $nombreDocumentoMagnetico = $_FILES['documento']["name"];
     // Consulta para verificar si el documento ya existe
-    $archiveDocument = $connection->prepare("SELECT * FROM documentos WHERE nombre_documento_magnetico = :nombreDocumentoMagnetico OR codigo = :codigo AND id_documento != :id_document");
+    $archiveDocument = $connection->prepare("SELECT * FROM documentos WHERE nombre_documento_magnetico = :nombreDocumentoMagnetico OR codigo = :codigo OR nombre_documento = :nombreDocumento AND id_documento != :id_document");
     $archiveDocument->bindParam(':codigo', $codigo);
+    $archiveDocument->bindParam(':nombreDocumento', $nombreDocumento);
     $archiveDocument->bindParam(':nombreDocumentoMagnetico', $nombreDocumentoMagnetico);
     $archiveDocument->bindParam(':id_document', $id_document);
     $archiveDocument->execute();
     $validationDocument = $archiveDocument->fetch(PDO::FETCH_ASSOC);
 
     if ($validationDocument) {
-        showErrorAndRedirect("Los datos ingresados ya están registrados.", "../views/archivo-documento.php?id_archive_document='$id_document'");
+        showErrorAndRedirect("Los datos ingresados ya están registrados.", "../views/archivo-documento.php?id_archive_document=" . $id_document);
     } elseif (isEmpty([$codigo, $version, $nombreDocumentoMagnetico])) {
-        showErrorAndRedirect("Existen datos vacíos en el formulario, debes ingresar todos los datos.", "../views/archivo-documento.php?id_archive_document='$id_document'");
+        showErrorAndRedirect("Existen datos vacíos en el formulario, debes ingresar todos los datos.", "../views/archivo-documento.php?id_archive_document=" . $id_document);
     } else {
         // traemos los directorios de procesos y procedimientos
         $getProccessAndProcedure = $connection->prepare("SELECT * FROM procedimiento INNER JOIN proceso ON procedimiento.id_proceso = proceso.id_proceso WHERE procedimiento.id_procedimiento ='$id_procedimiento'");
@@ -173,68 +175,76 @@ if (isset($_POST["MM_archiveDocument"]) && $_POST["MM_archiveDocument"] == "form
                     // ruta antigua del procedimiento
                     $ruta = "../documentos/" . $proccessAndProcedure['nombre_directorio_proceso'] . '/' . $proccessAndProcedure['nombre_directorio_procedimiento'] . "/";
                     // ruta nueva en cuarentena
-                    $rutaCuarentena = "../documentos/" . $proccessAndProcedure['nombre_directorio_proceso'] . '/' . $proccessAndProcedure['nombre_directorio_procedimiento'] . "/cuarentena/";
+                    $rutaCuarentena = "../documentos/" . $proccessAndProcedure['nombre_directorio_proceso'] . '/' . $proccessAndProcedure['nombre_directorio_procedimiento'] . "/" . "cuarentena" . "/";
 
                     $documentoAntiguo = $ruta . $nombreDocumentoMagneticoOld;
                     if (file_exists($documentoAntiguo)) {
-                        if (rename($documentoAntiguo, $rutaCuarentena . $nombreDocumentoMagneticoOld)) {
-                            $ruta = "../documentos/" . $proccessAndProcedure['nombre_directorio_proceso'] . '/' . $proccessAndProcedure['nombre_directorio_procedimiento'] . "/";
-                            $documento = $ruta . $_FILES['documento']["name"];
-                            createDirectoryIfNotExists($ruta);
-                            if (!file_exists($documento)) {
-                                $resultado = moveUploadedFile($_FILES["documento"], $documento);
-                                if ($resultado) {
-                                    // nos traemos los datos del documento antiguo
+                        createDirectoryIfNotExists($rutaCuarentena);
 
-                                    $selectDocument = $connection->prepare("SELECT * FROM documentos WHERE nombre_documento_magnetico = :nombreDocumentoMagnetico OR codigo = :codigo AND id_documento != :id_document");
-                                    $selectDocument->bindParam(':codigo', $codigo);
-                                    $selectDocument->bindParam(':nombreDocumentoMagnetico', $nombreDocumentoMagnetico);
-                                    $selectDocument->bindParam(':id_document', $id_document);
-                                    $selectDocument->execute();
-                                    $documentSelection = $selectDocument->fetch(PDO::FETCH_ASSOC);
+                        $documento = $ruta . $_FILES['documento']["name"];
+                        createDirectoryIfNotExists($ruta);
+                        if (!file_exists($documento)) {
+                            $resultado = moveUploadedFile($_FILES["documento"], $documento);
+                            if ($resultado) {
+                                // nos traemos los datos del documento antiguo
+                                $selectDocument = $connection->prepare("SELECT * FROM documentos WHERE nombre_documento_magnetico = :nombreDocumentoMagnetico OR codigo = :codigo AND id_documento != :id_document");
+                                $selectDocument->bindParam(':codigo', $codigo);
+                                $selectDocument->bindParam(':nombreDocumentoMagnetico', $nombreDocumentoMagnetico);
+                                $selectDocument->bindParam(':id_document', $id_document);
+                                $selectDocument->execute();
 
-                                    if ($documentSelection) {
-                                        // Inserta los datos en la base de datos
-                                        $registerDocument = $connection->prepare("INSERT INTO trigger_cuarentena(nombre_documento,nombre_documento_magnetico, tipo_documento, codigo, version, id_responsable, fecha_cuarentena) VALUES(:nombre_documento, :nombreDocumentoMagnetico, :tipoDocumento, :codigo, :version, :idResponsable, NOW())");
-                                        $registerDocument->bindParam(':nombre_documento', $documentSelection['nombre_documento']);
-                                        $registerDocument->bindParam(':nombreDocumentoMagnetico', $documentSelection['nombre_documento_magnetico']);
-                                        $registerDocument->bindParam(':tipoDocumento', $documentSelection['tipo_documento']);
-                                        $registerDocument->bindParam(':codigo', $$documentSelection['codigo']);
-                                        $registerDocument->bindParam(':version', $$documentSelection['version']);
-                                        $registerDocument->bindParam(':idResponsable', $$documentSelection['id_responsable']);
-                                        $registerDocument->execute();
-                                        if ($registerDocument) {
-                                            $updateDocument = $connection->prepare("UPDATE documentos SET nombre_documento = :nombreDocumento, nombre_documento_magnetico = :nombreDocumentoMagnetico, codigo = :codigo, version = :version WHERE id_documento = :idDocument");
-                                            $updateDocument->bindParam(':nombreDocumento', $nombreDocumento);
-                                            $updateDocument->bindParam(':nombreDocumentoMagnetico', $nombreDocumentoMagnetico);
-                                            $updateDocument->bindParam(':codigo', $codigo);
-                                            $updateDocument->bindParam(':version', $version);
-                                            $updateDocument->bindParam(':idDocument', $id_document);
-                                            $updateDocument->execute();
-                                            if ($updateDocument) {
-                                                showSuccessAndRedirect("Se ha actualizado correctamente los datos", "../views/lista-documentos.php");
-                                            } else {
-                                                showErrorAndRedirect("Error al momento de cargar el archivo.", "../views/archivar-documento.php");
-                                            }
+
+                                if ($selectDocument) {
+                                    // Insertar los datos en la base de datos
+                                    $registerDocument = $connection->prepare("INSERT INTO trigger_cuarentena(nombre_documento, nombre_documento_magnetico, tipo_documento, codigo, version, id_responsable, fecha_cuarentena) VALUES(:nombre_documento, :nombreDocumentoMagnetico, :tipoDocumento, :codigo, :version, :idResponsable, NOW())");
+
+                                    // Verificar y asignar valores adecuadamente
+                                    $nombre_documento = isset($documentSelection['nombre_documento']) ? $documentSelection['nombre_documento'] : '';
+                                    $nombreDocumentoMagnetico = isset($documentSelection['nombre_documento_magnetico']) ? $documentSelection['nombre_documento_magnetico'] : '';
+                                    $tipoDocumento = isset($documentSelection['tipo_documento']) ? $documentSelection['tipo_documento'] : '';
+                                    $codigo = isset($documentSelection['codigo']) ? $documentSelection['codigo'] : '';
+                                    $version = isset($documentSelection['version']) ? $documentSelection['version'] : '';
+                                    $idResponsable = isset($documentSelection['id_responsable']) ? $documentSelection['id_responsable'] : '';
+
+                                    $registerDocument->bindParam(':nombre_documento', $nombre_documento);
+                                    $registerDocument->bindParam(':nombreDocumentoMagnetico', $nombreDocumentoMagnetico);
+                                    $registerDocument->bindParam(':tipoDocumento', $tipoDocumento);
+                                    $registerDocument->bindParam(':codigo', $codigo);
+                                    $registerDocument->bindParam(':version', $version);
+                                    $registerDocument->bindParam(':idResponsable', $idResponsable);
+                                    if ($registerDocument) {
+                                        $updateDocument = $connection->prepare("UPDATE documentos SET nombre_documento = :nombreDocumento, nombre_documento_magnetico = :nombreDocumentoMagnetico, codigo = :codigo, version = :version WHERE id_documento = :idDocument");
+                                        $updateDocument->bindParam(':nombreDocumento', $nombreDocumento);
+                                        $updateDocument->bindParam(':nombreDocumentoMagnetico', $nombreDocumentoMagnetico);
+                                        $updateDocument->bindParam(':codigo', $codigo);
+                                        $updateDocument->bindParam(':version', $version);
+                                        $updateDocument->bindParam(':idDocument', $id_document);
+                                        $updateDocument->execute();
+                                        if ($updateDocument) {
+                                            showSuccessAndRedirect("Se ha actualizado correctamente los datos", "../views/lista-documentos.php");
                                         } else {
-                                            showErrorAndRedirect("Error al cargar al momento de registrar los datos.", "../views/crear-documento.php");
+                                            showErrorAndRedirect("Error al momento de cargar el archivo.", "../views/archivar-documento.php?id_archive_document=" . $id_document);
                                         }
+                                    } else {
+                                        showErrorAndRedirect("Error al momento de archivar el archivo en cuarentena.", "../views/archivar-documento.php?id_archive_document=" . $id_document);
                                     }
                                 } else {
-                                    showErrorAndRedirect("Error al momento de cargar el archivo.", "../views/archivar-documento.php");
+                                    showErrorAndRedirect("Error al momento de actualizar los datos.", "../views/archivar-documento.php?id_archive_document=" . $id_document);
                                 }
                             } else {
-                                showErrorAndRedirect("Error al momento de cargar el archivo.", "../views/lista-documentos.php");
+                                showErrorAndRedirect("Error al momento de cargar el archivo.", "../views/archivar-documento.php?id_archive_document=" . $id_document);
                             }
+                        } else {
+                            showErrorAndRedirect("Error al momento de cargar el archivo.", "../views/archivar-documento.php?id_archive_document=" . $id_document);
                         }
                     } else {
-                        showErrorAndRedirect("no se encontro el archivo en el directorio.", "../views/archivar-documento.php");
+                        showErrorAndRedirect("no se encontro el archivo en el directorio.", "../views/archivar-documento.php?id_archive_document=" . $id_document);
                     }
                 } else {
-                    showErrorAndRedirect("Error al momento de cargar el archivo, asegúrate de que sea de tipo PDF, WORD o formatos de excel y que su tamaño sea menor o igual a 10 MB.", "../views/crear-documento.php");
+                    showErrorAndRedirect("Error al momento de cargar el archivo, asegúrate de que sea de tipo PDF, WORD o formatos de excel y que su tamaño sea menor o igual a 10 MB.", "../views/crear-documento.php?id_archive_document=" . $id_document);
                 }
             } else {
-                showErrorAndRedirect("Error al cargar el documento. Asegúrate de seleccionar un archivo valido.", "../views/crear-documento.php");
+                showErrorAndRedirect("Error al cargar el documento. Asegúrate de seleccionar un archivo valido.", "../views/crear-documento.php?id_archive_document=" . $id_document);
             }
         }
     }
@@ -244,7 +254,7 @@ if (isset($_POST["MM_archiveDocument"]) && $_POST["MM_archiveDocument"] == "form
 function showErrorAndRedirect($message, $location)
 {
     echo "<script>alert('$message');</script>";
-    echo "<script>window.location=('$location');</script>";
+    echo $location;
 }
 
 
