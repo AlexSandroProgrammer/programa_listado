@@ -1,6 +1,6 @@
             <!----footer-design------------->
 
-            <footer class="footer">
+            <footer class="footer m-0">
                 <div class="container-fluid">
                     <div class="footer-in">
                         <p class="mb-0">&copy 2024 Centro Agropecuario La Granja. Todos los derechos reservados.

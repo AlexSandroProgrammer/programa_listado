@@ -8,7 +8,6 @@ $connection = $db->conectar();
 //  REGISTRO DE PROCESO
 
 if (isset($_POST["validateUser"])) {
-
     // VARIABLES DE ASIGNACION DE VALORES QUE SE ENVIA DEL FORMULARIO REGISTRO DE PROCESOS
     $usuario = $_POST['username'];
 

@@ -5,16 +5,16 @@ $connection = $db->conectar();
 
 // CONSULTA BASE DE DATOS PARA TRAER TODOS LOS DATOS RELACIONADOS CON LOS DOCUMENTOS 
 $listDocuments = $connection->prepare("SELECT 
-documentos.*, 
+trigger_cuarentena.*, 
 procedimiento.*, 
 responsable.*, 
 proceso.*
 FROM 
-documentos
+trigger_cuarentena
 INNER JOIN 
-procedimiento ON documentos.id_procedimiento = procedimiento.id_procedimiento
+procedimiento ON trigger_cuarentena.id_procedimiento = procedimiento.id_procedimiento
 INNER JOIN 
-responsable ON documentos.id_responsable = responsable.id_responsable
+responsable ON trigger_cuarentena.id_responsable = responsable.id_responsable
 INNER JOIN 
 proceso ON procedimiento.id_proceso = proceso.id_proceso");
 $listDocuments->execute();
@@ -30,10 +30,7 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
     <div class="row">
         <div class="col-lg-12 p-4">
             <div class="table-responsive py-4 px-1">
-                <div class="col-xs-15">
-                    <input type="hidden" name="status" value="registrarProcedimiento">
-                    <a class="btn btn-success text-white" href="crear-documento.php"> Registrar Documento</a>
-                </div>
+
                 <table id="example" class="table table-striped table-bordered top-table" cellspacing="0" width="100%">
                     <thead>
                         <tr>
@@ -55,25 +52,18 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                         ?>
                         <tr>
                             <td>
+                                <form method="GET" action="../controllers/DocumentoController.php">
+                                    <input type="hidden" name="id_upload_document"
+                                        value="<?= $document['id_document_cuarentena'] ?>">
+                                    <button class="btn btn-success mb-2"
+                                        onclick="return confirm('desea volver a subir nuevamente el formato seleccionado');"
+                                        type="submit"> <i class="fa fa-upload"></i></button>
+                                </form>
+
                                 <a href="../documentos/<?php echo $document['nombre_directorio_proceso'] ?>/<?php echo $document['nombre_directorio_procedimiento'] ?>/<?php echo $document['nombre_documento_magnetico'] ?>"
                                     class=" btn btn-info "><i class="fa fa-download"></i>
                                 </a>
 
-                                <form method="GET" action="archivar-documento.php">
-                                    <input type="hidden" name="id_archive_document"
-                                        value="<?= $document['id_documento'] ?>">
-                                    <button class="btn btn-warning mt-2"
-                                        onclick="return confirm('desea enviar a cuarentena el formato seleccionado');"
-                                        type="submit"> <i class="fa fa-archive"></i></button>
-                                </form>
-                                <form method="GET" action="actualizar-documento.php">
-                                    <input type="hidden" name="id_document-edit"
-                                        value="<?= $document['id_documento'] ?>">
-                                    <button class="btn btn-success mt-2"
-                                        onclick="return confirm('desea actualizar el registro seleccionado');"
-                                        type="submit"><i class="material-icons" data-toggle="tooltip"
-                                            title="Edit">&#xE254;</i></button>
-                                </form>
 
                             </td>
                             <td><?php echo $document['nombre_proceso'] ?></td>
@@ -83,9 +73,9 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                                     href="../documentos/<?php echo $document['nombre_directorio_proceso'] ?>/<?php echo $document['nombre_directorio_procedimiento'] ?>/<?php echo $document['nombre_documento_magnetico'] ?>"><?php echo $document['nombre_documento_magnetico'] ?></a>
                             </td>
                             <td><?php echo $document['tipo_documento'] ?></td>
-                            <td><?php echo $document['codigo'] ?></td>
+                            <td><?php echo $document['codigo_version'] ?></td>
                             <td><?php echo $document['version'] ?></td>
-                            <td><?php echo $document['fecha_elaboracion'] ?></td>
+                            <td><?php echo $document['fecha_cuarentena'] ?></td>
                             <td class="texto_persona"><?php echo $document['nombre_responsable'] ?></td>
 
                         </tr>
@@ -116,10 +106,6 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
 
 <!-- código JS propìo-->
 <script type="text/javascript" src="../../../assets/js/props-datatable.js"></script>
-
-<script>
-$('#control').select2();
-</script>
 
 
 <!------main-content-end----------->

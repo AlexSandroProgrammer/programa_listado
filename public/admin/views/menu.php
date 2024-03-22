@@ -115,10 +115,20 @@ if (isset($_GET['logout'])) {
                         <li><a href="lista-responsable.php?status=registrarResponsable">Crear Responsable</a></li>
                     </ul>
                 </li>
+                <li class="dropdown">
+                    <a href="#homeSubmenu12" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="material-icons">dashboard</i>Cuarentena
+                    </a>
+                    <ul class="collapse list-unstyled menu" id="homeSubmenu12">
+                        <li><a href="cuarentena.php">Listado de Archivos</a></li>
+
+                    </ul>
+                </li>
                 <li class="">
                     <a href="change-password.php" class=""><i class="material-icons">border_color</i>Cambiar Contraseña
                     </a>
                 </li>
+
             </ul>
         </div>
 
