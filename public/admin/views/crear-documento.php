@@ -17,6 +17,12 @@ $connection = $db->conectar();
                     <input type="text" autofocus required class="form-control" id="nombre_documento"
                         name="nombreDocumento">
                 </div>
+                <!-- Campo de solo lectura para mostrar los detalles del procedimiento -->
+                <div class="col-12 p-2" id="detalle_procedimiento" style="display: none;">
+                    <span class="help-block">Proceso Asignado</span>
+                    <input type="text" required class="form-control" id="nombre_procedimiento" name="idProceso"
+                        readonly>
+                </div>
                 <div class="col-12 p-2">
                     <span class="help-block">Procedimiento</span>
                     <select class="form-control" required id="id_procedimiento" name="idProcedimiento">
@@ -33,14 +39,6 @@ $connection = $db->conectar();
                         ?>
                     </select>
                 </div>
-
-                <!-- Campo de solo lectura para mostrar los detalles del procedimiento -->
-                <div class="col-12 p-2" id="detalle_procedimiento" style="display: none;">
-                    <span class="help-block">Proceso Asignado</span>
-                    <input type="text" required class="form-control" id="nombre_procedimiento" name="idProceso"
-                        readonly>
-                </div>
-
                 <div class="col-12 p-2">
                     <span class="help-block">Responsable</span>
                     <select class="form-control" required id="id_procedimiento" name="idResponsable">

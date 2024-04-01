@@ -19,10 +19,7 @@ INNER JOIN
 proceso ON procedimiento.id_proceso = proceso.id_proceso");
 $listDocuments->execute();
 $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
-
-
 ?>
-
 <?php require_once('menu.php') ?>
 
 <!--Ejemplo tabla con DataTables-->
@@ -32,7 +29,7 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
             <div class="table-responsive py-4 px-1">
                 <div class="col-xs-15">
                     <input type="hidden" name="status" value="registrarProcedimiento">
-                    <a class="btn btn-success text-white" href="crear-documento.php"> Registrar Documento</a>
+                    <a class="btn btn-success text-white" href="crear-documento.php">Registrar Documento</a>
                 </div>
                 <table id="example" class="table table-striped table-bordered top-table" cellspacing="0" width="100%">
                     <thead>
@@ -58,7 +55,10 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                                 <a href="../documentos/<?php echo $document['nombre_directorio_proceso'] ?>/<?php echo $document['nombre_directorio_procedimiento'] ?>/<?php echo $document['nombre_documento_magnetico'] ?>"
                                     class=" btn btn-info "><i class="fa fa-download"></i>
                                 </a>
-
+                                <a class=" btn btn-black mt-2"
+                                    onclick="openPops(event, '<?php echo $document['nombre_directorio_proceso'] ?>/<?php echo $document['nombre_directorio_procedimiento'] ?>/<?php echo $document['nombre_documento_magnetico'] ?>')"><i
+                                        class="fa fa-eye"></i>
+                                </a>
                                 <form method="GET" action="archivar-documento.php">
                                     <input type="hidden" name="id_archive_document"
                                         value="<?= $document['id_documento'] ?>">
@@ -74,7 +74,6 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                                         type="submit"><i class="material-icons" data-toggle="tooltip"
                                             title="Edit">&#xE254;</i></button>
                                 </form>
-
                             </td>
                             <td><?php echo $document['nombre_proceso'] ?></td>
                             <td><?php echo $document['nombre_procedimiento'] ?></td>
@@ -111,14 +110,22 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
 
 <!-- datatables JS -->
 <script type="text/javascript" src="../../libraries/datatables/datatables.min.js"></script>
-
-
-
 <!-- código JS propìo-->
 <script type="text/javascript" src="../../../assets/js/props-datatable.js"></script>
 
+
 <script>
-$('#control').select2();
+// creamos una funcion para realizar la visualizacion del archivo seleccionado 
+function openPops(event, fileName) {
+    // evitamos la recarga de la pagina
+    event.preventDefault();
+    const openWindow = window.open(`../documentos/${fileName}`, '_blank', 'width=600,height=400');
+    //si hay algun error
+    if (!openWindow) {
+        alert('Error al momento de visualizar el archivo');
+    }
+
+}
 </script>
 
 

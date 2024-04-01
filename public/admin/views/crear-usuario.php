@@ -17,8 +17,6 @@ $connection = $db->conectar();
 
         <h3 class="text-center">Registro de Usuario</h3>
         <form action="../controllers/UserController.php" method="POST" autocomplete="off" name="formRegisterUser">
-
-
             <label>Nombre Completo:</label>
             <input type="text" autofocus name="names" class='form-control' maxlength="50">
             <label>Nombre de Usuario:</label>

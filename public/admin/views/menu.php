@@ -45,6 +45,7 @@ if (isset($_GET['logout'])) {
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
 
+
 </head>
 
 <body>
@@ -152,8 +153,7 @@ if (isset($_GET['logout'])) {
 
                                         <li class="dropdown nav-item mt-2 rounded-2">
                                             <form method="post" action="">
-                                                <a class="btn btn-danger" href="menu.php?logout"><i
-                                                        class="material-icons">logout</i></a>
+                                                <a class="btn btn-danger p-2" href="menu.php?logout">Cerrar Sesion</a>
                                             </form>
                                         </li>
                                     </ul>
