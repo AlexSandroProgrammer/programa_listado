@@ -17,18 +17,31 @@ if (isset($_POST["MM_registerDocument"]) && $_POST["MM_registerDocument"] == "fo
     $tipoDocumento = $_POST['tipoDocumento'];
     // RECIBIMOS EL ARCHIVO 
     $nombreDocumentoMagnetico = $_FILES['documento']["name"];
+    $nombreDocumentoMagneticoPdf = $_FILES['documentopdf']["name"];
+    $typeDocumentVisualizer = $_FILES['documentopdf']['type'];
+
+    if (isEmpty([$idProceso, $idProcedimiento, $nombreDocumento, $codigo, $version, $tipoDocumento, $nombreDocumentoMagnetico, $nombreDocumentoMagneticoPdf])) {
+        showErrorAndRedirect("Existen datos vacios en el formulario.", "../views/crear-documento.php");
+        exit();
+    }
+
+    // verificamos que el archivo de visualizacion sea tipo pdf
+    if ($typeDocumentVisualizer !== 'application/pdf') {
+        showErrorAndRedirect("Debes subir un archivo pdf para la opcion de visualizacion.", "../views/crear-documento.php");
+        exit();
+    }
 
     // Consulta para verificar si el documento ya existe
-    $documentData = $connection->prepare("SELECT * FROM documentos WHERE nombre_documento = :nombreDocumento OR nombre_documento_magnetico = :nombreDocumentoMagnetico OR codigo = :codigo");
+    $documentData = $connection->prepare("SELECT * FROM documentos WHERE nombre_documento = :nombreDocumento OR nombre_documento_magnetico = :nombreDocumentoMagnetico OR codigo = :codigo OR nombre_documento_visualizacion = :nombreDocumentoMagneticoPdf");
     $documentData->bindParam(':nombreDocumento', $nombreDocumento);
     $documentData->bindParam(':nombreDocumentoMagnetico', $nombreDocumentoMagnetico);
     $documentData->bindParam(':codigo', $codigo);
+    $documentData->bindParam(':nombreDocumentoMagneticoPdf', $nombreDocumentoMagneticoPdf);
     $documentData->execute();
     $validationDocument = $documentData->fetch(PDO::FETCH_ASSOC);
     if ($validationDocument) {
         showErrorAndRedirect("Los datos ingresados ya están registrados.", "../views/crear-documento.php");
-    } elseif (isEmpty([$idProceso, $idProcedimiento, $nombreDocumento, $codigo, $version, $tipoDocumento, $nombreDocumentoMagnetico])) {
-        showErrorAndRedirect("Existen datos vacíos en el formulario, debes ingresar todos los datos.", "../views/crear-documento.php");
+        exit();
     } else {
         // traemos los directorios de procesos y procedimientos
         $getProccessAndProcedure = $connection->prepare("SELECT * FROM procedimiento INNER JOIN proceso ON procedimiento.id_proceso = proceso.id_proceso WHERE procedimiento.id_procedimiento ='$idProcedimiento'");
@@ -36,7 +49,7 @@ if (isset($_POST["MM_registerDocument"]) && $_POST["MM_registerDocument"] == "fo
         $proccessAndProcedure = $getProccessAndProcedure->fetch(PDO::FETCH_ASSOC);
         if ($proccessAndProcedure) {
             // Verifica si se ha enviado un archivo y si no hay errores al subirlo
-            if (isFileUploaded($_FILES['documento'])) {
+            if (isFileUploaded($_FILES['documento']) and isFileUploaded($_FILES['documentopdf'])) {
                 $permitidos = array(
                     "application/pdf", // PDF
                     "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // Word
@@ -46,20 +59,25 @@ if (isset($_POST["MM_registerDocument"]) && $_POST["MM_registerDocument"] == "fo
                     "text/csv" // CSV
                 );
                 $limite_KB = 12000;
-
-                if (isFileValid($_FILES["documento"], $permitidos, $limite_KB)) {
+                if (isFileValid($_FILES["documento"], $permitidos, $limite_KB) and isFileValid($_FILES["documentopdf"], $permitidos, $limite_KB)) {
+                    // ruta para registro del archivo de descarga
                     $ruta = "../documentos/" . $proccessAndProcedure['nombre_directorio_proceso'] . '/' . $proccessAndProcedure['nombre_directorio_procedimiento'] . '/';
+                    // ruta para registro del archivo de visualizacion
+                    $rutaPdf = "../documentos/" . $proccessAndProcedure['nombre_directorio_proceso'] . '/' . $proccessAndProcedure['nombre_directorio_procedimiento'] . "/" . "pdf/";
                     $documento = $ruta . $_FILES['documento']["name"];
+                    $documentopdf = $rutaPdf . $_FILES['documentopdf']["name"];
                     createDirectoryIfNotExists($ruta);
-
-                    if (!file_exists($documento)) {
+                    if (!file_exists($documento) and !file_exists($documentopdf)) {
                         $resultado = moveUploadedFile($_FILES["documento"], $documento);
-                        if ($resultado) {
+                        $resultadoPdf = moveUploadedFile($_FILES["documentopdf"], $documentopdf);
+
+                        if ($resultado and $resultadoPdf) {
                             // Inserta los datos en la base de datos
-                            $registerDocument = $connection->prepare("INSERT INTO documentos(id_procedimiento,nombre_documento,nombre_documento_magnetico, tipo_documento, codigo, version, id_responsable, fecha_elaboracion) VALUES(:idProcedimiento, :nombreDocumento, :nombreDocumentoMagnetico, :tipoDocumento, :codigo, :version, :idResponsable, NOW())");
+                            $registerDocument = $connection->prepare("INSERT INTO documentos(id_procedimiento,nombre_documento,nombre_documento_magnetico, nombre_documento_visualizacion, tipo_documento, codigo, version, id_responsable, fecha_elaboracion) VALUES(:idProcedimiento, :nombreDocumento, :nombreDocumentoMagnetico, :nombreDocumentoMagneticoPdf, :tipoDocumento, :codigo, :version, :idResponsable, NOW())");
                             $registerDocument->bindParam(':idProcedimiento', $idProcedimiento);
                             $registerDocument->bindParam(':nombreDocumento', $nombreDocumento);
                             $registerDocument->bindParam(':nombreDocumentoMagnetico', $nombreDocumentoMagnetico);
+                            $registerDocument->bindParam(':nombreDocumentoMagneticoPdf', $nombreDocumentoMagneticoPdf);
                             $registerDocument->bindParam(':codigo', $codigo);
                             $registerDocument->bindParam(':tipoDocumento', $tipoDocumento);
                             $registerDocument->bindParam(':version', $version);
@@ -75,10 +93,10 @@ if (isset($_POST["MM_registerDocument"]) && $_POST["MM_registerDocument"] == "fo
                         }
                     }
                 } else {
-                    showErrorAndRedirect("Error al momento de cargar el archivo, asegúrate de que sea de tipo PDF, WORD o formatos de excel y que su tamaño sea menor o igual a 10 MB.", "../views/crear-documento.php");
+                    showErrorAndRedirect("Error al momento de cargar los archivos, asegúrate de que sea de tipo PDF, WORD o formatos de excel para el formato de descarga y que el archivo de visualizacion sea de pdf y que su tamaño sea menor o igual a 10 MB.", "../views/crear-documento.php");
                 }
             } else {
-                showErrorAndRedirect("Error al cargar el documento. Asegúrate de seleccionar un archivo valido.", "../views/crear-documento.php");
+                showErrorAndRedirect("Error al cargar los documentos. Asegúrate de seleccionar un archivo valido.", "../views/crear-documento.php");
             }
         }
     }
@@ -135,10 +153,20 @@ if (isset($_POST["MM_archiveDocument"]) && $_POST["MM_archiveDocument"] == "form
     $version = $_POST['version'];
     $nombreDocumento = $_POST['nombreDocumento'];
     $nombreDocumentoMagneticoOld = $_POST['nombreDocumentoMagnetico'];
-
-
     // RECIBIMOS EL ARCHIVO 
     $nombreDocumentoMagnetico = $_FILES['documento']["name"];
+    $nombreDocumentoMagneticoPdf = $_FILES['documentopdf']["name"];
+    $typeDocumentVisualizer = $_FILES['documentopdf']['type'];
+
+    if (isEmpty([$nombreDocumentoMagneticoOld, $nombreDocumentoMagneticoPdf, $id_document, $id_procedimiento, $codigo, $version, $nombreDocumento])) {
+        showErrorAndRedirect("Existen datos vacíos en el formulario, debes ingresar todos los datos.", "../views/archivo-documento.php?id_archive_document=" . $id_document);
+    }
+    // verificamos que el archivo de visualizacion sea tipo pdf
+    if ($typeDocumentVisualizer !== 'application/pdf') {
+        showErrorAndRedirect("Debes subir un archivo pdf para la opcion de visualizacion.", "../views/crear-documento.php");
+        exit();
+    }
+
     // Consulta para verificar si el documento ya existe
     $archiveDocument = $connection->prepare("SELECT * FROM documentos WHERE nombre_documento_magnetico = :nombreDocumentoMagnetico OR codigo = :codigo OR nombre_documento = :nombreDocumento AND id_documento != :id_document");
     $archiveDocument->bindParam(':codigo', $codigo);
@@ -150,8 +178,6 @@ if (isset($_POST["MM_archiveDocument"]) && $_POST["MM_archiveDocument"] == "form
 
     if ($validationDocument) {
         showErrorAndRedirect("Los datos ingresados ya están registrados.", "../views/archivo-documento.php?id_archive_document=" . $id_document);
-    } elseif (isEmpty([$codigo, $version, $nombreDocumentoMagnetico])) {
-        showErrorAndRedirect("Existen datos vacíos en el formulario, debes ingresar todos los datos.", "../views/archivo-documento.php?id_archive_document=" . $id_document);
     } else {
         // traemos los directorios de procesos y procedimientos
         $getProccessAndProcedure = $connection->prepare("SELECT * FROM procedimiento INNER JOIN proceso ON procedimiento.id_proceso = proceso.id_proceso WHERE procedimiento.id_procedimiento ='$id_procedimiento'");
@@ -160,7 +186,7 @@ if (isset($_POST["MM_archiveDocument"]) && $_POST["MM_archiveDocument"] == "form
 
         if ($proccessAndProcedure) {
             // Verifica si se ha enviado un archivo y si no hay errores al subirlo
-            if (isFileUploaded($_FILES['documento'])) {
+            if (isFileUploaded($_FILES['documento']) and isFileUploaded($_FILES['documentopdf'])) {
                 $permitidos = array(
                     "application/pdf", // PDF
                     "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // Word
@@ -170,17 +196,19 @@ if (isset($_POST["MM_archiveDocument"]) && $_POST["MM_archiveDocument"] == "form
                     "text/csv" // CSV
                 );
                 $limite_KB = 12000;
-                if (isFileValid($_FILES["documento"], $permitidos, $limite_KB)) {
-
+                if (isFileValid($_FILES["documento"], $permitidos, $limite_KB) and isFileValid($_FILES['documentopdf'], $permitidos, $limite_KB)) {
                     // ruta antigua del procedimiento
                     $ruta = "../documentos/" . $proccessAndProcedure['nombre_directorio_proceso'] . '/' . $proccessAndProcedure['nombre_directorio_procedimiento'] . "/";
-
                     $documento = $ruta . $_FILES['documento']["name"];
+                    $rutaPdf = "../documentos/" . $proccessAndProcedure['nombre_directorio_proceso'] . '/' . $proccessAndProcedure['nombre_directorio_procedimiento'] . "/" . "pdf/";
+                    $documentopdf = $rutaPdf . $_FILES['documentopdf']["name"];
 
                     createDirectoryIfNotExists($ruta);
-                    if (!file_exists($documento)) {
+                    if (!file_exists($documento) and !file_exists($documentopdf)) {
                         $resultado = moveUploadedFile($_FILES["documento"], $documento);
-                        if ($resultado) {
+                        $resultadoPdf = moveUploadedFile($_FILES["documentopdf"], $documentopdf);
+
+                        if ($resultado and $resultadoPdf) {
                             // nos traemos los datos del documento antiguo
                             $selectDocument = $connection->prepare("SELECT * FROM documentos WHERE id_documento = :id_document");
                             $selectDocument->bindParam(':id_document', $id_document);
@@ -188,8 +216,7 @@ if (isset($_POST["MM_archiveDocument"]) && $_POST["MM_archiveDocument"] == "form
                             $documentSelection = $selectDocument->fetch(PDO::FETCH_ASSOC);
                             if ($selectDocument) {
                                 // Insertar los datos en la base de datos
-                                $registerDocument = $connection->prepare("INSERT INTO trigger_cuarentena(nombre_documento, nombre_documento_magnetico, tipo_documento, codigo_version, version, id_responsable,id_procedimiento,id_document, fecha_cuarentena) VALUES(:nombre_documento, :nombreDocumentoMagnetico, :tipoDocumento, :codigo, :version, :idResponsable, :idProcedimiento, :idDocument, NOW())");
-
+                                $registerDocument = $connection->prepare("INSERT INTO trigger_cuarentena(nombre_documento, nombre_documento_magnetico, nombre_documento_visualizacionm, tipo_documento, codigo_version, version, id_responsable,id_procedimiento,id_document, fecha_cuarentena) VALUES(:nombre_documento, :nombreDocumentoMagnetico, :tipoDocumento, :codigo, :version, :idResponsable, :idProcedimiento, :idDocument, NOW())");
                                 // Verificar y asignar valores adecuadamente
                                 $nombre_documentoTrigger = ($documentSelection['nombre_documento']);
                                 $tipoDocumentoTrigger = ($documentSelection['tipo_documento']);
@@ -197,8 +224,6 @@ if (isset($_POST["MM_archiveDocument"]) && $_POST["MM_archiveDocument"] == "form
                                 $versionTrigger = ($documentSelection['version']);
                                 $idResponsableTrigger = ($documentSelection['id_responsable']);
                                 $idProcedimientoTrigger = ($documentSelection['id_procedimiento']);
-
-
                                 $registerDocument->bindParam(':nombre_documento', $nombre_documentoTrigger);
                                 $registerDocument->bindParam(':nombreDocumentoMagnetico', $nombreDocumentoMagneticoOld);
                                 $registerDocument->bindParam(':tipoDocumento', $tipoDocumentoTrigger);

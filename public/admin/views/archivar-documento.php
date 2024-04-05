@@ -37,17 +37,17 @@ proceso ON procedimiento.id_proceso = proceso.id_proceso WHERE documentos.id_doc
                         value="<?php echo $document['id_documento'] ?> " name="idDocument">
                 </div>
                 <div class="col-12 p-2" hidden>
+                    <span class="help-block">Nombre del Documento</span>
+                    <input type="text" required class="form-control" id="nombre_documento"
+                        value="<?php echo $document['nombre_documento_magnetico'] ?> " name="nombreDocumentoMagnetico">
+                </div>
+                <div class="col-12 p-2" hidden>
                     <input type="text" hidden required class="form-control" id="id_procedimiento"
                         value="<?php echo $document['id_procedimiento'] ?> " name="id_procedimiento">
                 </div>
                 <div class="col-12 p-2">
                     <input type="text" autofocus required class="form-control" id="nombre_documento"
                         value="<?php echo $document['nombre_documento'] ?> " name="nombreDocumento">
-                </div>
-                <div class="col-12 p-2" hidden>
-                    <span class="help-block">Nombre del Documento</span>
-                    <input type="text" required class="form-control" id="nombre_documento"
-                        value="<?php echo $document['nombre_documento_magnetico'] ?> " name="nombreDocumentoMagnetico">
                 </div>
                 <div class="col-12 p-2">
                     <span class="help-block">Codigo del Documento</span>
@@ -65,6 +65,12 @@ proceso ON procedimiento.id_proceso = proceso.id_proceso WHERE documentos.id_doc
                     <span class="help-block">Anexar Documento Actualizado</span>
                     <input type="file" required class="form-control" id="documento" name="documento">
                 </div>
+
+                <div class="col-12">
+                    <span class="help-block">Cambiar Archivo de Visualizacion</span>
+                    <input type="file" required class="form-control" id="documento" name="documentopdf">
+                </div>
+
                 <div class="mt-4">
                     <input type="submit" class="btn btn-success" value="Actualizar"></input>
                     <input type="hidden" required class="btn btn-info" value="formArchiveDocument"

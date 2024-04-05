@@ -98,7 +98,7 @@ if (isset($_SESSION['username']) || isset($_SESSION['rol_user'])) {
                         <div class="grupo-input">
                             <input type="password" placeholder="Ingresa tu Contraseña" name="password"
                                 class="input-text clave" title="Debe tener de 6 a 12 digitos" required
-                                onkeyup="espacios(this)" minlength="6" maxlength="20">
+                                onkeyup="espacios(this)" minlength="6" maxlength="100">
                             <button type="button" class="icono fas fa-eye mostrarClave"></button>
                         </div>
 

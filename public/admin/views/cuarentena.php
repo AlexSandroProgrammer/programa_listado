@@ -30,7 +30,6 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
     <div class="row">
         <div class="col-lg-12 p-4">
             <div class="table-responsive py-4 px-1">
-
                 <table id="example" class="table table-striped table-bordered top-table" cellspacing="0" width="100%">
                     <thead>
                         <tr>
@@ -59,12 +58,9 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                                         onclick="return confirm('desea volver a subir nuevamente el formato seleccionado');"
                                         type="submit"> <i class="fa fa-upload"></i></button>
                                 </form>
-
                                 <a href="../documentos/<?php echo $document['nombre_directorio_proceso'] ?>/<?php echo $document['nombre_directorio_procedimiento'] ?>/<?php echo $document['nombre_documento_magnetico'] ?>"
                                     class=" btn btn-info "><i class="fa fa-download"></i>
                                 </a>
-
-
                             </td>
                             <td><?php echo $document['nombre_proceso'] ?></td>
                             <td><?php echo $document['nombre_procedimiento'] ?></td>
