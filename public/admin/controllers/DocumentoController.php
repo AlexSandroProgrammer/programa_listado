@@ -18,20 +18,28 @@ if (isset($_POST["MM_registerDocument"]) && $_POST["MM_registerDocument"] == "fo
     // RECIBIMOS EL ARCHIVO 
     $nombreDocumentoMagnetico = $_FILES['documento']["name"];
     $nombreDocumentoMagneticoPdf = $_FILES['documentopdf']["name"];
-    $typeDocumentVisualizer = $_FILES['documentopdf']['type'];
+    $typeDocumentVisualizer = $_FILES['documentopdf']["type"];
+
+
+    // Obtener solo el nombre del archivo sin la extensión
+    $nombreSinExtension = pathinfo($nombreDocumentoMagnetico, PATHINFO_FILENAME);
+    $nombreSinExtensionPdf = pathinfo($nombreDocumentoMagneticoPdf, PATHINFO_FILENAME);
 
     if (isEmpty([$idProceso, $idProcedimiento, $nombreDocumento, $codigo, $version, $tipoDocumento, $nombreDocumentoMagnetico, $nombreDocumentoMagneticoPdf])) {
         showErrorAndRedirect("Existen datos vacios en el formulario.", "../views/crear-documento.php");
         exit();
     }
-
-    // verificamos que el archivo de visualizacion sea tipo pdf
+    // // verificamos que el archivo de visualizacion sea tipo pdf
     if ($typeDocumentVisualizer !== 'application/pdf') {
         showErrorAndRedirect("Debes subir un archivo pdf para la opcion de visualizacion.", "../views/crear-documento.php");
         exit();
     }
 
-    // Consulta para verificar si el documento ya existe
+    if ($nombreSinExtension !== $nombreSinExtensionPdf) {
+        showErrorAndRedirect("La codificacion de los archivos debe ser similar para continuar con el registro", "../views/crear-documento.php");
+        exit();
+    }
+    // // Consulta para verificar si el documento ya existe
     $documentData = $connection->prepare("SELECT * FROM documentos WHERE nombre_documento = :nombreDocumento OR nombre_documento_magnetico = :nombreDocumentoMagnetico OR codigo = :codigo OR nombre_documento_visualizacion = :nombreDocumentoMagneticoPdf");
     $documentData->bindParam(':nombreDocumento', $nombreDocumento);
     $documentData->bindParam(':nombreDocumentoMagnetico', $nombreDocumentoMagnetico);
@@ -56,17 +64,84 @@ if (isset($_POST["MM_registerDocument"]) && $_POST["MM_registerDocument"] == "fo
                     "application/vnd.openxmlformats-officedocument.presentationml.presentation", // PowerPoint
                     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // Excel
                     "application/vnd.ms-excel", // Excel (formato anterior)
-                    "text/csv" // CSV
+                    "text/csv", // CSV
+                    // Tipos de archivo adicionales de PDF, Word y Excel
+                    // PDF
+                    "application/x-pdf",
+                    "application/acrobat",
+                    "applications/vnd.pdf",
+                    "text/pdf",
+                    "text/x-pdf",
+                    // Word
+                    "application/msword",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.template",
+                    "application/vnd.ms-word.document.macroEnabled.12",
+                    "application/vnd.ms-word.template.macroEnabled.12",
+                    "application/vnd.ms-word.document.macroenabled.12",
+                    "application/vnd.ms-word.template.macroenabled.12",
+                    // Excel
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.template",
+                    "application/vnd.ms-excel.sheet.macroEnabled.12",
+                    "application/vnd.ms-excel.template.macroEnabled.12",
+                    "application/vnd.ms-excel.addin.macroEnabled.12",
+                    "application/vnd.ms-excel.sheet.binary.macroEnabled.12",
+                    "application/vnd.ms-excel.addin.macroenabled.12",
+                    "application/vnd.ms-excel.sheet.macroenabled.12",
+                    "application/vnd.ms-excel.template.macroenabled.12",
+                    "application/vnd.ms-excel.addin.macroenabled.12",
+                    "application/vnd.ms-excel.sheet.binary.macroenabled.12",
+                    // Otros tipos de archivo de Excel
+                    "application/excel",
+                    "application/x-excel",
+                    "application/x-msexcel",
+                    "application/vnd.ms-excel",
+                    // Otros tipos de archivo de Word
+                    "application/rtf",
+                    "text/rtf",
+                    "application/vnd.oasis.opendocument.text",
+                    "application/vnd.oasis.opendocument.text-template",
+                    "application/vnd.oasis.opendocument.text-web",
+                    "application/vnd.oasis.opendocument.text-master",
+                    "application/vnd.sun.xml.writer",
+                    "application/vnd.sun.xml.writer.template",
+                    "application/vnd.sun.xml.writer.global",
+                    "application/vnd.stardivision.writer-global",
+                    "application/vnd.stardivision.writer",
+                    "application/x-starwriter",
+                    "application/vnd.lotus-wordpro",
+                    "application/vnd.wordperfect",
+                    "application/wordperfect",
+                    "application/vnd.corel.wordperfect",
+                    "application/vnd.corel.wordperfect6",
+                    "application/vnd.corel.wordperfect5.1",
+                    "application/msword",
+                    "application/x-msword",
+                    "application/x-doc",
+                    "application/doc",
+                    "zz-application/zz-winassoc-doc",
+                    "application/vnd.ms-word.document.macroenabled.12",
+                    "application/vnd.ms-word.template.macroenabled.12",
+                    "application/vnd.ms-word",
+                    "application/winword",
+                    "application/x-msw6",
+                    "application/x-msword-template",
+                    "application/x-msword",
+                    "application/docx",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.template"
                 );
+
                 $limite_KB = 12000;
                 if (isFileValid($_FILES["documento"], $permitidos, $limite_KB) and isFileValid($_FILES["documentopdf"], $permitidos, $limite_KB)) {
                     // ruta para registro del archivo de descarga
                     $ruta = "../documentos/" . $proccessAndProcedure['nombre_directorio_proceso'] . '/' . $proccessAndProcedure['nombre_directorio_procedimiento'] . '/';
                     // ruta para registro del archivo de visualizacion
-                    $rutaPdf = "../documentos/" . $proccessAndProcedure['nombre_directorio_proceso'] . '/' . $proccessAndProcedure['nombre_directorio_procedimiento'] . "/" . "pdf/";
+                    $rutapdf = "../documentos/" . $proccessAndProcedure['nombre_directorio_proceso'] . '/' . $proccessAndProcedure['nombre_directorio_procedimiento'] . "/" . "pdf/";
                     $documento = $ruta . $_FILES['documento']["name"];
-                    $documentopdf = $rutaPdf . $_FILES['documentopdf']["name"];
+                    $documentopdf = $rutapdf . $_FILES['documentopdf']["name"];
                     createDirectoryIfNotExists($ruta);
+                    createDirectoryIfNotExists($rutapdf);
+
                     if (!file_exists($documento) and !file_exists($documentopdf)) {
                         $resultado = moveUploadedFile($_FILES["documento"], $documento);
                         $resultadoPdf = moveUploadedFile($_FILES["documentopdf"], $documentopdf);
