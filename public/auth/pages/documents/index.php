@@ -39,8 +39,7 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
     <!--datables CSS básico-->
     <link rel="stylesheet" type="text/css" href="../../../libraries/datatables/datatables.min.css" />
     <!--datables estilo bootstrap 4 CSS-->
-    <link rel="stylesheet" type="text/css"
-        href="../../../libraries/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../libraries/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
     <!--font awesome con CDN-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <!-- favicion logo  -->
@@ -86,26 +85,29 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                             <?php
                             foreach ($documents as $document) {
                             ?>
-                            <tr>
+                                <tr>
 
-                                <td>
-                                    <a href="../../../admin/documentos/<?php echo $document['nombre_directorio_proceso'] ?>/<?php echo $document['nombre_directorio_procedimiento'] ?>/<?php echo $document['nombre_documento_magnetico'] ?>"
-                                        class=" btn btn-success "><i class="fa fa-download"></i>
-                                    </a>
-                                </td>
-                                <td><?php echo $document['nombre_proceso'] ?></td>
-                                <td><?php echo $document['nombre_procedimiento'] ?></td>
-                                <td><?php echo $document['nombre_documento'] ?></td>
-                                <td><?php echo $document['nombre_documento_magnetico'] ?> <a
-                                        href="../../../admin/documentos/<?php echo $document['nombre_directorio_proceso'] ?>/<?php echo $document['nombre_directorio_procedimiento'] ?>/<?php echo $document['nombre_documento_magnetico'] ?>"><?php echo $document['nombre_documento_magnetico'] ?></a>
-                                </td>
-                                <td><?php echo $document['tipo_documento'] ?></td>
-                                <td><?php echo $document['codigo'] ?></td>
-                                <td><?php echo $document['version'] ?></td>
-                                <td><?php echo $document['fecha_elaboracion'] ?></td>
-                                <td class="texto_persona"><?php echo $document['nombre_responsable'] ?></td>
+                                    <td>
+                                        <div class="d-flex flex-column">
+                                            <a href="../../../admin/documentos/<?php echo $document['nombre_directorio_proceso'] ?>/<?php echo $document['nombre_directorio_procedimiento'] ?>/<?php echo $document['nombre_documento_magnetico'] ?>" class=" btn btn-success"><i class="fa fa-download"></i>
+                                            </a>
+                                            <a href="../../../admin/documentos/<?php echo $document['nombre_directorio_proceso'] ?>/<?php echo $document['nombre_directorio_procedimiento'] ?>/pdf/<?php echo $document['nombre_documento_visualizacion'] ?>" class=" btn btn-info mt-2"><i class="fa fa-eye"></i>
+                                            </a>
+                                        </div>
 
-                            </tr>
+                                    </td>
+                                    <td><?php echo $document['nombre_proceso'] ?></td>
+                                    <td><?php echo $document['nombre_procedimiento'] ?></td>
+                                    <td><?php echo $document['nombre_documento'] ?></td>
+                                    <td><?php echo $document['nombre_documento_magnetico'] ?> <a href="../../../admin/documentos/<?php echo $document['nombre_directorio_proceso'] ?>/<?php echo $document['nombre_directorio_procedimiento'] ?>/<?php echo $document['nombre_documento_magnetico'] ?>"><?php echo $document['nombre_documento_magnetico'] ?></a>
+                                    </td>
+                                    <td><?php echo $document['tipo_documento'] ?></td>
+                                    <td><?php echo $document['codigo'] ?></td>
+                                    <td><?php echo $document['version'] ?></td>
+                                    <td><?php echo $document['fecha_elaboracion'] ?></td>
+                                    <td class="texto_persona"><?php echo $document['nombre_responsable'] ?></td>
+
+                                </tr>
                             <?php
 
                             }

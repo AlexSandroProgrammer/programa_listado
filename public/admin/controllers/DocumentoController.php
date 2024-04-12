@@ -144,7 +144,7 @@ if (isset($_POST["MM_registerDocument"]) && $_POST["MM_registerDocument"] == "fo
 
                     if (!file_exists($documento) and !file_exists($documentopdf)) {
                         $resultado = moveUploadedFile($_FILES["documento"], $documento);
-                        $resultadoPdf = moveUploadedFile($_FILES["documentopdf"], $documentopdf);
+                        $resultadoPdfd = moveUploadedFile($_FILES["documentopdf"], $documentopdf);
 
                         if ($resultado and $resultadoPdf) {
                             // Inserta los datos en la base de datos
@@ -233,8 +233,13 @@ if (isset($_POST["MM_archiveDocument"]) && $_POST["MM_archiveDocument"] == "form
     $nombreDocumentoMagneticoPdf = $_FILES['documentopdf']["name"];
     $typeDocumentVisualizer = $_FILES['documentopdf']['type'];
 
+    // Obtener solo el nombre del archivo sin la extensión
+    $nombreSinExtension = pathinfo($nombreDocumentoMagnetico, PATHINFO_FILENAME);
+    $nombreSinExtensionPdf = pathinfo($nombreDocumentoMagneticoPdf, PATHINFO_FILENAME);
+
     if (isEmpty([$nombreDocumentoMagneticoOld, $nombreDocumentoMagneticoPdf, $id_document, $id_procedimiento, $codigo, $version, $nombreDocumento])) {
         showErrorAndRedirect("Existen datos vacíos en el formulario, debes ingresar todos los datos.", "../views/archivo-documento.php?id_archive_document=" . $id_document);
+        exit();
     }
     // verificamos que el archivo de visualizacion sea tipo pdf
     if ($typeDocumentVisualizer !== 'application/pdf') {
@@ -242,8 +247,14 @@ if (isset($_POST["MM_archiveDocument"]) && $_POST["MM_archiveDocument"] == "form
         exit();
     }
 
+    if ($nombreSinExtension !== $nombreSinExtensionPdf) {
+        showErrorAndRedirect("La codificacion de los archivos debe ser similar para continuar con el registro", "../views/crear-documento.php");
+        exit();
+    }
+
     // Consulta para verificar si el documento ya existe
-    $archiveDocument = $connection->prepare("SELECT * FROM documentos WHERE nombre_documento_magnetico = :nombreDocumentoMagnetico OR codigo = :codigo OR nombre_documento = :nombreDocumento AND id_documento != :id_document");
+    $archiveDocument = $connection->prepare("SELECT * FROM documentos WHERE nombre_documento_magnetico = :nombreDocumentoMagnetico OR :nombreDocumentoPdf OR codigo = :codigo OR nombre_documento = :nombreDocumento AND id_documento != :id_document");
+    $archiveDocument->bindParam(':nombreDocumentoPdf', $nombreDocumentoMagneticoPdf);
     $archiveDocument->bindParam(':codigo', $codigo);
     $archiveDocument->bindParam(':nombreDocumento', $nombreDocumento);
     $archiveDocument->bindParam(':nombreDocumentoMagnetico', $nombreDocumentoMagnetico);
@@ -253,6 +264,7 @@ if (isset($_POST["MM_archiveDocument"]) && $_POST["MM_archiveDocument"] == "form
 
     if ($validationDocument) {
         showErrorAndRedirect("Los datos ingresados ya están registrados.", "../views/archivo-documento.php?id_archive_document=" . $id_document);
+        exit();
     } else {
         // traemos los directorios de procesos y procedimientos
         $getProccessAndProcedure = $connection->prepare("SELECT * FROM procedimiento INNER JOIN proceso ON procedimiento.id_proceso = proceso.id_proceso WHERE procedimiento.id_procedimiento ='$id_procedimiento'");
@@ -268,21 +280,86 @@ if (isset($_POST["MM_archiveDocument"]) && $_POST["MM_archiveDocument"] == "form
                     "application/vnd.openxmlformats-officedocument.presentationml.presentation", // PowerPoint
                     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // Excel
                     "application/vnd.ms-excel", // Excel (formato anterior)
-                    "text/csv" // CSV
+                    "text/csv", // CSV
+                    // Tipos de archivo adicionales de PDF, Word y Excel
+                    // PDF
+                    "application/x-pdf",
+                    "application/acrobat",
+                    "applications/vnd.pdf",
+                    "text/pdf",
+                    "text/x-pdf",
+                    // Word
+                    "application/msword",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.template",
+                    "application/vnd.ms-word.document.macroEnabled.12",
+                    "application/vnd.ms-word.template.macroEnabled.12",
+                    "application/vnd.ms-word.document.macroenabled.12",
+                    "application/vnd.ms-word.template.macroenabled.12",
+                    // Excel
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.template",
+                    "application/vnd.ms-excel.sheet.macroEnabled.12",
+                    "application/vnd.ms-excel.template.macroEnabled.12",
+                    "application/vnd.ms-excel.addin.macroEnabled.12",
+                    "application/vnd.ms-excel.sheet.binary.macroEnabled.12",
+                    "application/vnd.ms-excel.addin.macroenabled.12",
+                    "application/vnd.ms-excel.sheet.macroenabled.12",
+                    "application/vnd.ms-excel.template.macroenabled.12",
+                    "application/vnd.ms-excel.addin.macroenabled.12",
+                    "application/vnd.ms-excel.sheet.binary.macroenabled.12",
+                    // Otros tipos de archivo de Excel
+                    "application/excel",
+                    "application/x-excel",
+                    "application/x-msexcel",
+                    "application/vnd.ms-excel",
+                    // Otros tipos de archivo de Word
+                    "application/rtf",
+                    "text/rtf",
+                    "application/vnd.oasis.opendocument.text",
+                    "application/vnd.oasis.opendocument.text-template",
+                    "application/vnd.oasis.opendocument.text-web",
+                    "application/vnd.oasis.opendocument.text-master",
+                    "application/vnd.sun.xml.writer",
+                    "application/vnd.sun.xml.writer.template",
+                    "application/vnd.sun.xml.writer.global",
+                    "application/vnd.stardivision.writer-global",
+                    "application/vnd.stardivision.writer",
+                    "application/x-starwriter",
+                    "application/vnd.lotus-wordpro",
+                    "application/vnd.wordperfect",
+                    "application/wordperfect",
+                    "application/vnd.corel.wordperfect",
+                    "application/vnd.corel.wordperfect6",
+                    "application/vnd.corel.wordperfect5.1",
+                    "application/msword",
+                    "application/x-msword",
+                    "application/x-doc",
+                    "application/doc",
+                    "zz-application/zz-winassoc-doc",
+                    "application/vnd.ms-word.document.macroenabled.12",
+                    "application/vnd.ms-word.template.macroenabled.12",
+                    "application/vnd.ms-word",
+                    "application/winword",
+                    "application/x-msw6",
+                    "application/x-msword-template",
+                    "application/x-msword",
+                    "application/docx",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.template"
                 );
                 $limite_KB = 12000;
                 if (isFileValid($_FILES["documento"], $permitidos, $limite_KB) and isFileValid($_FILES['documentopdf'], $permitidos, $limite_KB)) {
                     // ruta antigua del procedimiento
                     $ruta = "../documentos/" . $proccessAndProcedure['nombre_directorio_proceso'] . '/' . $proccessAndProcedure['nombre_directorio_procedimiento'] . "/";
                     $documento = $ruta . $_FILES['documento']["name"];
-                    $rutaPdf = "../documentos/" . $proccessAndProcedure['nombre_directorio_proceso'] . '/' . $proccessAndProcedure['nombre_directorio_procedimiento'] . "/" . "pdf/";
-                    $documentopdf = $rutaPdf . $_FILES['documentopdf']["name"];
+                    $rutapdf = "../documentos/" . $proccessAndProcedure['nombre_directorio_proceso'] . '/' . $proccessAndProcedure['nombre_directorio_procedimiento'] . "/" . "pdf/";
+                    $documentopdf = $rutapdf . $_FILES['documentopdf']["name"];
 
                     createDirectoryIfNotExists($ruta);
+                    createDirectoryIfNotExists($rutapdf);
+
                     if (!file_exists($documento) and !file_exists($documentopdf)) {
                         $resultado = moveUploadedFile($_FILES["documento"], $documento);
                         $resultadoPdf = moveUploadedFile($_FILES["documentopdf"], $documentopdf);
-
                         if ($resultado and $resultadoPdf) {
                             // nos traemos los datos del documento antiguo
                             $selectDocument = $connection->prepare("SELECT * FROM documentos WHERE id_documento = :id_document");
@@ -291,16 +368,19 @@ if (isset($_POST["MM_archiveDocument"]) && $_POST["MM_archiveDocument"] == "form
                             $documentSelection = $selectDocument->fetch(PDO::FETCH_ASSOC);
                             if ($selectDocument) {
                                 // Insertar los datos en la base de datos
-                                $registerDocument = $connection->prepare("INSERT INTO trigger_cuarentena(nombre_documento, nombre_documento_magnetico, nombre_documento_visualizacionm, tipo_documento, codigo_version, version, id_responsable,id_procedimiento,id_document, fecha_cuarentena) VALUES(:nombre_documento, :nombreDocumentoMagnetico, :tipoDocumento, :codigo, :version, :idResponsable, :idProcedimiento, :idDocument, NOW())");
+                                $registerDocument = $connection->prepare("INSERT INTO trigger_cuarentena(nombre_documento, nombre_documento_magnetico, nombre_documento_visualizacion, tipo_documento, codigo_version, version, id_responsable,id_procedimiento,id_document, fecha_cuarentena) VALUES(:nombre_documento, :nombreDocumentoMagnetico,:nombreDocumentoVisualizacion, :tipoDocumento, :codigo, :version, :idResponsable, :idProcedimiento, :idDocument, NOW())");
                                 // Verificar y asignar valores adecuadamente
                                 $nombre_documentoTrigger = ($documentSelection['nombre_documento']);
+                                $nombre_documentoVisualizacionTrigger = ($documentSelection['nombre_documento_visualizacion']);
                                 $tipoDocumentoTrigger = ($documentSelection['tipo_documento']);
                                 $codigoTrigger = ($documentSelection['codigo']);
                                 $versionTrigger = ($documentSelection['version']);
                                 $idResponsableTrigger = ($documentSelection['id_responsable']);
+                                // registramos en la copia de seguridad de la base de datos
                                 $idProcedimientoTrigger = ($documentSelection['id_procedimiento']);
                                 $registerDocument->bindParam(':nombre_documento', $nombre_documentoTrigger);
                                 $registerDocument->bindParam(':nombreDocumentoMagnetico', $nombreDocumentoMagneticoOld);
+                                $registerDocument->bindParam(':nombreDocumentoVisualizacion', $nombre_documentoVisualizacionTrigger);
                                 $registerDocument->bindParam(':tipoDocumento', $tipoDocumentoTrigger);
                                 $registerDocument->bindParam(':codigo', $codigoTrigger);
                                 $registerDocument->bindParam(':version', $versionTrigger);
@@ -309,9 +389,10 @@ if (isset($_POST["MM_archiveDocument"]) && $_POST["MM_archiveDocument"] == "form
                                 $registerDocument->bindParam(':idDocument', $id_document);
                                 $registerDocument->execute();
                                 if ($registerDocument) {
-                                    $updateDocument = $connection->prepare("UPDATE documentos SET nombre_documento = :nombreDocumento, nombre_documento_magnetico = :nombreDocumentoMagnetico, codigo = :codigo, version = :version WHERE id_documento = :idDocument");
+                                    $updateDocument = $connection->prepare("UPDATE documentos SET nombre_documento = :nombreDocumento, nombre_documento_magnetico = :nombreDocumentoMagnetico, nombre_documento_visualizacion = :nombreDocumentoVisualizacion, codigo = :codigo, version = :version WHERE id_documento = :idDocument");
                                     $updateDocument->bindParam(':nombreDocumento', $nombreDocumento);
                                     $updateDocument->bindParam(':nombreDocumentoMagnetico', $nombreDocumentoMagnetico);
+                                    $updateDocument->bindParam(':nombreDocumentoVisualizacion', $nombreDocumentoMagneticoPdf);
                                     $updateDocument->bindParam(':codigo', $codigo);
                                     $updateDocument->bindParam(':version', $version);
                                     $updateDocument->bindParam(':idDocument', $id_document);
@@ -319,7 +400,7 @@ if (isset($_POST["MM_archiveDocument"]) && $_POST["MM_archiveDocument"] == "form
                                     if ($updateDocument) {
                                         showSuccessAndRedirect("Se ha actualizado correctamente los datos", "../views/lista-documentos.php");
                                     } else {
-                                        showErrorAndRedirect("Error al momento de cargar el archivo.", "../views/archivar-documento.php?id_archive_document=" . $id_document);
+                                        showErrorAndRedirect("Error en la actualizacion de los datos.", "../views/archivar-documento.php?id_archive_document=" . $id_document);
                                     }
                                 } else {
                                     showErrorAndRedirect("Error al momento de archivar el archivo en cuarentena.", "../views/archivar-documento.php?id_archive_document=" . $id_document);
@@ -344,7 +425,7 @@ if (isset($_POST["MM_archiveDocument"]) && $_POST["MM_archiveDocument"] == "form
 }
 
 
-// SUBIR NUEVAMENTE EL ARCHIVO EN CUARENTENA
+// SUBIR NUEVAMENTE EL ARCHIVO DESDE CUARENTENA
 if (isset($_GET["id_upload_document"])) {
     // ASIGNACION VALORES DE DATOS
     $idDocument = $_GET['id_upload_document'];

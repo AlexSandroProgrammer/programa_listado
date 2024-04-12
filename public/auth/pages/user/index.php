@@ -42,16 +42,20 @@ if (isset($_SESSION['username']) || isset($_SESSION['rol_user'])) {
                 <div class="slider">
                     <!-- Slide 1 -->
                     <div class="slide fade ">
-                        <img src="../../../../assets/images/slide-img-1.jpg" alt="">
+                        <img src="../../../../assets/images/ganaderia_slide.jpeg" alt="">
                     </div>
 
                     <!-- Slide 2 -->
                     <div class="slide fade">
-                        <img src="../../../../assets/images/slide-img-2.jpg" alt="">
+                        <img src="../../../../assets/images/momotus_slide.jpg" alt="">
                     </div>
-                    <!-- Slide 2 -->
+                    <!-- Slide 3 -->
                     <div class="slide fade">
-                        <img src="../../../../assets/images/slide-img-3.jpg" alt="">
+                        <img src="../../../../assets/images/slide-img-1.jpg" alt="">
+                    </div>
+                    <!-- Slide 4 -->
+                    <div class="slide fade">
+                        <img src="../../../../assets/images/mecanizacion-slide.jpeg" alt="">
                     </div>
                 </div>
 

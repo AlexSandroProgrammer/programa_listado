@@ -31,7 +31,7 @@ document
 
     Swal.fire({
       title: "Vision de Sena Empresa",
-      text: "En el año 2020 la estrategia de formación Sena-Empresa será un modelo referenciado consolidado a nivel local, regional y nacional, enmarcado en la Formación Profesional Integral, dirigida por aprendices debidamente organizados con procesos estandarizados, generando valor agregado a las tecnologías de las cadenas agropecuarias, para el desarrollo productivo y competitivo de nuestro país.",
+      text: "Para el año 2030, Sena Empresa continuará siendo el eje integrador de los procesos productivos y administrativos del Centro Agropecuario la Granja, fundamentada en la interacción entre el Aprender-Aprender, Aprender–Hacer y Aprender–Ser y la formación por proyectos. El Ciclo de Fortalecimiento Empresarial, propenderá por el desarrollo y fortalecimiento de las actividades que conduzcan a generar mentalidad emprendedora en los aprendices, buscando con esto aportar a sus comunidades de origen los conocimientos adquiridos, generando un impacto positivo y un mayor desarrollo económico en las regiones",
       imageUrl: "https://i.ibb.co/N7vnRY4/logo-Sena-Empresa.png",
       imageWidth: 200,
       imageHeight: 200,
