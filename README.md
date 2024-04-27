@@ -1,7 +1,5 @@
 # DOCUMENTACION Y DESARROLLO DE LA APLICACION COMPROMISOSE
-
 # Version 1.0 de CompromisoSE
-
 # Desarrollador: Joaquin Reyes
 
 # Ficha de Formacion:
