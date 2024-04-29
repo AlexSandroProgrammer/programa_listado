@@ -50,6 +50,8 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                         <?php
                         foreach ($documents as $document) {
                         ?>
+
+
                         <tr>
                             <td>
                                 <a href="../documentos/<?php echo $document['nombre_directorio_proceso'] ?>/<?php echo $document['nombre_directorio_procedimiento'] ?>/<?php echo $document['nombre_documento_magnetico'] ?>"
@@ -76,6 +78,7 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
                                             title="Edit">&#xE254;</i></button>
                                 </form>
                             </td>
+
                             <td><?php echo $document['nombre_proceso'] ?></td>
                             <td><?php echo $document['nombre_procedimiento'] ?></td>
                             <td><?php echo $document['nombre_documento'] ?></td>

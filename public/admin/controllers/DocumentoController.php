@@ -144,7 +144,7 @@ if (isset($_POST["MM_registerDocument"]) && $_POST["MM_registerDocument"] == "fo
 
                     if (!file_exists($documento) and !file_exists($documentopdf)) {
                         $resultado = moveUploadedFile($_FILES["documento"], $documento);
-                        $resultadoPdfd = moveUploadedFile($_FILES["documentopdf"], $documentopdf);
+                        $resultadoPdf = moveUploadedFile($_FILES["documentopdf"], $documentopdf);
 
                         if ($resultado and $resultadoPdf) {
                             // Inserta los datos en la base de datos
