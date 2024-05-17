@@ -26,7 +26,6 @@ if (isset($_SESSION['username']) || isset($_SESSION['rol_user'])) {
     if ((isset($_POST["changePassword"]))) {
 
         $correo_electronico = $_POST['emailEncripted'];
-        echo $correo_electronico;
 
         $authEmail = $connection->prepare("SELECT * FROM usuarios WHERE email = ?");
         $authEmail->execute([$correo_electronico]);
