@@ -93,7 +93,6 @@ if (isset($_SESSION['username']) || isset($_SESSION['rol_user'])) {
                         Formulario logue
                     ==========================================-->
                     <div class="formulario active">
-
                         <a class="btn" href="../../auth/pages/documents/">Modulo de Consulta</a>
                         <a class="btn" href="../../auth/">Modulo de
                             Administrador</a>
@@ -102,15 +101,11 @@ if (isset($_SESSION['username']) || isset($_SESSION['rol_user'])) {
                         <a class="btn" id="mostrarVision" href="">Vision</a>
                         <a class="btn" id="mostrarOrganigrama" href="">Organigrama</a>
                         <a class="btn" id="mostraResena" href="">Reseña Historica</a>
-
-
+                        <a class="btn" id="mostrarPolitica" href="">Politica de Calidad</a>
                     </div>
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
 

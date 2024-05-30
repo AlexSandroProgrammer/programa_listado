@@ -85,6 +85,24 @@ document
     });
   });
 
+document
+  .getElementById("mostrarPolitica")
+  .addEventListener("click", function (event) {
+    event.preventDefault();
+
+    Swal.fire({
+      title: "Politica de Calidad",
+      text: "Nuestro compromiso es con Colombia, con la calidad y el mejoramiento continuo de nuestros procesos para lograr la satisfaccion de las partes interesadas y el desarrollo integral de nuestros aprendices.",
+      imageUrl: "https://i.ibb.co/N7vnRY4/logo-Sena-Empresa.png",
+      imageWidth: 200,
+      imageHeight: 200,
+      imageAlt: "logo sena empresa",
+      confirmButtonColor: "#28a745",
+      showCloseButton: true,
+      cancelButtonText: `
+    <i class="fa fa-thumbs-down"></i>`,
+    });
+  });
 // funcion para mostrar el organigrama de sena empresa
 document
   .getElementById("mostrarOrganigrama")
