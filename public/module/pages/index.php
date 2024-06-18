@@ -102,6 +102,7 @@ if (isset($_SESSION['username']) || isset($_SESSION['rol_user'])) {
                         <a class="btn" id="mostrarOrganigrama" href="">Organigrama</a>
                         <a class="btn" id="mostraResena" href="">Reseña Historica</a>
                         <a class="btn" id="mostrarPolitica" href="">Politica de Calidad</a>
+                        <a class="btn-danger" href="https://senaempresalagranja.blogspot.com/">Regresar al Blog</a>
                     </div>
                 </div>
             </div>
