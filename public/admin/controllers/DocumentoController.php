@@ -166,6 +166,8 @@ if (isset($_POST["MM_registerDocument"]) && $_POST["MM_registerDocument"] == "fo
                         } else {
                             showErrorAndRedirect("Error al momento de cargar el archivo.", "../views/lista-documentos.php");
                         }
+                    } else {
+                        showErrorAndRedirect("El nombre del documento o el código ya existe, por favor comunicate con tu administrador para verificar el servidor del proyecto.", "../views/crear-documento.php");
                     }
                 } else {
                     showErrorAndRedirect("Error al momento de cargar los archivos, asegúrate de que sea de tipo PDF, WORD o formatos de excel para el formato de descarga y que el archivo de visualizacion sea de pdf y que su tamaño sea menor o igual a 10 MB.", "../views/crear-documento.php");
