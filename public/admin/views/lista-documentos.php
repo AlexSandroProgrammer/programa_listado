@@ -26,12 +26,13 @@ $documents = $listDocuments->fetchAll(PDO::FETCH_ASSOC);
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12 p-4">
-            <div class="table-responsive py-4 px-1">
+            <div class=" py-4 px-1">
                 <div class="col-xs-15">
                     <input type="hidden" name="status" value="registrarProcedimiento">
                     <a class="btn btn-success text-white" href="crear-documento.php">Registrar Documento</a>
                 </div>
-                <table id="example" class="table table-striped table-bordered top-table" cellspacing="0" width="100%">
+                <table id="example" class="table table-striped table-bordered top-table table-responsive"
+                    cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <th>Acciones</th>

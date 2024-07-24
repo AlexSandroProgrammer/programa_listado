@@ -239,8 +239,8 @@ if (isset($_POST["MM_archiveDocument"]) && $_POST["MM_archiveDocument"] == "form
     $nombreSinExtension = pathinfo($nombreDocumentoMagnetico, PATHINFO_FILENAME);
     $nombreSinExtensionPdf = pathinfo($nombreDocumentoMagneticoPdf, PATHINFO_FILENAME);
 
-    if (isEmpty([$nombreDocumentoMagneticoOld, $nombreDocumentoMagneticoPdf, $id_document, $id_procedimiento, $codigo, $version, $nombreDocumento])) {
-        showErrorAndRedirect("Existen datos vacíos en el formulario, debes ingresar todos los datos.", "../views/archivo-documento.php?id_archive_document=" . $id_document);
+    if (isEmpty([$nombreDocumentoMagneticoOld, $nombreDocumentoMagneticoPdf, $id_document, $id_procedimiento, $nombreDocumento])) {
+        showErrorAndRedirect("Existen datos vacíos en el formulario, debes ingresar todos los datos.", "../views/archivar-documento.php?id_archive_document=" . $id_document);
         exit();
     }
     // verificamos que el archivo de visualizacion sea tipo pdf
@@ -341,10 +341,8 @@ if (isset($_POST["MM_archiveDocument"]) && $_POST["MM_archiveDocument"] == "form
                 $documento = $ruta . $_FILES['documento']["name"];
                 $rutapdf = "../documentos/" . $proccessAndProcedure['nombre_directorio_proceso'] . '/' . $proccessAndProcedure['nombre_directorio_procedimiento'] . "/" . "pdf/";
                 $documentopdf = $rutapdf . $_FILES['documentopdf']["name"];
-
                 createDirectoryIfNotExists($ruta);
                 createDirectoryIfNotExists($rutapdf);
-
                 if (!file_exists($documento) and !file_exists($documentopdf)) {
                     $resultado = moveUploadedFile($_FILES["documento"], $documento);
                     $resultadoPdf = moveUploadedFile($_FILES["documentopdf"], $documentopdf);
