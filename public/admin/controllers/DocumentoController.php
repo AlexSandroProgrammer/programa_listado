@@ -193,7 +193,7 @@ if (isset($_POST["MM_updateDocument"]) && $_POST["MM_updateDocument"] == "formUp
     $tipoDocumento = $_POST['tipoDocumento'];
 
     // Consulta para verificar si el documento ya existe
-    $documentData = $connection->prepare("SELECT * FROM documentos WHERE (nombre_documento = ? OR codigo = ?) AND id_documento != ?");
+    $documentData = $connection->prepare("SELECT * FROM documentos WHERE (nombre_documento = ? OR codigo = ?) AND id_documento <> ?");
     $documentData->execute([$nombreDocumento, $codigo, $idDocument]);
     $documentData->execute();
     $register_validation = $documentData->fetchAll();
@@ -203,7 +203,8 @@ if (isset($_POST["MM_updateDocument"]) && $_POST["MM_updateDocument"] == "formUp
         showErrorAndRedirect("Existen datos vacíos en el formulario, debes ingresar todos los datos.",  "../views/actualizar-documento.php?id_document-edit=" . $idDocument);
     } else {
         // Actualzacion de datos en la base de datos
-        $registerDocument = $connection->prepare("UPDATE documentos SET id_procedimiento = :idProcedimiento, nombre_documento = :nombreDocumento, tipo_documento = :tipoDocumento,codigo = :codigo,version = :version, id_responsable = :idResponsable WHERE id_documento = :idDocumento");
+        $registerDocument = $connection->prepare("UPDATE documentos SET id_procedimiento = :idProcedimiento, nombre_documento = :nombreDocumento, tipo_documento = :tipoDocumento,codigo = :codigo,version = :version, id_responsable = :idResponsable 
+        WHERE id_documento = :idDocumento");
         $registerDocument->bindParam(':idProcedimiento', $idProcedimiento);
         $registerDocument->bindParam(':nombreDocumento', $nombreDocumento);
         $registerDocument->bindParam(':tipoDocumento', $tipoDocumento);

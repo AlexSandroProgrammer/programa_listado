@@ -4,9 +4,7 @@ $db = new Database();
 $connection = $db->conectar();
 
 // Obtenemos el id del procedimiento 
-
 $id_procedimiento = $_GET['id'] ?? null;
-
 if ($id_procedimiento) {
     // Consulta SQL para obtener los detalles del procedimiento
     $query = "SELECT * FROM procedimiento INNER JOIN proceso ON procedimiento.id_Proceso = proceso.id_proceso AND procedimiento.id_proceso = proceso.id_proceso WHERE id_procedimiento = :id_procedimiento";
